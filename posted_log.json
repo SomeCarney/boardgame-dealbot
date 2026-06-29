@@ -24,7 +24,8 @@
       "Best for: general tabletop game fans"
     ],
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0BMSKLLY1.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0BMSKLLY1.jpg",
+    "site_image_url": "images/site_B0BMSKLLY1.jpg"
   },
   {
     "asin": "0735379459",
@@ -48,7 +49,8 @@
       "Best for: two players looking for a dedicated head-to-head game"
     ],
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/0735379459.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/0735379459.jpg",
+    "site_image_url": "images/site_0735379459.jpg"
   },
   {
     "asin": "B0CP2GNPGZ",
@@ -75,7 +77,8 @@
       "Best for: players who enjoy planning a few moves ahead"
     ],
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Sessions are fast, social, and easy to jump into without much setup. Rules are simple enough to teach in a few minutes to mixed-age groups.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CP2GNPGZ.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CP2GNPGZ.jpg",
+    "site_image_url": "images/site_B0CP2GNPGZ.jpg"
   },
   {
     "asin": "B0BW3C1QYT",
@@ -100,7 +103,8 @@
       "Best for: players who enjoy planning a few moves ahead"
     ],
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0BW3C1QYT.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0BW3C1QYT.jpg",
+    "site_image_url": "images/site_B0BW3C1QYT.jpg"
   },
   {
     "asin": "B0CCW1L69H",
@@ -126,7 +130,8 @@
       "Best for: players who'd rather team up against the game than against each other"
     ],
     "detailed_description": "Players work together against the game itself, rather than competing with each other. Sessions are fast, social, and easy to jump into without much setup. Rules are simple enough to teach in a few minutes to mixed-age groups. It's a card-driven game, easy to bring along and quick to set up.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CCW1L69H.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CCW1L69H.jpg",
+    "site_image_url": "images/site_B0CCW1L69H.jpg"
   },
   {
     "asin": "1640785531",
@@ -151,7 +156,8 @@
       "Best for: general tabletop game fans"
     ],
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/1640785531.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/1640785531.jpg",
+    "site_image_url": "images/site_1640785531.jpg"
   },
   {
     "asin": "B08NLKHQ3Q",
@@ -177,7 +183,8 @@
       "Best for: larger groups and game nights"
     ],
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
-    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B08NLKHQ3Q.jpg"
+    "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B08NLKHQ3Q.jpg",
+    "site_image_url": "images/site_B08NLKHQ3Q.jpg"
   },
   {
     "asin": "B08KTR47DW",
@@ -189,7 +196,13 @@
     "review_count": 156,
     "image": null,
     "link": "https://www.amazon.com/dp/B08KTR47DW?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Best for: bigger groups who want something loud and easy to pick up"
+    ],
+    "detailed_description": "Sessions are fast, social, and easy to jump into without much setup.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B00064XFVG",
@@ -201,7 +214,14 @@
     "review_count": 1650,
     "image": null,
     "link": "https://www.amazon.com/dp/B00064XFVG?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Players: 2-6",
+      "Best for: players who enjoy planning a few moves ahead"
+    ],
+    "detailed_description": "Expect meaningful decisions each turn that reward planning ahead.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0CTKR7JSK",
@@ -213,7 +233,13 @@
     "review_count": 3379,
     "image": null,
     "link": "https://www.amazon.com/dp/B0CTKR7JSK?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Best for: mixed-age groups, including first-timers"
+    ],
+    "detailed_description": "Rules are simple enough to teach in a few minutes to mixed-age groups.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B07RX8FS87",
@@ -225,7 +251,14 @@
     "review_count": 99,
     "image": null,
     "link": "https://www.amazon.com/dp/B07RX8FS87?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Players: 1-8",
+      "Best for: players who'd rather team up against the game than against each other"
+    ],
+    "detailed_description": "Players work together against the game itself, rather than competing with each other.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0DCL7SHNG",
@@ -237,7 +270,13 @@
     "review_count": 25,
     "image": null,
     "link": "https://www.amazon.com/dp/B0DCL7SHNG?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0000663R6",
@@ -249,7 +288,14 @@
     "review_count": 3858,
     "image": null,
     "link": "https://www.amazon.com/dp/B0000663R6?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Players: 2-6",
+      "Best for: players who enjoy planning a few moves ahead"
+    ],
+    "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B07Q4XM8CP",
@@ -261,7 +307,13 @@
     "review_count": 87,
     "image": null,
     "link": "https://www.amazon.com/dp/B07Q4XM8CP?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B084BJRQQB",
@@ -273,7 +325,13 @@
     "review_count": 374,
     "image": null,
     "link": "https://www.amazon.com/dp/B084BJRQQB?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:35:27.608614+00:00"
+    "posted_at": "2026-06-29T21:35:27.608614+00:00",
+    "summary_lines": [
+      "Best for: players who enjoy planning a few moves ahead"
+    ],
+    "detailed_description": "Expect meaningful decisions each turn that reward planning ahead.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0CS7SMQ7P",
@@ -285,7 +343,13 @@
     "review_count": 62,
     "image": null,
     "link": "https://www.amazon.com/dp/B0CS7SMQ7P?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: players who enjoy planning a few moves ahead"
+    ],
+    "detailed_description": "Expect meaningful decisions each turn that reward planning ahead.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B09MGCRPVX",
@@ -297,7 +361,13 @@
     "review_count": 26,
     "image": null,
     "link": "https://www.amazon.com/dp/B09MGCRPVX?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: mixed-age groups, including first-timers"
+    ],
+    "detailed_description": "Rules are simple enough to teach in a few minutes to mixed-age groups.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0D33TXFWZ",
@@ -309,7 +379,13 @@
     "review_count": 142,
     "image": null,
     "link": "https://www.amazon.com/dp/B0D33TXFWZ?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0FZ9PMF9S",
@@ -321,7 +397,14 @@
     "review_count": 33,
     "image": null,
     "link": "https://www.amazon.com/dp/B0FZ9PMF9S?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Players: 2-6",
+      "Best for: mixed-age groups, including first-timers"
+    ],
+    "detailed_description": "Rules are simple enough to teach in a few minutes to mixed-age groups.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B007EZM9Z8",
@@ -333,7 +416,13 @@
     "review_count": 38,
     "image": null,
     "link": "https://www.amazon.com/dp/B007EZM9Z8?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B078KCBP1Q",
@@ -345,7 +434,13 @@
     "review_count": 283,
     "image": null,
     "link": "https://www.amazon.com/dp/B078KCBP1Q?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B0D68JYBGV",
@@ -357,7 +452,13 @@
     "review_count": 14541,
     "image": null,
     "link": "https://www.amazon.com/dp/B0D68JYBGV?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   },
   {
     "asin": "B01IC9RUQM",
@@ -369,6 +470,12 @@
     "review_count": 63,
     "image": null,
     "link": "https://www.amazon.com/dp/B01IC9RUQM?tag=carnivalgam06-20",
-    "posted_at": "2026-06-29T21:20:27.117184+00:00"
+    "posted_at": "2026-06-29T21:20:27.117184+00:00",
+    "summary_lines": [
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "image_url": null,
+    "site_image_url": null
   }
 ]

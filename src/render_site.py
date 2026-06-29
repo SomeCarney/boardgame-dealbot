@@ -20,13 +20,13 @@ CONTENT_DIR = ROOT / "content"
 # path -- docs/ it is, even though "site" would have been a clearer name.
 SITE_DIR = ROOT / "docs"
 
-SITE_NAME = "Tabletop Tracker"
-TAGLINE = "Automatically tracked board game price drops on Amazon."
+SITE_NAME = "Board Game Black Market"
+TAGLINE = "Underground deals on board games -- no markup, no nonsense."
 DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 
 # filename in content/ -> (output filename, nav title, <meta description>)
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
-    ("about.html", "about.html", "About", "What Tabletop Tracker is and why it exists."),
+    ("about.html", "about.html", "About", "What Board Game Black Market is and why it exists."),
     ("how-we-pick-deals.html", "how-we-pick-deals.html", "How We Pick Deals", "The exact criteria a deal has to clear before it's posted."),
     ("guide-reading-price-history.html", "guide-reading-price-history.html", "Is This Deal Actually Good?", "How to read a price history before trusting a 'deal'."),
     ("guide-2-player-games.html", "guide-2-player-games.html", "Best 2-Player Games", "Which 2-player board games are worth buying at full price."),
@@ -49,18 +49,23 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ title }} | {{ site_name }}</title>
 <meta name="description" content="{{ description }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html">{{ site_name }}</a>
-  <p class="tagline">{{ tagline }}</p>
-  <nav>
-    <a href="index.html">Deals</a>
-    <a href="about.html">About</a>
-    <a href="how-we-pick-deals.html">How We Pick Deals</a>
-    <a href="guides.html">Guides</a>
-  </nav>
+  <div class="header-inner">
+    <a class="brand" href="index.html">{{ site_name }}</a>
+    <p class="tagline">{{ tagline }}</p>
+    <nav>
+      <a href="index.html">Deals</a>
+      <a href="about.html">About</a>
+      <a href="how-we-pick-deals.html">How We Pick Deals</a>
+      <a href="guides.html">Guides</a>
+    </nav>
+  </div>
 </header>
 <main>
 {{ content|safe }}
@@ -75,18 +80,27 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 
 DEAL_CARD_TEMPLATE = env.from_string("""
 <article class="deal">
-  {# the composited price-banner image (deal.image_url) is for social posts,
-     which have no separate price text around them -- the site already has
-     its own price/rating block below, so the plain product photo fits better #}
-  {% if deal.image %}<img src="{{ deal.image }}" alt="" loading="lazy">{% endif %}
+  {# deal.image_url (the price-banner version) is for social posts, which have
+     no surrounding page layout -- the site has its own price/rating block,
+     so the plain branded thumbnail (no banner) fits better here #}
+  {% set img = deal.site_image_url or deal.image %}
+  {% if img %}<img src="{{ img }}" alt="" loading="lazy">{% endif %}
   <div class="deal-body">
-    <h2><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.title }}</a></h2>
+    <h2 class="deal-title"><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.title }}</a></h2>
     <p class="price">
       <span class="now">${{ "%.2f"|format(deal.price) }}</span>
-      <span class="was">was ~${{ "%.2f"|format(deal.typical_price) }}</span>
-      <span class="off">{{ deal.percent_off }}% off</span>
+      <span class="was">${{ "%.2f"|format(deal.typical_price) }}</span>
+      <span class="off">{{ deal.percent_off }}% OFF</span>
     </p>
-    {% if deal.rating %}<p class="rating">{{ deal.rating }}/5 ({{ deal.review_count }} reviews)</p>{% endif %}
+    {% if deal.rating %}
+    <p class="rating">
+      <span class="stars" aria-label="{{ deal.rating }} out of 5 stars">
+        <span class="stars-track">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="stars-fill" style="width: {{ (deal.rating / 5 * 100) | round(1) }}%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      </span>
+      <span class="review-count">{{ deal.rating }}/5 &middot; {{ deal.review_count }} reviews</span>
+    </p>
+    {% endif %}
     {% if deal.summary_lines %}
     <ul class="facts">
       {% for line in deal.summary_lines %}<li>{{ line }}</li>{% endfor %}
@@ -118,24 +132,132 @@ GUIDES_INDEX_TEMPLATE = env.from_string("""
 """)
 
 STYLE_CSS = """
-:root { color-scheme: light dark; }
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; line-height: 1.5; }
-.site-header { padding: 1.5rem 0 1rem; border-bottom: 1px solid #8884; margin-bottom: 1.5rem; }
-.site-header .brand { font-size: 1.4rem; font-weight: 700; text-decoration: none; }
-.site-header .tagline { margin: .25rem 0 .75rem; opacity: .75; }
-.site-header nav a { margin-right: 1rem; text-decoration: none; font-weight: 600; }
-.deal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-.deal { border: 1px solid #8884; border-radius: 8px; padding: 1rem; }
-.deal img { max-width: 100%; height: 160px; object-fit: contain; display: block; margin: 0 auto .5rem; }
-.deal h2 { font-size: 1rem; margin: 0 0 .5rem; }
-.deal .price .now { font-weight: 700; font-size: 1.1rem; }
-.deal .price .was { text-decoration: line-through; opacity: .6; margin-left: .4rem; }
-.deal .price .off { color: #1a7a1a; margin-left: .4rem; font-weight: 600; }
-.deal .facts { list-style: none; padding: 0; margin: .4rem 0; font-size: .85rem; opacity: .85; }
-.deal .detail { font-size: .85rem; opacity: .8; margin: .4rem 0; }
-.deal .buy { display: inline-block; margin-top: .5rem; font-weight: 600; text-decoration: none; }
-.guide-list li { margin-bottom: .6rem; }
-.site-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #8884; opacity: .8; font-size: .9rem; }
+:root {
+  color-scheme: dark;
+  --bg: #121212;
+  --panel: #1c1a17;
+  --panel-border: #3a332b;
+  --text: #ece6d6;
+  --text-muted: #a89f8c;
+  --gold: #e8b923;
+  --gold-bright: #f7d774;
+  --red: #b3242a;
+  --display-font: 'Bebas Neue', Oswald, Impact, sans-serif;
+  --heading-font: Oswald, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --body-font: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--body-font);
+  background: var(--bg);
+  color: var(--text);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+  line-height: 1.55;
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover, a:focus { color: var(--gold-bright); text-decoration: underline; }
+
+h1, h2, h3 { font-family: var(--heading-font); letter-spacing: .01em; }
+
+.site-header {
+  background: var(--panel);
+  border-bottom: 3px solid var(--gold);
+  margin: 0 -1rem 2rem;
+  padding: 0 1rem;
+}
+.header-inner { max-width: 1000px; margin: 0 auto; padding: 1.75rem 0 1.1rem; }
+.site-header .brand {
+  font-family: var(--display-font);
+  font-size: 2.6rem;
+  letter-spacing: .04em;
+  color: var(--gold);
+  display: block;
+}
+.site-header .brand:hover { color: var(--gold-bright); text-decoration: none; }
+.site-header .tagline { margin: .15rem 0 1rem; color: var(--text-muted); font-style: italic; }
+.site-header nav a {
+  margin-right: 1.25rem;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: .95rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--text);
+}
+.site-header nav a:hover { color: var(--gold); text-decoration: none; }
+
+h1 { font-size: 1.8rem; }
+
+.deal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+
+.deal {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color .15s ease;
+}
+.deal:hover { border-color: var(--gold); }
+.deal img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--panel); }
+.deal-body { padding: 1rem; }
+
+.deal-title { font-size: 1.25rem; line-height: 1.2; margin: 0 0 .6rem; }
+.deal-title a {
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.deal-title a:hover { color: var(--gold); text-decoration: none; }
+
+.deal .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; margin: 0 0 .5rem; font-family: var(--display-font); }
+.deal .price .now { font-size: 2rem; color: var(--gold); letter-spacing: .02em; line-height: 1; }
+.deal .price .was { font-family: var(--body-font); font-size: .95rem; color: var(--text-muted); text-decoration: line-through; }
+.deal .price .off { font-family: var(--body-font); background: var(--red); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .03em; padding: .2rem .5rem; border-radius: 4px; }
+
+.deal .rating { display: flex; align-items: center; gap: .5rem; margin: 0 0 .6rem; font-size: .82rem; color: var(--text-muted); }
+.stars { position: relative; display: inline-block; font-size: 1rem; line-height: 1; letter-spacing: 1px; }
+.stars-track { color: #3a332b; }
+.stars-fill { position: absolute; top: 0; left: 0; overflow: hidden; white-space: nowrap; color: var(--gold); }
+
+.deal .facts { list-style: none; padding: 0; margin: 0 0 .6rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+.deal .facts li {
+  background: #2a241c;
+  border: 1px solid var(--panel-border);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: .25rem .65rem;
+  font-size: .76rem;
+  white-space: nowrap;
+}
+
+.deal .detail { font-size: .85rem; color: var(--text-muted); margin: 0 0 .75rem; }
+
+.deal .buy {
+  display: inline-block;
+  font-family: var(--heading-font);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: .85rem;
+  letter-spacing: .03em;
+  color: var(--bg);
+  background: var(--gold);
+  padding: .5rem 1rem;
+  border-radius: 5px;
+}
+.deal .buy:hover { background: var(--gold-bright); text-decoration: none; }
+
+.guide-list { list-style: none; padding: 0; }
+.guide-list li { margin-bottom: .75rem; padding-bottom: .75rem; border-bottom: 1px solid var(--panel-border); }
+
+.site-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--panel-border); color: var(--text-muted); font-size: .85rem; }
 """
 
 

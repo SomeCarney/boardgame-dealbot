@@ -1,9 +1,16 @@
-"""Composites a was/now price banner onto the product image, for social
-posts. Square JPEG output -- satisfies both Facebook's and Instagram's
-image requirements (Instagram specifically: JPEG only, aspect ratio between
-4:5 and 1.91:1 -- square is explicitly fine, and the image must be hosted
-at a publicly reachable URL, which is why this gets saved into docs/ and
-pushed to GitHub Pages rather than kept as a local temp file.
+"""Produces two branded versions of each deal's product photo:
+
+- a square "social" image with a was/now price banner, for Facebook/
+  Instagram/Telegram (those platforms have no surrounding page layout, so
+  the price has to live in the image itself)
+- a plain square "site" thumbnail (no banner) for the website card, which
+  already has its own price/rating text next to the image
+
+Both replace the product photo's near-white studio background with the
+site's brand background color, via a simple per-channel whiteness
+threshold (Amazon product shots are near-pure-white, so this is a cheap,
+dependency-light stand-in for real subject segmentation -- not perfect on
+every edge case, but good enough across hundreds of varying product shots).
 
 Uses fonts shipped with Windows (this pipeline only ever runs locally on
 Windows, per the scheduling setup in README.md) rather than bundling a font.
@@ -17,18 +24,26 @@ from pathlib import Path
 from typing import Any
 
 import requests
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 logger = logging.getLogger(__name__)
 
-CANVAS_SIZE = 1080
+# Keep in sync with the --bg/--panel/--gold/--red custom properties in
+# render_site.py's STYLE_CSS -- these are the same "Board Game Black
+# Market" brand colors, just as RGB tuples for Pillow instead of hex.
+BRAND_PANEL = (28, 26, 23)
+GOLD = (232, 185, 35)
+CREAM = (236, 230, 214)
+MUTED = (168, 159, 140)
+RED = (179, 36, 42)
+WHITE_TEXT = (255, 255, 255)
+
+WHITE_THRESHOLD = 235  # per-channel brightness above which a pixel counts as "studio background"
+EDGE_FEATHER_PX = 3
+
+SOCIAL_SIZE = 1080
 BANNER_HEIGHT = 280
-BACKGROUND_COLOR = (255, 255, 255)
-BANNER_COLOR = (20, 20, 20, 235)
-NOW_PRICE_COLOR = (255, 214, 0)
-WAS_PRICE_COLOR = (190, 190, 190)
-BADGE_COLOR = (214, 40, 40)
-BADGE_TEXT_COLOR = (255, 255, 255)
+THUMB_SIZE = 800
 
 FONT_IMPACT = "C:/Windows/Fonts/impact.ttf"
 FONT_BOLD = "C:/Windows/Fonts/arialbd.ttf"
@@ -37,49 +52,97 @@ ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = ROOT / "docs" / "images"
 
 
-def compose_deal_image(deal: dict[str, Any]) -> str | None:
-    """Downloads the product image, overlays a price banner, saves a JPEG
-    into docs/images/. Returns the path relative to docs/ (e.g.
-    "images/B0CS7SMQ7P.jpg"), or None if there's no source image or the
-    download/composite fails -- callers should treat that as "no image
-    available," not crash the run over a cosmetic feature."""
+def compose_images(deal: dict[str, Any]) -> tuple[str | None, str | None]:
+    """Returns (social_image_path, site_thumbnail_path) relative to docs/,
+    e.g. ("images/B0CS7SMQ7P.jpg", "images/site_B0CS7SMQ7P.jpg"). Either or
+    both may be None if there's no source image or a step fails -- callers
+    should treat that as "no image available," not crash over a cosmetic
+    feature."""
+    product_img = _load_product_image(deal)
+    if product_img is None:
+        return None, None
+
+    try:
+        branded = _replace_white_background(product_img, BRAND_PANEL)
+    except Exception:
+        logger.exception("Background replacement failed for %s, using original photo", deal.get("asin"))
+        branded = product_img
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    return (
+        _save_social_image(branded, deal),
+        _save_site_thumbnail(branded, deal),
+    )
+
+
+def _load_product_image(deal: dict[str, Any]) -> Image.Image | None:
     if not deal.get("image"):
         return None
-
     try:
         response = requests.get(deal["image"], timeout=15)
         response.raise_for_status()
-        product_img = Image.open(io.BytesIO(response.content)).convert("RGB")
+        return Image.open(io.BytesIO(response.content)).convert("RGB")
     except Exception:
-        logger.exception("Could not download product image for %s, skipping composite", deal.get("asin"))
+        logger.exception("Could not download product image for %s", deal.get("asin"))
         return None
 
+
+def _replace_white_background(img: Image.Image, bg_color: tuple[int, int, int]) -> Image.Image:
+    r, g, b = img.split()
+    min_channel = ImageChops.darker(ImageChops.darker(r, g), b)
+    mask = min_channel.point(lambda p: 255 if p >= WHITE_THRESHOLD else 0)
+    mask = mask.filter(ImageFilter.GaussianBlur(EDGE_FEATHER_PX))
+    background = Image.new("RGB", img.size, bg_color)
+    return Image.composite(background, img, mask)
+
+
+def _save_social_image(branded: Image.Image, deal: dict[str, Any]) -> str | None:
     try:
-        canvas = _build_canvas(product_img, deal)
+        canvas = _build_social_canvas(branded, deal)
+        out_path = OUTPUT_DIR / f"{deal['asin']}.jpg"
+        canvas.save(out_path, "JPEG", quality=88)
+        return f"images/{deal['asin']}.jpg"
     except Exception:
-        logger.exception("Image composite failed for %s, skipping", deal.get("asin"))
+        logger.exception("Social image composite failed for %s, skipping", deal.get("asin"))
         return None
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = OUTPUT_DIR / f"{deal['asin']}.jpg"
-    canvas.save(out_path, "JPEG", quality=88)
-    return f"images/{deal['asin']}.jpg"
+
+def _save_site_thumbnail(branded: Image.Image, deal: dict[str, Any]) -> str | None:
+    try:
+        canvas = _build_thumbnail_canvas(branded)
+        out_path = OUTPUT_DIR / f"site_{deal['asin']}.jpg"
+        canvas.save(out_path, "JPEG", quality=88)
+        return f"images/site_{deal['asin']}.jpg"
+    except Exception:
+        logger.exception("Site thumbnail composite failed for %s, skipping", deal.get("asin"))
+        return None
 
 
-def _build_canvas(product_img: Image.Image, deal: dict[str, Any]) -> Image.Image:
-    canvas = Image.new("RGB", (CANVAS_SIZE, CANVAS_SIZE), BACKGROUND_COLOR)
+def _fit(img: Image.Image, max_w: int, max_h: int) -> Image.Image:
+    scale = min(max_w / img.width, max_h / img.height)
+    new_size = (max(1, int(img.width * scale)), max(1, int(img.height * scale)))
+    return img.resize(new_size, Image.Resampling.LANCZOS)
 
-    available_height = CANVAS_SIZE - BANNER_HEIGHT
-    scale = min(CANVAS_SIZE / product_img.width, available_height / product_img.height)
-    new_size = (max(1, int(product_img.width * scale)), max(1, int(product_img.height * scale)))
-    product_img = product_img.resize(new_size, Image.Resampling.LANCZOS)
-    paste_x = (CANVAS_SIZE - new_size[0]) // 2
-    paste_y = (available_height - new_size[1]) // 2
-    canvas.paste(product_img, (paste_x, paste_y))
+
+def _build_thumbnail_canvas(product_img: Image.Image) -> Image.Image:
+    canvas = Image.new("RGB", (THUMB_SIZE, THUMB_SIZE), BRAND_PANEL)
+    resized = _fit(product_img, THUMB_SIZE, THUMB_SIZE)
+    canvas.paste(resized, ((THUMB_SIZE - resized.width) // 2, (THUMB_SIZE - resized.height) // 2))
+    return canvas
+
+
+def _build_social_canvas(product_img: Image.Image, deal: dict[str, Any]) -> Image.Image:
+    canvas = Image.new("RGB", (SOCIAL_SIZE, SOCIAL_SIZE), BRAND_PANEL)
+
+    available_height = SOCIAL_SIZE - BANNER_HEIGHT
+    resized = _fit(product_img, SOCIAL_SIZE, available_height)
+    paste_x = (SOCIAL_SIZE - resized.width) // 2
+    paste_y = (available_height - resized.height) // 2
+    canvas.paste(resized, (paste_x, paste_y))
 
     draw = ImageDraw.Draw(canvas, "RGBA")
-    banner_top = CANVAS_SIZE - BANNER_HEIGHT
-    draw.rectangle([0, banner_top, CANVAS_SIZE, CANVAS_SIZE], fill=BANNER_COLOR)
+    banner_top = SOCIAL_SIZE - BANNER_HEIGHT
+    draw.rectangle([0, banner_top, SOCIAL_SIZE, SOCIAL_SIZE], fill=(15, 14, 12, 235))
 
     now_font = ImageFont.truetype(FONT_IMPACT, 110)
     was_font = ImageFont.truetype(FONT_BOLD, 46)
@@ -88,27 +151,27 @@ def _build_canvas(product_img: Image.Image, deal: dict[str, Any]) -> Image.Image
     text_x = 50
     was_text = f"${deal['typical_price']:.2f}"
     was_y = banner_top + 36
-    draw.text((text_x, was_y), was_text, font=was_font, fill=WAS_PRICE_COLOR)
+    draw.text((text_x, was_y), was_text, font=was_font, fill=MUTED)
     was_bbox = draw.textbbox((text_x, was_y), was_text, font=was_font)
     strike_y = (was_bbox[1] + was_bbox[3]) // 2
-    draw.line([(was_bbox[0] - 4, strike_y), (was_bbox[2] + 4, strike_y)], fill=WAS_PRICE_COLOR, width=4)
+    draw.line([(was_bbox[0] - 4, strike_y), (was_bbox[2] + 4, strike_y)], fill=MUTED, width=4)
 
     now_text = f"${deal['price']:.2f}"
     now_y = was_bbox[3] + 6
-    draw.text((text_x, now_y), now_text, font=now_font, fill=NOW_PRICE_COLOR)
+    draw.text((text_x, now_y), now_text, font=now_font, fill=GOLD)
 
     badge_text = f"{deal['percent_off']}% OFF"
     badge_bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
     badge_w, badge_h = badge_bbox[2] - badge_bbox[0], badge_bbox[3] - badge_bbox[1]
     badge_pad = 24
-    badge_x2 = CANVAS_SIZE - 40
+    badge_x2 = SOCIAL_SIZE - 40
     badge_x1 = badge_x2 - badge_w - badge_pad * 2
     badge_y1 = banner_top + (BANNER_HEIGHT - badge_h - badge_pad * 2) // 2
     badge_y2 = badge_y1 + badge_h + badge_pad * 2
-    draw.rounded_rectangle([badge_x1, badge_y1, badge_x2, badge_y2], radius=16, fill=BADGE_COLOR)
+    draw.rounded_rectangle([badge_x1, badge_y1, badge_x2, badge_y2], radius=16, fill=RED)
     draw.text(
         (badge_x1 + badge_pad, badge_y1 + badge_pad - badge_bbox[1]),
-        badge_text, font=badge_font, fill=BADGE_TEXT_COLOR,
+        badge_text, font=badge_font, fill=WHITE_TEXT,
     )
 
     return canvas

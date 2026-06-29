@@ -58,14 +58,20 @@ def save_log(entries: list[dict[str, Any]]) -> None:
 
 
 def _enrich(deal: dict[str, Any], site_base_url: str) -> None:
-    """Adds summary_lines / detailed_description (describe.py) and
-    image_url (composited price-banner image) to a deal dict, in place."""
+    """Adds summary_lines / detailed_description (describe.py), image_url
+    (composited price-banner image, for social posts) and site_image_url
+    (plain branded thumbnail, for the website card) to a deal, in place."""
     description = describe.generate_description(deal)
     deal["summary_lines"] = description["summary_lines"]
     deal["detailed_description"] = description["detailed"]
 
-    relative_image_path = image_compose.compose_deal_image(deal)
-    deal["image_url"] = f"{site_base_url}/{relative_image_path}" if relative_image_path else None
+    social_path, thumb_path = image_compose.compose_images(deal)
+    # image_url needs to be absolute -- Facebook/Instagram's APIs fetch it
+    # from their own servers. site_image_url is used by the site's own
+    # <img> tags, which already live at that root, so a relative path keeps
+    # working even if the domain/base path ever changes.
+    deal["image_url"] = f"{site_base_url}/{social_path}" if social_path else None
+    deal["site_image_url"] = thumb_path
 
 
 def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
