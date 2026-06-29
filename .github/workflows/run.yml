@@ -1,0 +1,44 @@
+name: Find and post board game deals
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dealbot-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          KEEPA_API_KEY: ${{ secrets.KEEPA_API_KEY }}
+          AMAZON_ASSOCIATE_TAG: ${{ secrets.AMAZON_ASSOCIATE_TAG }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: python src/main.py
+
+      # Commits the regenerated site + dedupe log + category cache back to the
+      # repo. This is also what keeps the schedule itself alive -- GitHub
+      # disables cron workflows after 60 days with zero repository activity.
+      - name: Commit updated site and log
+        run: |
+          git config user.name "boardgame-dealbot"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/ posted_log.json config/category_cache.json
+          git diff --cached --quiet || git commit -m "Update deals $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

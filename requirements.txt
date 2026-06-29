@@ -1,0 +1,4 @@
+keepa>=1.4.4
+requests>=2.31
+PyYAML>=6.0
+Jinja2>=3.1

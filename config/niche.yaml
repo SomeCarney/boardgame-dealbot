@@ -1,0 +1,27 @@
+# Everything about *what* this bot tracks lives here. Swapping niches later
+# (pet supplies, baby gear, home goods all carry the same ~3% Amazon rate)
+# is a matter of editing this file, not the code.
+
+niche:
+  name: "Board Games & Tabletop Games"
+  domain: US                      # Amazon marketplace (see keepa.Domain)
+  category_search_term: "board games"   # resolved to a Keepa category id at runtime,
+                                          # cached in config/category_cache.json
+
+deal_filters:
+  min_percent_off: 20    # ignore anything less than a 20% drop vs its 90-day average
+  min_price: 10          # ignore cheap impulse buys, not worth a post
+  max_price: 250         # ignore outliers (sealed cases, B2B listings, etc.)
+  min_rating: 3.8         # out of 5 - filters out junk/knockoff listings
+  min_review_count: 25   # filters out listings with too little signal
+  require_in_stock: true
+  date_range: 1           # Keepa "how far back to look" enum; 1 = recent
+
+posting:
+  max_posts_per_run: 8        # cap so one run can't flood the channel/site
+  site_max_listed_deals: 60   # how many recent deals stay listed on the site
+
+affiliate:
+  amazon_domain: "www.amazon.com"
+  # the actual tracking tag comes from the AMAZON_ASSOCIATE_TAG secret/env var,
+  # never committed to this file
