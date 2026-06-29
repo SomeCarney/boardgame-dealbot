@@ -103,7 +103,10 @@ def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
     if not asins:
         return []
 
-    products = api.query(asins, stats=90, rating=True, domain=domain, progress_bar=False)
+    # history=False: we only ever read the `stats` summary (current/avg90),
+    # never the full price/sales history -- pulling it was burning tokens
+    # for data this code never looks at.
+    products = api.query(asins, stats=90, rating=True, domain=domain, progress_bar=False, history=False)
     deals = _normalize_products(products, filters)
     logger.info("%d deals passed normalization/filtering", len(deals))
     return deals
@@ -144,10 +147,15 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any])
         current = stats.get("current") or []
         avg90 = stats.get("avg90") or []
 
-        price = _at(current, IDX_AMAZON_PRICE)
-        typical_price = _at(avg90, IDX_AMAZON_PRICE)
-        rating = _at(current, IDX_RATING)
-        review_count = _at(current, IDX_REVIEW_COUNT)
+        # stats values come back in Keepa's raw wire units, NOT pre-converted
+        # by the wrapper: price/rating are isfloat fields per
+        # keepa.constants.csv_indices, meaning cents and rating-times-10
+        # respectively. Confirmed against a live API call -- raw prices were
+        # showing as e.g. 2999 for a $29.99 game before this conversion.
+        price = _cents_to_dollars(_at(current, IDX_AMAZON_PRICE))
+        typical_price = _cents_to_dollars(_at(avg90, IDX_AMAZON_PRICE))
+        rating = _rating_to_stars(_at(current, IDX_RATING))
+        review_count = _at(current, IDX_REVIEW_COUNT)  # plain count, not scaled
 
         if price is None or typical_price is None or typical_price <= 0:
             continue  # missing price data -- skip rather than guess
@@ -179,4 +187,17 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any])
 
 
 def _at(arr: list, idx: int) -> Any:
-    return arr[idx] if idx < len(arr) else None
+    """-1/-2 are Keepa's "no data" sentinels (see Keepa's product object
+    docs) -- treat them as missing rather than as real values."""
+    if idx >= len(arr):
+        return None
+    value = arr[idx]
+    return None if value is None or value < 0 else value
+
+
+def _cents_to_dollars(value: float | None) -> float | None:
+    return None if value is None else value / 100
+
+
+def _rating_to_stars(value: float | None) -> float | None:
+    return None if value is None else value / 10
