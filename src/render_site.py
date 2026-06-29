@@ -75,6 +75,9 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 
 DEAL_CARD_TEMPLATE = env.from_string("""
 <article class="deal">
+  {# the composited price-banner image (deal.image_url) is for social posts,
+     which have no separate price text around them -- the site already has
+     its own price/rating block below, so the plain product photo fits better #}
   {% if deal.image %}<img src="{{ deal.image }}" alt="" loading="lazy">{% endif %}
   <div class="deal-body">
     <h2><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.title }}</a></h2>
@@ -84,6 +87,12 @@ DEAL_CARD_TEMPLATE = env.from_string("""
       <span class="off">{{ deal.percent_off }}% off</span>
     </p>
     {% if deal.rating %}<p class="rating">{{ deal.rating }}/5 ({{ deal.review_count }} reviews)</p>{% endif %}
+    {% if deal.summary_lines %}
+    <ul class="facts">
+      {% for line in deal.summary_lines %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% if deal.detailed_description %}<p class="detail">{{ deal.detailed_description }}</p>{% endif %}
     <a class="buy" href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">View on Amazon &rarr;</a>
   </div>
 </article>
@@ -122,6 +131,8 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-
 .deal .price .now { font-weight: 700; font-size: 1.1rem; }
 .deal .price .was { text-decoration: line-through; opacity: .6; margin-left: .4rem; }
 .deal .price .off { color: #1a7a1a; margin-left: .4rem; font-weight: 600; }
+.deal .facts { list-style: none; padding: 0; margin: .4rem 0; font-size: .85rem; opacity: .85; }
+.deal .detail { font-size: .85rem; opacity: .8; margin: .4rem 0; }
 .deal .buy { display: inline-block; margin-top: .5rem; font-weight: 600; text-decoration: none; }
 .guide-list li { margin-bottom: .6rem; }
 .site-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #8884; opacity: .8; font-size: .9rem; }

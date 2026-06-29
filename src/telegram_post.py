@@ -26,11 +26,16 @@ def post_deals(deals: list[dict[str, Any]], bot_token: str | None, channel_id: s
 
 
 def _send_one(deal: dict[str, Any], bot_token: str, channel_id: str) -> None:
-    text = (
-        f"<b>{_escape(deal['title'])}</b>\n"
-        f"${deal['price']:.2f} (was ~${deal['typical_price']:.2f}, {deal['percent_off']}% off)\n"
-        f"{deal['link']}"
-    )
+    lines = [
+        f"<b>{_escape(deal['title'])}</b>",
+        f"${deal['price']:.2f} (was ~${deal['typical_price']:.2f}, {deal['percent_off']}% off)",
+    ]
+    lines.extend(_escape(line) for line in deal.get("summary_lines", []))
+    if deal.get("detailed_description"):
+        lines.append(_escape(deal["detailed_description"]))
+    lines.append(deal["link"])
+    text = "\n".join(lines)
+
     payload = {
         "chat_id": channel_id,
         "parse_mode": "HTML",
@@ -38,9 +43,13 @@ def _send_one(deal: dict[str, Any], bot_token: str, channel_id: str) -> None:
         "text": text,
     }
 
-    if deal.get("image"):
+    # Prefer the composited price-banner image (consistent look across
+    # every channel); fall back to the raw Amazon image if compositing
+    # didn't produce one for some reason.
+    image = deal.get("image_url") or deal.get("image")
+    if image:
         endpoint = f"{API_BASE}/bot{bot_token}/sendPhoto"
-        payload["photo"] = deal["image"]
+        payload["photo"] = image
         payload["caption"] = text
         payload["parse_mode"] = "HTML"
         del payload["text"]

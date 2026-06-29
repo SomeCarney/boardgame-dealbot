@@ -25,3 +25,9 @@ affiliate:
   amazon_domain: "www.amazon.com"
   # the actual tracking tag comes from the AMAZON_ASSOCIATE_TAG secret/env var,
   # never committed to this file
+
+site:
+  base_url: "https://somecarney.github.io/boardgame-dealbot"
+  # used to build public URLs for composited images (Facebook/Instagram's
+  # APIs fetch images by URL server-side, so they need to be live on Pages
+  # before the post call is made -- main.py commits+pushes before posting)

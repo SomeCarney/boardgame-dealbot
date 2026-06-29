@@ -1,4 +1,4 @@
-"""Orchestrates one run: fetch -> filter -> dedupe -> render -> post -> log.
+"""Orchestrates one run: fetch -> filter -> dedupe -> enrich -> render -> post -> log.
 
 Usage:
     python src/main.py            # real run (needs KEEPA_API_KEY, AMAZON_ASSOCIATE_TAG)
@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,7 +22,11 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import affiliate  # noqa: E402
+import describe  # noqa: E402
+import facebook_post  # noqa: E402
 import fetch_deals  # noqa: E402
+import image_compose  # noqa: E402
+import instagram_post  # noqa: E402
 import render_site  # noqa: E402
 import telegram_post  # noqa: E402
 
@@ -52,6 +57,44 @@ def save_log(entries: list[dict[str, Any]]) -> None:
     LOG_PATH.write_text(json.dumps(entries, indent=2))
 
 
+def _enrich(deal: dict[str, Any], site_base_url: str) -> None:
+    """Adds summary_lines / detailed_description (describe.py) and
+    image_url (composited price-banner image) to a deal dict, in place."""
+    description = describe.generate_description(deal)
+    deal["summary_lines"] = description["summary_lines"]
+    deal["detailed_description"] = description["detailed"]
+
+    relative_image_path = image_compose.compose_deal_image(deal)
+    deal["image_url"] = f"{site_base_url}/{relative_image_path}" if relative_image_path else None
+
+
+def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
+    """Facebook/Instagram fetch images by public URL server-side, so the
+    composited images have to already be live on Pages before those API
+    calls happen -- this commits+pushes mid-run, but only when at least one
+    of those platforms is actually configured (otherwise it's a no-op, same
+    as before this feature existed; the wrapper script's own end-of-run
+    commit still covers everything else)."""
+    fb_configured = bool(os.environ.get("FACEBOOK_PAGE_ID") and os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN"))
+    ig_configured = bool(os.environ.get("INSTAGRAM_BUSINESS_ACCOUNT_ID") and os.environ.get("INSTAGRAM_ACCESS_TOKEN"))
+    if not (fb_configured or ig_configured):
+        return
+    if not any(d.get("image_url") for d in new_deals):
+        return
+
+    logger.info("Facebook/Instagram configured -- pushing images early so their APIs can fetch them")
+    subprocess.run(["git", "add", "docs/images"], cwd=ROOT, check=True)
+    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
+        subprocess.run(
+            ["git", "-c", "user.name=boardgame-dealbot", "-c", "user.email=actions@users.noreply.github.com",
+             "commit", "-q", "-m", "Add deal images for social posting"],
+            cwd=ROOT, check=True,
+        )
+        subprocess.run(["git", "push"], cwd=ROOT, check=True)
+    else:
+        logger.info("No new images to push")
+
+
 def main() -> None:
     dry_run = os.environ.get("DRY_RUN") == "1"
     config = load_config()
@@ -67,23 +110,36 @@ def main() -> None:
     logger.info("%d new deals to post this run (capped at %d)", len(new_deals), max_per_run)
 
     amazon_domain = config["affiliate"]["amazon_domain"]
+    site_base_url = config["site"]["base_url"].rstrip("/")
     now = datetime.now(timezone.utc).isoformat()
     for deal in new_deals:
         deal["link"] = affiliate.build_affiliate_link(deal["asin"], amazon_domain)
         deal["posted_at"] = now
+        _enrich(deal, site_base_url)
+
+    updated_log = new_deals + log  # newest first
+    max_listed = config["posting"]["site_max_listed_deals"]
+    render_site.render_site(updated_log, max_listed=max_listed)
 
     if new_deals and not dry_run:
+        _push_images_if_needed(new_deals)
         telegram_post.post_deals(
             new_deals,
             bot_token=os.environ.get("TELEGRAM_BOT_TOKEN"),
             channel_id=os.environ.get("TELEGRAM_CHANNEL_ID"),
         )
+        facebook_post.post_deals(
+            new_deals,
+            page_id=os.environ.get("FACEBOOK_PAGE_ID"),
+            access_token=os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN"),
+        )
+        instagram_post.post_deals(
+            new_deals,
+            ig_user_id=os.environ.get("INSTAGRAM_BUSINESS_ACCOUNT_ID"),
+            access_token=os.environ.get("INSTAGRAM_ACCESS_TOKEN"),
+        )
     elif new_deals and dry_run:
-        logger.info("DRY_RUN=1 -- skipping Telegram post for %d deal(s)", len(new_deals))
-
-    updated_log = new_deals + log  # newest first
-    max_listed = config["posting"]["site_max_listed_deals"]
-    render_site.render_site(updated_log, max_listed=max_listed)
+        logger.info("DRY_RUN=1 -- skipping all social posting for %d deal(s)", len(new_deals))
 
     if dry_run:
         logger.info("DRY_RUN=1 -- not writing posted_log.json (site/ was still rebuilt for inspection)")
