@@ -10,13 +10,25 @@ setup and operating guide.
 ## How it works
 
 Every 4 hours, a Windows Scheduled Task on this PC (`BoardGameDealBot`) runs
-`scripts/run_local.ps1`, which runs `src/main.py`: fetches current
-board-game deals from the Keepa API, filters out anything that doesn't
-clear the bar in `config/niche.yaml`, drops anything already posted before
-(`posted_log.json`), builds tagged Amazon links, regenerates the static
-site in `docs/` (served by GitHub Pages -- the folder is named `docs/`
-only because that's one of the two paths Pages allows, not because it's
-documentation), and commits + pushes the result.
+`scripts/run_local.ps1`, which runs `src/main.py`:
+
+1. Fetches current board-game deals from the Keepa API, filters out
+   anything that doesn't clear the bar in `config/niche.yaml`, drops
+   anything already posted before (`posted_log.json`).
+2. For each new deal: extracts real facts (player count, playtime) from
+   the actual Amazon listing text via regex (`src/describe.py`) -- never
+   invented, omitted if not confidently found -- and writes a short
+   description (template-based, or Claude-generated if `ANTHROPIC_API_KEY`
+   is set, always grounded in the extracted facts so it can't state
+   specifics that weren't actually found).
+3. Composites a was/now price banner onto the product's real Amazon image
+   (`src/image_compose.py`), saved into `docs/images/`.
+4. Builds tagged Amazon links, regenerates the static site in `docs/`
+   (served by GitHub Pages), and -- if Facebook or Instagram are
+   configured -- pushes early so the composited images are publicly
+   reachable before those platforms' APIs try to fetch them.
+5. Posts to whichever of Telegram / Facebook / Instagram are configured
+   (each no-ops cleanly if not set up), then commits + pushes everything.
 
 It runs locally rather than on GitHub Actions' own schedule because **Keepa
 rejects API requests from GitHub's datacenter IP ranges** (confirmed by
@@ -24,14 +36,24 @@ reproducing it twice) -- the same call succeeds from this PC's connection
 every time. The GitHub Actions workflow still exists for manual runs
 (`workflow_dispatch`) as a fallback in case that ever changes.
 
-## Status -- fully live
+Product images come from Amazon's own listing images (via Keepa), not from
+publisher/manufacturer websites -- those are someone else's copyrighted
+marketing assets and reposting them would be infringement. Amazon's own
+images are explicitly licensed for Associates to use in promotional content
+on Facebook/Instagram, which is why this is the only image source used.
+
+## Status
 
 - [x] Repo + Pages: https://github.com/SomeCarney/boardgame-dealbot ,
       https://somecarney.github.io/boardgame-dealbot/
 - [x] Keepa API subscription active (21 tokens/min)
 - [x] Amazon Associates approved, tag `carnivalgam06-20` wired in
 - [x] Windows Scheduled Task `BoardGameDealBot` registered, running every 4h
-- [ ] Optional, not set up: Telegram bot/channel (secondary push feed)
+- [x] Fact extraction, description generation, and price-banner images live
+- [ ] Telegram bot/channel -- optional, not set up
+- [ ] Facebook Page posting -- needs setup, see below
+- [ ] Instagram posting -- needs setup, see below (real approval hurdle)
+- [ ] Claude-generated descriptions -- optional upgrade, see below
 
 Real credentials live in a local `.env` file (gitignored, never committed)
 for local runs, and as GitHub Actions secrets for the manual-fallback path:
@@ -42,6 +64,49 @@ for local runs, and as GitHub Actions secrets for the manual-fallback path:
 | `AMAZON_ASSOCIATE_TAG` | `.env` + GH secret | Amazon Associates |
 | `TELEGRAM_BOT_TOKEN` | not set (optional) | @BotFather |
 | `TELEGRAM_CHANNEL_ID` | not set (optional) | Your Telegram channel |
+| `FACEBOOK_PAGE_ID` | not set yet | Your Facebook Page |
+| `FACEBOOK_PAGE_ACCESS_TOKEN` | not set yet | Meta for Developers app |
+| `INSTAGRAM_BUSINESS_ACCOUNT_ID` | not set yet | Linked IG Business account |
+| `INSTAGRAM_ACCESS_TOKEN` | not set yet | Meta for Developers app |
+| `ANTHROPIC_API_KEY` | not set (optional) | console.anthropic.com |
+
+## Setting up Facebook and Instagram posting
+
+**Facebook (achievable without a lengthy review process, since you're
+posting to your own Page):**
+1. Create a Facebook Page for the store, if you haven't already.
+2. Go to [developers.facebook.com](https://developers.facebook.com), create
+   a Meta app (type: Business).
+3. Add the Page as an asset of the app. In Graph API Explorer (or via the
+   app's settings), generate a Page access token with `pages_manage_posts`
+   and `pages_read_engagement`. As the Page's admin using your own app in
+   development mode, this typically works without full App Review.
+4. Exchange it for a long-lived token (Meta's docs walk through this --
+   "Page tokens never expire" when derived from a long-lived user token).
+5. Send me the Page ID and that access token.
+
+**Instagram (same app, but with a real catch):**
+1. The Instagram account has to be a Business or Creator account, linked to
+   the same Facebook Page.
+2. In the same Meta app, request `instagram_basic` and
+   `instagram_content_publish`.
+3. **`instagram_content_publish` requires Meta App Review** -- you'll need
+   to submit a screencast showing the actual posting flow end-to-end.
+   Rejection on the first attempt is common, and there's no fixed
+   timeline. This is the one piece that might just take a while, or need a
+   couple of submission attempts. Facebook posting doesn't have this
+   problem, so it'll likely go live well before Instagram does.
+4. Once approved, send me the Instagram Business Account ID and the token.
+
+## Optional: better-written descriptions via Claude
+
+Without `ANTHROPIC_API_KEY` set, descriptions are template-based (serviceable,
+a bit formulaic). With it set, `src/describe.py` calls Claude (Haiku) to
+write a genuinely original 2-3 sentence description instead, still grounded
+in only the facts actually extracted from the real listing (it's explicitly
+told not to invent specifics). Get a key at
+[console.anthropic.com](https://console.anthropic.com), send it over, and
+it'll be used automatically on the next run -- no code changes needed.
 
 ## Repo and Pages (already done -- reference only)
 
