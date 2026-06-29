@@ -36,6 +36,8 @@ FIXTURE_DEALS: list[dict[str, Any]] = [
     {
         "asin": "B00FIXTURE1",
         "title": "[SAMPLE FIXTURE DEAL] Wingspan",
+        "description": "A relaxing, strategic engine-building game about birds for 1 to 5 players.",
+        "features": ["Beautiful bird artwork", "Engine-building gameplay for 1-5 players", "Plays in about 40-70 minutes"],
         "price": 39.99,
         "typical_price": 59.99,
         "percent_off": 33,
@@ -46,6 +48,8 @@ FIXTURE_DEALS: list[dict[str, Any]] = [
     {
         "asin": "B00FIXTURE2",
         "title": "[SAMPLE FIXTURE DEAL] Catan: 5-6 Player Extension",
+        "description": "Expands the classic Catan trading and building game to support 5 to 6 players.",
+        "features": ["Adds 2 extra players to base Catan", "Compatible with Catan 5th edition"],
         "price": 24.50,
         "typical_price": 34.99,
         "percent_off": 30,
@@ -168,18 +172,25 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any])
         if percent_off < filters["min_percent_off"]:
             continue
 
-        images = (p.get("imagesCSV") or "").split(",")
-        image_id = images[0] if images and images[0] else None
+        # NOTE: "imagesCSV" (used in earlier versions of this code) doesn't
+        # exist on this keepa package version's product object -- confirmed
+        # against a live call. The real field is "images": a list of dicts
+        # with large/medium filenames under "l"/"m". Every deal posted
+        # before this fix had no image at all.
+        images = p.get("images") or []
+        image_filename = images[0].get("l") if images else None
 
         deals.append({
             "asin": p.get("asin"),
             "title": p.get("title") or "Unknown title",
+            "description": p.get("description") or "",
+            "features": p.get("features") or [],
             "price": price,
             "typical_price": typical_price,
             "percent_off": percent_off,
             "rating": rating,
             "review_count": review_count,
-            "image": f"https://images-na.ssl-images-amazon.com/images/I/{image_id}" if image_id else None,
+            "image": f"https://m.media-amazon.com/images/I/{image_filename}" if image_filename else None,
         })
 
     deals.sort(key=lambda d: d["percent_off"], reverse=True)
