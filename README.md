@@ -13,8 +13,10 @@ Every few hours, a GitHub Actions workflow runs `src/main.py`, which:
 fetches current board-game deals from the Keepa API, filters out anything
 that doesn't clear the bar in `config/niche.yaml`, drops anything already
 posted before (`posted_log.json`), builds tagged Amazon links, regenerates
-the static site in `site/` (served by GitHub Pages), optionally posts to
-Telegram, and commits the result back to the repo.
+the static site in `docs/` (served by GitHub Pages -- the folder is named
+`docs/` only because that's one of the two paths Pages allows, not because
+it's documentation), optionally posts to Telegram, and commits the result
+back to the repo.
 
 ## One-time setup (your part)
 
@@ -52,7 +54,7 @@ variables > Actions** on the GitHub repo, never into a committed file:
 
 ```
 gh repo create boardgame-dealbot --public --source=. --remote=origin --push
-gh api -X POST /repos/<owner>/boardgame-dealbot/pages -f "source[branch]=main" -f "source[path]=/site"
+gh api -X POST /repos/<owner>/boardgame-dealbot/pages -f "source[branch]=main" -f "source[path]=/docs"
 ```
 
 Pages must be public on GitHub's free tier (private-repo Pages needs a paid
@@ -73,7 +75,7 @@ export DRY_RUN=1                                          # macOS/Linux
 ```
 
 `DRY_RUN=1` uses fixture deals and a placeholder affiliate tag, rebuilds
-`site/` so you can open it locally, and skips Telegram and the dedupe log --
+`docs/` so you can open it locally, and skips Telegram and the dedupe log --
 safe to run anytime, costs nothing, needs no credentials.
 
 Once `KEEPA_API_KEY` and `AMAZON_ASSOCIATE_TAG` are set as real secrets, do

@@ -8,7 +8,6 @@ content) without ever touching the hand-written pages.
 
 from __future__ import annotations
 
-import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -17,7 +16,9 @@ from jinja2 import Environment, select_autoescape
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
-SITE_DIR = ROOT / "site"
+# GitHub Pages "deploy from a branch" only accepts / or /docs as the served
+# path -- docs/ it is, even though "site" would have been a clearer name.
+SITE_DIR = ROOT / "docs"
 
 SITE_NAME = "Tabletop Tracker"
 TAGLINE = "Automatically tracked board game price drops on Amazon."
