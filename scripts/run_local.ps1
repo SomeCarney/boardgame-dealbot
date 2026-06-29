@@ -10,30 +10,34 @@ Set-Location $repoRoot
 $logDir = Join-Path $repoRoot "logs"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logFile = Join-Path $logDir "run_local.log"
+$stdoutTmp = Join-Path $logDir "_stdout.tmp"
+$stderrTmp = Join-Path $logDir "_stderr.tmp"
 
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 Add-Content -Path $logFile -Value "`n==== $timestamp ===="
 
-try {
-    $output = & ".\.venv\Scripts\python.exe" "src\main.py" 2>&1
-    $exitCode = $LASTEXITCODE
-    Add-Content -Path $logFile -Value $output
+# Native stdout/stderr are redirected to files rather than via PowerShell's
+# 2>&1 stream operator -- with $ErrorActionPreference = "Stop", 2>&1 wraps
+# every stderr line (including normal Python log output) in a terminating
+# NativeCommandError even when the process exits 0.
+$proc = Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "src\main.py" `
+    -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
+    -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
 
-    if ($exitCode -ne 0) {
-        Add-Content -Path $logFile -Value "Pipeline failed with exit code $exitCode -- not committing."
-        exit $exitCode
-    }
+Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile
+Remove-Item $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue
 
-    git add docs/ posted_log.json config/category_cache.json
-    $hasChanges = git diff --cached --quiet; $hasChangesExit = $LASTEXITCODE
-    if ($hasChangesExit -ne 0) {
-        git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
-        git push
-        Add-Content -Path $logFile -Value "Committed and pushed updated deals."
-    } else {
-        Add-Content -Path $logFile -Value "No new deals this run -- nothing to commit."
-    }
-} catch {
-    Add-Content -Path $logFile -Value "ERROR: $_"
-    exit 1
+if ($proc.ExitCode -ne 0) {
+    Add-Content -Path $logFile -Value "Pipeline failed with exit code $($proc.ExitCode) -- not committing."
+    exit $proc.ExitCode
+}
+
+git add docs/ posted_log.json config/category_cache.json
+git diff --cached --quiet
+if ($LASTEXITCODE -ne 0) {
+    git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
+    git push
+    Add-Content -Path $logFile -Value "Committed and pushed updated deals."
+} else {
+    Add-Content -Path $logFile -Value "No new deals this run -- nothing to commit."
 }

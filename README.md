@@ -1,64 +1,47 @@
 # boardgame-dealbot
 
 Finds genuine Amazon price drops on board games and publishes them (with an
-Amazon Associates tag) to a small static site, and optionally to a Telegram
-channel. Runs on a GitHub Actions schedule -- no server to maintain.
+Amazon Associates tag) to a small static site. **Live and running** -- see
+Status below.
 
 Full design rationale lives in the project plan; this file is the practical
 setup and operating guide.
 
 ## How it works
 
-Every few hours, a GitHub Actions workflow runs `src/main.py`, which:
-fetches current board-game deals from the Keepa API, filters out anything
-that doesn't clear the bar in `config/niche.yaml`, drops anything already
-posted before (`posted_log.json`), builds tagged Amazon links, regenerates
-the static site in `docs/` (served by GitHub Pages -- the folder is named
-`docs/` only because that's one of the two paths Pages allows, not because
-it's documentation), optionally posts to Telegram, and commits the result
-back to the repo.
+Every 4 hours, a Windows Scheduled Task on this PC (`BoardGameDealBot`) runs
+`scripts/run_local.ps1`, which runs `src/main.py`: fetches current
+board-game deals from the Keepa API, filters out anything that doesn't
+clear the bar in `config/niche.yaml`, drops anything already posted before
+(`posted_log.json`), builds tagged Amazon links, regenerates the static
+site in `docs/` (served by GitHub Pages -- the folder is named `docs/`
+only because that's one of the two paths Pages allows, not because it's
+documentation), and commits + pushes the result.
 
-## Status
+It runs locally rather than on GitHub Actions' own schedule because **Keepa
+rejects API requests from GitHub's datacenter IP ranges** (confirmed by
+reproducing it twice) -- the same call succeeds from this PC's connection
+every time. The GitHub Actions workflow still exists for manual runs
+(`workflow_dispatch`) as a fallback in case that ever changes.
 
-- [x] Repo created and pushed: https://github.com/SomeCarney/boardgame-dealbot
-- [x] GitHub Pages live: https://somecarney.github.io/boardgame-dealbot/
-- [x] Pipeline code written and dry-run tested
-- [ ] Keepa subscription -- **your next step**
-- [ ] Amazon Associates approval -- **your next step**
-- [ ] Secrets added to the repo (done once the two above are in hand)
-- [ ] Optional: Telegram bot/channel
+## Status -- fully live
 
-The items checked off are already done -- nothing below asks you to repeat
-them. Only 2 things are actually required from you; a 3rd is optional.
+- [x] Repo + Pages: https://github.com/SomeCarney/boardgame-dealbot ,
+      https://somecarney.github.io/boardgame-dealbot/
+- [x] Keepa API subscription active (21 tokens/min)
+- [x] Amazon Associates approved, tag `carnivalgam06-20` wired in
+- [x] Windows Scheduled Task `BoardGameDealBot` registered, running every 4h
+- [ ] Optional, not set up: Telegram bot/channel (secondary push feed)
 
-## What you need to do (2 required, 1 optional)
+Real credentials live in a local `.env` file (gitignored, never committed)
+for local runs, and as GitHub Actions secrets for the manual-fallback path:
 
-1. **Keepa** (required): sign up at [keepa.com](https://keepa.com) and
-   subscribe to the lowest API tier (~$53/mo as of when this was built). Copy
-   your API key from the Keepa API settings page.
-2. **Amazon Associates** (required): apply at
-   [affiliate-program.amazon.com](https://affiliate-program.amazon.com),
-   using **https://somecarney.github.io/boardgame-dealbot/** as your "Site."
-   That site already has the original content Amazon requires for approval
-   (the 10 evergreen pages in `content/`), so this step is just filling out
-   their form. Approval can take a few days. Once approved, copy your
-   tracking tag (looks like `yourname-20`).
-3. **Telegram** (optional, skip if you don't want it): message
-   [@BotFather](https://t.me/BotFather) to create a bot and get a token,
-   then create a Telegram channel and add the bot as an admin. Get the
-   channel's `@username` or numeric chat id.
-
-Send the values you collect (Keepa key, Amazon tag, and Telegram
-token/channel id if you did step 3) back in chat -- they get added as
-**Settings > Secrets and variables > Actions** on the GitHub repo, never
-written into a committed file:
-
-| Secret name | Required | From |
+| Secret/env name | Where it lives | From |
 |---|---|---|
-| `KEEPA_API_KEY` | yes | Keepa account |
-| `AMAZON_ASSOCIATE_TAG` | yes | Amazon Associates, after approval |
-| `TELEGRAM_BOT_TOKEN` | optional | @BotFather |
-| `TELEGRAM_CHANNEL_ID` | optional | Your Telegram channel |
+| `KEEPA_API_KEY` | `.env` + GH secret | Keepa account |
+| `AMAZON_ASSOCIATE_TAG` | `.env` + GH secret | Amazon Associates |
+| `TELEGRAM_BOT_TOKEN` | not set (optional) | @BotFather |
+| `TELEGRAM_CHANNEL_ID` | not set (optional) | Your Telegram channel |
 
 ## Repo and Pages (already done -- reference only)
 
@@ -89,19 +72,31 @@ export DRY_RUN=1                                          # macOS/Linux
 ```
 
 `DRY_RUN=1` uses fixture deals and a placeholder affiliate tag, rebuilds
-`docs/` so you can open it locally, and skips Telegram and the dedupe log --
-safe to run anytime, costs nothing, needs no credentials.
+`docs/` so you can open it locally, and skips the dedupe log -- safe to run
+anytime, costs nothing, needs no credentials.
 
-Once `KEEPA_API_KEY` and `AMAZON_ASSOCIATE_TAG` are set as real secrets, do
-one manual run first: GitHub repo -> Actions -> "Find and post board game
-deals" -> Run workflow. Check the result before trusting the schedule.
+To run the real pipeline by hand (outside the schedule): `scripts\run_local.ps1`
+runs it for real and pushes the result, same as the scheduled task does.
+
+## Managing the scheduled task
+
+```powershell
+Get-ScheduledTaskInfo -TaskName "BoardGameDealBot"   # last/next run time, last result
+Start-ScheduledTask -TaskName "BoardGameDealBot"      # force a run right now
+Disable-ScheduledTask -TaskName "BoardGameDealBot"    # pause it
+```
+
+Run history (including errors) is in `logs\run_local.log` -- check there
+first if a weekly glance at the site looks stale.
 
 ## Check-in checklist (this is the "passive" part)
 
 **Weekly (a few minutes):**
-- Skim the last few posts on the site/channel -- do they look like real,
-  sensible deals?
+- Skim the last few posts on the site -- do they look like real, sensible
+  deals?
 - Check the Amazon Associates dashboard for clicks/sales.
+- If the site looks stale, check `logs\run_local.log` and that this PC has
+  been on/connected -- the schedule only runs while it is.
 
 **Monthly:**
 - Check Keepa token usage isn't maxed out or wildly under-used.
