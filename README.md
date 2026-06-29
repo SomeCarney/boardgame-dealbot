@@ -18,30 +18,40 @@ the static site in `docs/` (served by GitHub Pages -- the folder is named
 it's documentation), optionally posts to Telegram, and commits the result
 back to the repo.
 
-## One-time setup (your part)
+## Status
 
-Do these in order -- each step unlocks the next:
+- [x] Repo created and pushed: https://github.com/SomeCarney/boardgame-dealbot
+- [x] GitHub Pages live: https://somecarney.github.io/boardgame-dealbot/
+- [x] Pipeline code written and dry-run tested
+- [ ] Keepa subscription -- **your next step**
+- [ ] Amazon Associates approval -- **your next step**
+- [ ] Secrets added to the repo (done once the two above are in hand)
+- [ ] Optional: Telegram bot/channel
 
-1. **Push this repo to GitHub and enable Pages** (if not already done --
-   see "Repo and Pages" below). You need a live site URL before step 3.
-2. **Keepa**: sign up at [keepa.com](https://keepa.com) and subscribe to the
-   lowest API tier (~$53/mo as of when this was built). Get your API key
-   from the Keepa API settings page.
-3. **Amazon Associates**: apply at
+The items checked off are already done -- nothing below asks you to repeat
+them. Only 2 things are actually required from you; a 3rd is optional.
+
+## What you need to do (2 required, 1 optional)
+
+1. **Keepa** (required): sign up at [keepa.com](https://keepa.com) and
+   subscribe to the lowest API tier (~$53/mo as of when this was built). Copy
+   your API key from the Keepa API settings page.
+2. **Amazon Associates** (required): apply at
    [affiliate-program.amazon.com](https://affiliate-program.amazon.com),
-   using this site's GitHub Pages URL as your "Site." Amazon requires the
-   site to already have original content when you apply -- the 10 evergreen
-   pages in `content/` are there for exactly this reason. After approval,
-   grab your tracking tag (looks like `yourname-20`).
-4. **Optional -- Telegram**: message [@BotFather](https://t.me/BotFather) to
-   create a bot and get a token, then create a Telegram channel and add the
-   bot as an admin. Get the channel's `@username` or numeric chat id.
-5. **Optional -- custom domain**: point a domain at GitHub Pages if you want
-   one; not required to start.
+   using **https://somecarney.github.io/boardgame-dealbot/** as your "Site."
+   That site already has the original content Amazon requires for approval
+   (the 10 evergreen pages in `content/`), so this step is just filling out
+   their form. Approval can take a few days. Once approved, copy your
+   tracking tag (looks like `yourname-20`).
+3. **Telegram** (optional, skip if you don't want it): message
+   [@BotFather](https://t.me/BotFather) to create a bot and get a token,
+   then create a Telegram channel and add the bot as an admin. Get the
+   channel's `@username` or numeric chat id.
 
-Send the values you collect (Keepa key, Amazon tag, Telegram token/channel
-id) to whoever's wiring up the repo -- they go into **Settings > Secrets and
-variables > Actions** on the GitHub repo, never into a committed file:
+Send the values you collect (Keepa key, Amazon tag, and Telegram
+token/channel id if you did step 3) back in chat -- they get added as
+**Settings > Secrets and variables > Actions** on the GitHub repo, never
+written into a committed file:
 
 | Secret name | Required | From |
 |---|---|---|
@@ -50,7 +60,11 @@ variables > Actions** on the GitHub repo, never into a committed file:
 | `TELEGRAM_BOT_TOKEN` | optional | @BotFather |
 | `TELEGRAM_CHANNEL_ID` | optional | Your Telegram channel |
 
-## Repo and Pages
+## Repo and Pages (already done -- reference only)
+
+This repo was already created, pushed, and pointed at GitHub Pages using the
+commands below. Nothing here needs to be re-run; it's documented in case the
+repo ever needs to be recreated from scratch.
 
 ```
 gh repo create boardgame-dealbot --public --source=. --remote=origin --push
