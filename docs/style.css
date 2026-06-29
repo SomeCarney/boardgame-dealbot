@@ -11,6 +11,8 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-
 .deal .price .now { font-weight: 700; font-size: 1.1rem; }
 .deal .price .was { text-decoration: line-through; opacity: .6; margin-left: .4rem; }
 .deal .price .off { color: #1a7a1a; margin-left: .4rem; font-weight: 600; }
+.deal .facts { list-style: none; padding: 0; margin: .4rem 0; font-size: .85rem; opacity: .85; }
+.deal .detail { font-size: .85rem; opacity: .8; margin: .4rem 0; }
 .deal .buy { display: inline-block; margin-top: .5rem; font-weight: 600; text-decoration: none; }
 .guide-list li { margin-bottom: .6rem; }
 .site-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #8884; opacity: .8; font-size: .9rem; }
