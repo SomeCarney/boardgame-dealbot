@@ -1,8 +1,13 @@
 name: Find and post board game deals
 
+# No `schedule:` trigger here on purpose: Keepa rejects requests from
+# GitHub Actions' datacenter IP ranges (confirmed -- the exact same call
+# succeeds from a residential connection and fails with REQUEST_REJECTED
+# from here, twice, with tokens available). The real schedule runs locally
+# via scripts/run_local.ps1 + a Windows Scheduled Task -- see README.md.
+# This workflow is kept as a manual fallback in case Keepa ever allowlists
+# GitHub's ranges; flip it back on by re-adding a schedule trigger.
 on:
-  schedule:
-    - cron: "0 */4 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -32,9 +37,7 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: python src/main.py
 
-      # Commits the regenerated site + dedupe log + category cache back to the
-      # repo. This is also what keeps the schedule itself alive -- GitHub
-      # disables cron workflows after 60 days with zero repository activity.
+      # Commits the regenerated site + dedupe log + category cache back to the repo.
       - name: Commit updated site and log
         run: |
           git config user.name "boardgame-dealbot"
