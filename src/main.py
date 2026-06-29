@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -27,6 +28,11 @@ import telegram_post  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config" / "niche.yaml"
 LOG_PATH = ROOT / "posted_log.json"
+
+# No-op in GitHub Actions (no .env file there -- secrets come in as real env
+# vars already). Lets local/Task-Scheduler runs read credentials from .env
+# instead of needing them set machine-wide.
+load_dotenv(ROOT / ".env")
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("main")

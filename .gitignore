@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .env
 
+# Personal/sensitive documents should never live in a public repo's working
+# tree at all, gitignore or not -- see note to move Taxes/ out entirely.
+Taxes/
+*.pdf
+
