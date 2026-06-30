@@ -28,7 +28,7 @@ CONFIG_PATH = ROOT / "config" / "niche.yaml"
 def main() -> None:
     config = yaml.safe_load(CONFIG_PATH.read_text())
     site_base_url = config["site"]["base_url"].rstrip("/")
-    deals = json.loads(LOG_PATH.read_text())
+    deals = json.loads(LOG_PATH.read_text(encoding="utf-8"))
 
     for i, deal in enumerate(deals, 1):
         description = describe.generate_description(deal)
@@ -40,7 +40,7 @@ def main() -> None:
         deal["site_image_url"] = thumb_path
         print(f"[{i}/{len(deals)}] {deal['asin']}: {deal['title'][:50]}")
 
-    LOG_PATH.write_text(json.dumps(deals, indent=2))
+    LOG_PATH.write_text(json.dumps(deals, indent=2), encoding="utf-8")
     max_listed = config["posting"]["site_max_listed_deals"]
     render_site.render_site(deals, max_listed=max_listed)
     print(f"Done. Rebuilt visuals for {len(deals)} deals and re-rendered the site.")

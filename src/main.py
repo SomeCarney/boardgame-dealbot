@@ -50,11 +50,11 @@ def load_config() -> dict[str, Any]:
 def load_log() -> list[dict[str, Any]]:
     if not LOG_PATH.exists():
         return []
-    return json.loads(LOG_PATH.read_text())
+    return json.loads(LOG_PATH.read_text(encoding="utf-8"))
 
 
 def save_log(entries: list[dict[str, Any]]) -> None:
-    LOG_PATH.write_text(json.dumps(entries, indent=2))
+    LOG_PATH.write_text(json.dumps(entries, indent=2), encoding="utf-8")
 
 
 def _enrich(deal: dict[str, Any], site_base_url: str) -> None:

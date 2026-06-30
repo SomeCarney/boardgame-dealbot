@@ -103,7 +103,7 @@ DEAL_CARD_TEMPLATE = env.from_string("""
     {% endif %}
     {% if deal.summary_lines %}
     <ul class="facts">
-      {% for line in deal.summary_lines %}<li>{{ line }}</li>{% endfor %}
+      {% for line in deal.summary_lines %}<li{% if "Best Seller" in line %} class="best-seller"{% endif %}>{{ line }}</li>{% endfor %}
     </ul>
     {% endif %}
     {% if deal.detailed_description %}<p class="detail">{{ deal.detailed_description }}</p>{% endif %}
@@ -237,6 +237,12 @@ h1 { font-size: 1.8rem; }
   font-size: .76rem;
   white-space: nowrap;
 }
+.deal .facts li.best-seller {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
 
 .deal .detail { font-size: .85rem; color: var(--text-muted); margin: 0 0 .75rem; }
 
@@ -266,7 +272,7 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     SITE_DIR.mkdir(parents=True, exist_ok=True)
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
-    (SITE_DIR / "style.css").write_text(STYLE_CSS.strip() + "\n")
+    (SITE_DIR / "style.css").write_text(STYLE_CSS.strip() + "\n", encoding="utf-8")
 
     deals = deals[:max_listed]
     cards = "\n".join(DEAL_CARD_TEMPLATE.render(deal=d) for d in deals)
@@ -277,7 +283,7 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
         source = CONTENT_DIR / content_filename
         if not source.exists():
             continue  # don't fail the whole run over one missing evergreen page
-        page_html = source.read_text()
+        page_html = source.read_text(encoding="utf-8")
         title = _title_from_html(page_html) or out_filename
         _write_page(out_filename, title, description, page_html, updated)
 
@@ -300,7 +306,7 @@ def _write_page(filename: str, title: str, description: str, content_html: str, 
         content=content_html,
         updated=updated,
     )
-    (SITE_DIR / filename).write_text(html)
+    (SITE_DIR / filename).write_text(html, encoding="utf-8")
 
 
 def _title_from_html(html: str) -> str | None:

@@ -10,3 +10,7 @@ Taxes/
 
 logs/
 
+# Keepa best-sellers cache -- ASIN lists, not credentials, but ephemeral
+# enough that committing it would just add noise to the history.
+config/best_sellers_cache.json
+

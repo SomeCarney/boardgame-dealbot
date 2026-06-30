@@ -139,7 +139,12 @@ def _best_for_line(facts: dict[str, Any]) -> str:
 def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
     """Returns {"summary_lines": [...], "detailed": "...", "facts": {...}}."""
     facts = extract_facts(deal)
-    summary_lines = [line for line in (_players_line(facts), _playtime_line(facts)) if line]
+    summary_lines = []
+    if deal.get("is_best_seller"):
+        # a verified fact from Keepa's best-sellers list, not a marketing
+        # flourish -- only ever set when the ASIN is actually on it
+        summary_lines.append("\U0001f3c6 Category Best Seller")
+    summary_lines.extend(line for line in (_players_line(facts), _playtime_line(facts)) if line)
     summary_lines.append(_best_for_line(facts))
     return {
         "summary_lines": summary_lines,

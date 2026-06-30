@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -21,9 +22,12 @@ logger = logging.getLogger(__name__)
 
 CONFIG_DIR = Path(__file__).resolve().parent.parent / "config"
 CATEGORY_CACHE_PATH = CONFIG_DIR / "category_cache.json"
+BEST_SELLERS_CACHE_PATH = CONFIG_DIR / "best_sellers_cache.json"
+BEST_SELLERS_CACHE_TTL = timedelta(hours=24)  # Keepa's best-seller lists are themselves only updated daily
 
 # keepa.constants.csv_indices -- index into stats["current"] / stats["avg90"]
 IDX_AMAZON_PRICE = 0
+IDX_SALES_RANK = 3
 IDX_RATING = 16
 IDX_REVIEW_COUNT = 17
 
@@ -43,6 +47,8 @@ FIXTURE_DEALS: list[dict[str, Any]] = [
         "percent_off": 33,
         "rating": 4.8,
         "review_count": 12000,
+        "sales_rank": 42,
+        "is_best_seller": True,
         "image": None,
     },
     {
@@ -55,6 +61,8 @@ FIXTURE_DEALS: list[dict[str, Any]] = [
         "percent_off": 30,
         "rating": 4.7,
         "review_count": 8500,
+        "sales_rank": 8400,
+        "is_best_seller": False,
         "image": None,
     },
 ]
@@ -107,13 +115,48 @@ def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
     if not asins:
         return []
 
+    best_seller_asins = _fetch_best_seller_asins(api, category_id, domain)
+
     # history=False: we only ever read the `stats` summary (current/avg90),
     # never the full price/sales history -- pulling it was burning tokens
     # for data this code never looks at.
     products = api.query(asins, stats=90, rating=True, domain=domain, progress_bar=False, history=False)
-    deals = _normalize_products(products, filters)
+    deals = _normalize_products(products, filters, best_seller_asins)
     logger.info("%d deals passed normalization/filtering", len(deals))
     return deals
+
+
+def _fetch_best_seller_asins(api: "keepa.Keepa", category_id: int, domain: str) -> set[str]:
+    """Cross-referencing deals against the category's actual best-sellers
+    lets posting favor proven, high-velocity games over ones that merely
+    cleared the discount threshold -- a deal on a popular game is far more
+    likely to convert into a real, commission-earning sale. Keepa's
+    best-seller lists are only updated daily, so this is cached for 24h
+    rather than re-fetched every run. Fails soft: any error here should
+    degrade to "no best-seller boost," never break a run over a ranking
+    enhancement."""
+    cache_key = f"{domain}:{category_id}"
+    cache: dict[str, Any] = {}
+    if BEST_SELLERS_CACHE_PATH.exists():
+        cache = json.loads(BEST_SELLERS_CACHE_PATH.read_text(encoding="utf-8"))
+
+    entry = cache.get(cache_key)
+    if entry:
+        fetched_at = datetime.fromisoformat(entry["fetched_at"])
+        if datetime.now(timezone.utc) - fetched_at < BEST_SELLERS_CACHE_TTL:
+            return set(entry["asins"])
+
+    try:
+        asins = api.best_sellers_query(str(category_id), domain=domain)
+    except Exception:
+        logger.exception("best_sellers_query failed, continuing without the best-seller boost this run")
+        return set(entry["asins"]) if entry else set()
+
+    cache[cache_key] = {"asins": asins, "fetched_at": datetime.now(timezone.utc).isoformat()}
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    BEST_SELLERS_CACHE_PATH.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    logger.info("Refreshed best-sellers list for category %s: %d ASINs", category_id, len(asins))
+    return set(asins)
 
 
 def _resolve_category_id(api: "keepa.Keepa", search_term: str, domain: str) -> tuple[int, str]:
@@ -121,7 +164,7 @@ def _resolve_category_id(api: "keepa.Keepa", search_term: str, domain: str) -> t
     it on disk so future runs don't spend tokens re-resolving it."""
     cache: dict[str, Any] = {}
     if CATEGORY_CACHE_PATH.exists():
-        cache = json.loads(CATEGORY_CACHE_PATH.read_text())
+        cache = json.loads(CATEGORY_CACHE_PATH.read_text(encoding="utf-8"))
 
     cache_key = f"{domain}:{search_term.lower()}"
     if cache_key in cache:
@@ -139,12 +182,13 @@ def _resolve_category_id(api: "keepa.Keepa", search_term: str, domain: str) -> t
 
     cache[cache_key] = {"id": int(best_id), "name": name}
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-    CATEGORY_CACHE_PATH.write_text(json.dumps(cache, indent=2))
+    CATEGORY_CACHE_PATH.write_text(json.dumps(cache, indent=2), encoding="utf-8")
     logger.info("Resolved category %r -> id=%s name=%r (verify this looks right on first run)", search_term, best_id, name)
     return int(best_id), name
 
 
-def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any]) -> list[dict[str, Any]]:
+def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any], best_seller_asins: set[str] | None = None) -> list[dict[str, Any]]:
+    best_seller_asins = best_seller_asins or set()
     deals: list[dict[str, Any]] = []
     for p in products:
         stats = p.get("stats") or {}
@@ -160,6 +204,7 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any])
         typical_price = _cents_to_dollars(_at(avg90, IDX_AMAZON_PRICE))
         rating = _rating_to_stars(_at(current, IDX_RATING))
         review_count = _at(current, IDX_REVIEW_COUNT)  # plain count, not scaled
+        sales_rank = _at(current, IDX_SALES_RANK)  # lower is better-selling; not a price, no cents conversion
 
         if price is None or typical_price is None or typical_price <= 0:
             continue  # missing price data -- skip rather than guess
@@ -190,11 +235,27 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any])
             "percent_off": percent_off,
             "rating": rating,
             "review_count": review_count,
+            "sales_rank": sales_rank,
+            "is_best_seller": p.get("asin") in best_seller_asins,
             "image": f"https://m.media-amazon.com/images/I/{image_filename}" if image_filename else None,
         })
 
-    deals.sort(key=lambda d: d["percent_off"], reverse=True)
+    deals.sort(key=_deal_rank_key)
     return deals
+
+
+def _deal_rank_key(d: dict[str, Any]) -> tuple[int, float, int]:
+    """Orders deals so that, when more qualify than max_posts_per_run
+    allows, the posted slots go to proven, high-velocity sellers rather
+    than just whichever happened to have the biggest discount -- a deal on
+    a popular game converts into a real (commission-earning) sale far more
+    often than the same discount on an obscure one. Sorted ascending:
+    confirmed best-sellers first, then by sales rank (lower = sells more),
+    then by percent_off as a tiebreaker."""
+    best_seller_rank = 0 if d.get("is_best_seller") else 1
+    sales_rank = d.get("sales_rank")
+    sales_rank_for_sort = sales_rank if sales_rank is not None else float("inf")
+    return (best_seller_rank, sales_rank_for_sort, -d["percent_off"])
 
 
 def _at(arr: list, idx: int) -> Any:
