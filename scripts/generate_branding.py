@@ -106,7 +106,7 @@ def make_cover() -> None:
     ty = 72
     draw.text((tx, ty),            "BOARD GAME",   fill=TEXT,  font=tf)
     draw.text((tx, ty + 168),      "BLACK MARKET", fill=GOLD,  font=stf)
-    draw.text((tx, ty + 168 + 178), "Underground deals  ·  no markup  ·  no nonsense.",
+    draw.text((tx, ty + 168 + 178), "underground deals  ·  no markup  ·  no nonsense.",
               fill=MUTED, font=tgf)
 
     out = BRANDING_DIR / "facebook-cover.png"
