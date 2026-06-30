@@ -656,9 +656,9 @@ def _render_rankings_section(updated: str) -> None:
 
     # Hub page
     hub_sections = [
+        ("All Time", ["all-time"]),
         ("Player Count", ["solo", "2p", "3p", "4p-plus"]),
         ("By Genre", ["strategy", "coop", "social-deduction", "party", "family", "gateway"]),
-        ("All Time", ["all-time"]),
     ]
     hub_items_html = ""
     for section_label, keys in hub_sections:
