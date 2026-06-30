@@ -21,6 +21,7 @@ posting:
   max_posts_per_run: 8        # cap so one run can't flood the channel/site
   site_max_listed_deals: 60   # how many recent deals stay listed on the site
   facebook_max_posts_per_day: 3   # Facebook gets only the best-ranked deals/day -- see README
+  instagram_max_posts_per_day: 3  # same reasoning as Facebook -- new account, sensitive to frequency
 
 affiliate:
   amazon_domain: "www.amazon.com"

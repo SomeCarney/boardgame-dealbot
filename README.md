@@ -52,7 +52,7 @@ on Facebook/Instagram, which is why this is the only image source used.
 - [x] Fact extraction, description generation, and price-banner images live
 - [ ] Telegram bot/channel -- optional, not set up
 - [x] Facebook Page posting -- live, capped at `facebook_max_posts_per_day` (3) best-ranked deals/day, see config/niche.yaml
-- [ ] Instagram posting -- needs setup, see below (real approval hurdle)
+- [x] Instagram posting -- wired in, capped at `instagram_max_posts_per_day` (3) best-ranked deals/day. `instagram_content_publish` is still pending Meta App Review for full production use; posts may fail until that's approved, but failures are caught per-deal and won't break the rest of a run -- see below
 - [ ] Claude-generated descriptions -- optional upgrade, see below
 
 Real credentials live in a local `.env` file (gitignored, never committed)
@@ -66,8 +66,8 @@ for local runs, and as GitHub Actions secrets for the manual-fallback path:
 | `TELEGRAM_CHANNEL_ID` | not set (optional) | Your Telegram channel |
 | `FACEBOOK_PAGE_ID` | `.env` | Your Facebook Page |
 | `FACEBOOK_PAGE_ACCESS_TOKEN` | `.env` (non-expiring) | Meta for Developers app |
-| `INSTAGRAM_BUSINESS_ACCOUNT_ID` | not set yet | Linked IG Business account |
-| `INSTAGRAM_ACCESS_TOKEN` | not set yet | Meta for Developers app |
+| `INSTAGRAM_BUSINESS_ACCOUNT_ID` | `.env` | Linked IG Business account |
+| `INSTAGRAM_ACCESS_TOKEN` | `.env` (same token as Facebook, broader scopes) | Meta for Developers app |
 | `ANTHROPIC_API_KEY` | not set (optional) | console.anthropic.com |
 
 ## Setting up Facebook and Instagram posting
@@ -87,16 +87,16 @@ posting to your own Page):**
 
 **Instagram (same app, but with a real catch):**
 1. The Instagram account has to be a Business or Creator account, linked to
-   the same Facebook Page.
+   the same Facebook Page. (Done -- `@boardgameblackmarket` is linked.)
 2. In the same Meta app, request `instagram_basic` and
-   `instagram_content_publish`.
-3. **`instagram_content_publish` requires Meta App Review** -- you'll need
-   to submit a screencast showing the actual posting flow end-to-end.
-   Rejection on the first attempt is common, and there's no fixed
-   timeline. This is the one piece that might just take a while, or need a
-   couple of submission attempts. Facebook posting doesn't have this
-   problem, so it'll likely go live well before Instagram does.
-4. Once approved, send me the Instagram Business Account ID and the token.
+   `instagram_content_publish`. (Done -- the token in `.env` carries both.)
+3. **`instagram_content_publish` requires Meta App Review for full
+   production use** -- submit a screencast showing the actual posting flow
+   end-to-end. Rejection on the first attempt is common, and there's no
+   fixed timeline. Until that's approved, actual publish calls may be
+   rejected (caught per-deal, logged, doesn't break the rest of a run) --
+   so Instagram posting is wired in and will go fully live the moment
+   review clears, with no further code changes needed.
 
 ## Optional: better-written descriptions via Claude
 

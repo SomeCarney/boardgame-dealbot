@@ -10,8 +10,11 @@ Pages before this runs, since Instagram fetches it by URL server-side.
 
 from __future__ import annotations
 
+import json
 import logging
 import time
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -21,6 +24,27 @@ logger = logging.getLogger(__name__)
 GRAPH_API_VERSION = "v21.0"
 POLL_INTERVAL_SECONDS = 2
 POLL_MAX_ATTEMPTS = 15
+STATE_PATH = Path(__file__).resolve().parent.parent / "config" / "instagram_post_state.json"
+
+
+def select_for_posting(deals: list[dict[str, Any]], max_per_day: int) -> list[dict[str, Any]]:
+    """Same reasoning as facebook_post.select_for_posting: a brand-new account
+    with no following is sensitive to post frequency, so Instagram gets a
+    curated subset of the day's best-ranked deals rather than every one."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    state = {"date": today, "count": 0}
+    if STATE_PATH.exists():
+        saved = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        if saved.get("date") == today:
+            state = saved
+
+    remaining = max(0, max_per_day - state["count"])
+    selected = deals[:remaining]
+
+    state["count"] += len(selected)
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    return selected
 
 
 def post_deals(deals: list[dict[str, Any]], ig_user_id: str | None, access_token: str | None) -> None:
@@ -87,11 +111,16 @@ def _wait_until_ready(base_url: str, container_id: str, access_token: str) -> bo
 
 
 def _build_caption(deal: dict[str, Any]) -> str:
-    lines = [deal["title"], ""]
+    """Mirrors the info on the site's deal card: short title, price/rating,
+    fact pills (incl. the Best Seller badge), full Amazon title, then the link."""
+    lines = [deal.get("short_title") or deal["title"]]
+    lines.append(f"${deal['price']:.2f} (was ${deal['typical_price']:.2f}) -- {deal['percent_off']}% OFF")
+    if deal.get("rating"):
+        lines.append(f"{deal['rating']}/5 stars -- {deal.get('review_count') or 0} reviews")
+    lines.append("")
     lines.extend(deal.get("summary_lines", []))
-    if deal.get("detailed_description"):
-        lines.append("")
-        lines.append(deal["detailed_description"])
+    lines.append("")
+    lines.append(deal["title"])
     lines.append("")
     lines.append(deal["link"])
     lines.append("")

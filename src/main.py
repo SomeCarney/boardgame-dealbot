@@ -143,11 +143,14 @@ def main() -> None:
             else []
         )
         facebook_post.post_deals(fb_deals, page_id=fb_page_id, access_token=fb_access_token)
-        instagram_post.post_deals(
-            new_deals,
-            ig_user_id=os.environ.get("INSTAGRAM_BUSINESS_ACCOUNT_ID"),
-            access_token=os.environ.get("INSTAGRAM_ACCESS_TOKEN"),
+        ig_user_id = os.environ.get("INSTAGRAM_BUSINESS_ACCOUNT_ID")
+        ig_access_token = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
+        ig_deals = (
+            instagram_post.select_for_posting(new_deals, max_per_day=config["posting"]["instagram_max_posts_per_day"])
+            if ig_user_id and ig_access_token
+            else []
         )
+        instagram_post.post_deals(ig_deals, ig_user_id=ig_user_id, access_token=ig_access_token)
     elif new_deals and dry_run:
         logger.info("DRY_RUN=1 -- skipping all social posting for %d deal(s)", len(new_deals))
 
