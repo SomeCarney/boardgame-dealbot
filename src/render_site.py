@@ -30,9 +30,6 @@ DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
     ("about.html", "about.html", "About", "What Board Game Black Market is and why it exists."),
     ("how-we-pick-deals.html", "how-we-pick-deals.html", "How We Pick Deals", "The exact criteria a deal has to clear before it's posted."),
-    ("guide-2-player-games.html", "guide-2-player-games.html", "Best 2-Player Games", "The best board games designed for or excellent at two players, with photos."),
-    ("guide-family-board-games.html", "guide-family-board-games.html", "Best Family Board Games", "The best family board games available on Amazon right now, with photos."),
-    ("guide-strategy-board-games.html", "guide-strategy-board-games.html", "Best Strategy Board Games", "The best strategy board games for hobbyists and newcomers alike, with photos."),
     ("guide-reading-price-history.html", "guide-reading-price-history.html", "Is This Deal Actually Good?", "How to read a price history before trusting a 'deal'."),
     ("guide-party-vs-strategy.html", "guide-party-vs-strategy.html", "Party vs. Strategy Games", "What to buy for different group sizes and crowds."),
     ("guide-storage-sleeving.html", "guide-storage-sleeving.html", "Storage & Sleeving", "Whether card sleeves and storage inserts are worth it."),
@@ -142,17 +139,8 @@ INDEX_CONTENT_TEMPLATE = env.from_string("""
 
 GUIDES_INDEX_TEMPLATE = env.from_string("""
 <h1>Guides</h1>
-
-<p class="guide-section-title">Game Recommendations (with photos)</p>
 <ul class="guide-list">
-{% for href, title, description in guides if href.startswith('guide-2-player') or href.startswith('guide-family') or href.startswith('guide-strategy') %}
-  <li><a href="{{ href }}">{{ title }}</a><span class="guide-desc">{{ description }}</span></li>
-{% endfor %}
-</ul>
-
-<p class="guide-section-title">Buying Guides</p>
-<ul class="guide-list">
-{% for href, title, description in guides if not (href.startswith('guide-2-player') or href.startswith('guide-family') or href.startswith('guide-strategy')) %}
+{% for href, title, description in guides %}
   <li><a href="{{ href }}">{{ title }}</a><span class="guide-desc">{{ description }}</span></li>
 {% endfor %}
 </ul>
