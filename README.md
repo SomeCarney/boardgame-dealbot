@@ -51,7 +51,7 @@ on Facebook/Instagram, which is why this is the only image source used.
 - [x] Windows Scheduled Task `BoardGameDealBot` registered, running every 4h
 - [x] Fact extraction, description generation, and price-banner images live
 - [ ] Telegram bot/channel -- optional, not set up
-- [ ] Facebook Page posting -- needs setup, see below
+- [x] Facebook Page posting -- live, capped at `facebook_max_posts_per_day` (3) best-ranked deals/day, see config/niche.yaml
 - [ ] Instagram posting -- needs setup, see below (real approval hurdle)
 - [ ] Claude-generated descriptions -- optional upgrade, see below
 
@@ -64,8 +64,8 @@ for local runs, and as GitHub Actions secrets for the manual-fallback path:
 | `AMAZON_ASSOCIATE_TAG` | `.env` + GH secret | Amazon Associates |
 | `TELEGRAM_BOT_TOKEN` | not set (optional) | @BotFather |
 | `TELEGRAM_CHANNEL_ID` | not set (optional) | Your Telegram channel |
-| `FACEBOOK_PAGE_ID` | not set yet | Your Facebook Page |
-| `FACEBOOK_PAGE_ACCESS_TOKEN` | not set yet | Meta for Developers app |
+| `FACEBOOK_PAGE_ID` | `.env` | Your Facebook Page |
+| `FACEBOOK_PAGE_ACCESS_TOKEN` | `.env` (non-expiring) | Meta for Developers app |
 | `INSTAGRAM_BUSINESS_ACCOUNT_ID` | not set yet | Linked IG Business account |
 | `INSTAGRAM_ACCESS_TOKEN` | not set yet | Meta for Developers app |
 | `ANTHROPIC_API_KEY` | not set (optional) | console.anthropic.com |
