@@ -602,6 +602,39 @@ games:
       placement rules. The shared dice pool means everyone affects everyone else's plans.
       Beautiful on the table and mechanically elegant.
 
+  B019FPQZNG:
+    title: "Deception: Murder in Hong Kong"
+    players: "4-12"
+    time: "20 min"
+    age: "14+"
+    editorial_rank: null
+    blurb: >
+      One player is the forensic scientist who knows the murderer and weapon — but can only
+      communicate via scenario cards, not words. The murderer is hiding at the table. One of
+      the most tense and replayable social deduction games for larger groups.
+
+  B08WHMTZ61:
+    title: "Ultimate Werewolf Extreme"
+    players: "3-25"
+    time: "30-60 min"
+    age: "8+"
+    editorial_rank: null
+    blurb: >
+      The definitive edition of the classic hidden-role social game, with a companion app to
+      moderate. Dozens of unique roles — Seer, Witch, Bodyguard, and many more — create
+      dramatically different games every session. Scales from a small group to a party of 25.
+
+  B07D97V536:
+    title: "Mafia: The Party Game (Deluxe Edition)"
+    players: "5-20"
+    time: "20-45 min"
+    age: "13+"
+    editorial_rank: null
+    blurb: >
+      The original social deduction game with 38 role cards and professional production.
+      Mafia versus Townspeople: the Mafia eliminates one citizen each night; the town votes
+      to execute a suspect each day. The game that taught the world what hidden-role means.
+
 lists:
   all-time:
     slug: best-all-time
@@ -839,24 +872,17 @@ lists:
     description: >
       Games where reading people is the entire skill — hidden roles, lying, and the moment
       someone's bluff collapses. The information gaps between players are the mechanics.
-    count: 15
+    count: 8
     ranking: formula
     asins:
       - B010HEZHII
-      - B08R2BPLSN
       - B07GRXS5HD
       - B009SAAV0C
       - B09S3ZJJRM
-      - B0FJMQB63N
-      - B007MHIYFM
-      - B013TJ5P80
-      - B00M07OQ1U
-      - B09BSP7B7V
       - B004MRZGM8
-      - B0BPMKCSHW
-      - B07T446163
-      - B01F46RPS4
-      - B09KWZMXLX
+      - B019FPQZNG
+      - B08WHMTZ61
+      - B07D97V536
 
   party:
     slug: best-party
