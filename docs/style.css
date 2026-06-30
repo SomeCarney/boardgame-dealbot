@@ -103,6 +103,12 @@ h1 { font-size: 1.8rem; }
   font-size: .76rem;
   white-space: nowrap;
 }
+.deal .facts li.best-seller {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
 
 .deal .detail { font-size: .85rem; color: var(--text-muted); margin: 0 0 .75rem; }
 
