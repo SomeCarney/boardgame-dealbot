@@ -64,6 +64,7 @@ def _enrich(deal: dict[str, Any], site_base_url: str) -> None:
     description = describe.generate_description(deal)
     deal["summary_lines"] = description["summary_lines"]
     deal["detailed_description"] = description["detailed"]
+    deal["short_title"] = description["short_title"]
 
     social_path, thumb_path = image_compose.compose_images(deal)
     # image_url needs to be absolute -- Facebook/Instagram's APIs fetch it

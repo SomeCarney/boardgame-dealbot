@@ -81,14 +81,8 @@ h1 { font-size: 1.8rem; }
 .deal img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--panel); }
 .deal-body { padding: 1rem; }
 
-.deal-title { font-size: .78rem; line-height: 1.4; margin: 0 0 .75rem; }
-.deal-title a {
-  color: var(--text-muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+.deal-title { font-size: 1.3rem; font-family: var(--heading-font); line-height: 1.2; margin: 0 0 .6rem; }
+.deal-title a { color: var(--text); }
 .deal-title a:hover { color: var(--gold); text-decoration: none; }
 
 .deal .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; margin: 0 0 .5rem; font-family: var(--display-font); }
@@ -119,7 +113,8 @@ h1 { font-size: 1.8rem; }
   font-weight: 700;
 }
 
-.deal .detail { font-size: .92rem; color: var(--text); line-height: 1.5; margin: 0 0 .75rem; }
+.deal-subtitle { font-size: .73rem; color: var(--text-muted); line-height: 1.4; margin: 0 0 .75rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 .deal .buy {
   display: inline-block;

@@ -24,6 +24,24 @@ _NUMBER_WORDS = {
 }
 _WORD_TO_DIGIT_RE = re.compile(r"\b(" + "|".join(_NUMBER_WORDS) + r")\b", re.IGNORECASE)
 
+_TITLE_SPLIT_RE = re.compile(r"\s*[,–—]\s*")
+_BRAND_PREFIX_RE = re.compile(
+    r"^(hasbro\s+(gaming\s+)?|mattel(?:\s+games?)?\s+|asmodee\s+|ravensburger\s+|"
+    r"thames\s+(?:&|and)\s+kosmos\s+|z-man\s+games?\s+|days?\s+of\s+wonder\s+|"
+    r"stonemaier\s+games?\s+|rio\s+grande\s+games?\s+|"
+    r"fantasy\s+flight\s+games?\s+|wizards\s+of\s+the\s+coast\s+)",
+    re.IGNORECASE,
+)
+_TRAILING_JUNK_RE = re.compile(
+    r"(\s+(board|card|tabletop|party|strategy|family|cooperative)\s+game"
+    r"|\s+the\s+game|\s+game"
+    r"|\s+edition(\s+(game|set|pack))?"
+    r"|\s+for\s+\d[\w\s]*?players?"
+    r"|\s+\([^)]*\))"
+    r"\s*$",
+    re.IGNORECASE,
+)
+
 _PLAYERS_RANGE_RE = re.compile(r"(\d{1,2})\s*(?:to|-|–|—)\s*(\d{1,2})\+?\s*players?", re.IGNORECASE)
 _PLAYERS_PLUS_RE = re.compile(r"(\d{1,2})\+\s*players?", re.IGNORECASE)
 _PLAYERS_SINGLE_RE = re.compile(r"\bfor\s+(\d{1,2})\s*players?", re.IGNORECASE)
@@ -136,8 +154,21 @@ def _best_for_line(facts: dict[str, Any]) -> str:
     return "Best for: general tabletop game fans"
 
 
+def extract_short_title(full_title: str) -> str:
+    """Strip brand names and generic suffixes from a verbose Amazon product title
+    to get something close to the actual game name."""
+    part = _TITLE_SPLIT_RE.split(full_title)[0].strip()
+    part = _BRAND_PREFIX_RE.sub("", part).strip()
+    for _ in range(3):
+        cleaned = _TRAILING_JUNK_RE.sub("", part).strip()
+        if cleaned == part:
+            break
+        part = cleaned
+    return part or full_title.split(",")[0].strip()
+
+
 def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
-    """Returns {"summary_lines": [...], "detailed": "...", "facts": {...}}."""
+    """Returns {"summary_lines": [...], "detailed": "...", "short_title": "...", "facts": {...}}."""
     facts = extract_facts(deal)
     summary_lines = []
     if deal.get("is_best_seller"):
@@ -149,6 +180,7 @@ def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
     return {
         "summary_lines": summary_lines,
         "detailed": _generate_detailed(deal, facts),
+        "short_title": extract_short_title(deal.get("title", "")),
         "facts": facts,
     }
 

@@ -97,7 +97,7 @@ DEAL_CARD_TEMPLATE = env.from_string("""
   {% set img = deal.site_image_url or deal.image %}
   {% if img %}<img src="{{ img }}" alt="" loading="lazy">{% endif %}
   <div class="deal-body">
-    {% if deal.detailed_description %}<p class="detail">{{ deal.detailed_description }}</p>{% endif %}
+    <h2 class="deal-title"><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.short_title or deal.title }}</a></h2>
     <p class="price">
       <span class="now">${{ "%.2f"|format(deal.price) }}</span>
       <span class="was">${{ "%.2f"|format(deal.typical_price) }}</span>
@@ -117,7 +117,7 @@ DEAL_CARD_TEMPLATE = env.from_string("""
       {% for line in deal.summary_lines %}<li{% if "Best Seller" in line %} class="best-seller"{% endif %}>{{ line }}</li>{% endfor %}
     </ul>
     {% endif %}
-    <p class="deal-title"><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.title }}</a></p>
+    <p class="deal-subtitle">{{ deal.title }}</p>
     <a class="buy" href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">View on Amazon &rarr;</a>
   </div>
 </article>
@@ -226,14 +226,8 @@ h1 { font-size: 1.8rem; }
 .deal img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--panel); }
 .deal-body { padding: 1rem; }
 
-.deal-title { font-size: .78rem; line-height: 1.4; margin: 0 0 .75rem; }
-.deal-title a {
-  color: var(--text-muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+.deal-title { font-size: 1.3rem; font-family: var(--heading-font); line-height: 1.2; margin: 0 0 .6rem; }
+.deal-title a { color: var(--text); }
 .deal-title a:hover { color: var(--gold); text-decoration: none; }
 
 .deal .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; margin: 0 0 .5rem; font-family: var(--display-font); }
@@ -264,7 +258,8 @@ h1 { font-size: 1.8rem; }
   font-weight: 700;
 }
 
-.deal .detail { font-size: .92rem; color: var(--text); line-height: 1.5; margin: 0 0 .75rem; }
+.deal-subtitle { font-size: .73rem; color: var(--text-muted); line-height: 1.4; margin: 0 0 .75rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 .deal .buy {
   display: inline-block;

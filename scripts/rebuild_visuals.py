@@ -34,6 +34,7 @@ def main() -> None:
         description = describe.generate_description(deal)
         deal["summary_lines"] = description["summary_lines"]
         deal["detailed_description"] = description["detailed"]
+        deal["short_title"] = description["short_title"]
 
         social_path, thumb_path = image_compose.compose_images(deal)
         deal["image_url"] = f"{site_base_url}/{social_path}" if social_path else None
