@@ -51,8 +51,8 @@ on Facebook/Instagram, which is why this is the only image source used.
 - [x] Windows Scheduled Task `BoardGameDealBot` registered, running every 4h
 - [x] Fact extraction, description generation, and price-banner images live
 - [ ] Telegram bot/channel -- optional, not set up
-- [x] Facebook Page posting -- live, capped at `facebook_max_posts_per_day` (3) best-ranked deals/day, see config/niche.yaml
-- [x] Instagram posting -- wired in, capped at `instagram_max_posts_per_day` (3) best-ranked deals/day. `instagram_content_publish` is still pending Meta App Review for full production use; posts may fail until that's approved, but failures are caught per-deal and won't break the rest of a run -- see below
+- [x] Facebook Page posting -- live and verified with real posts, capped at `facebook_max_posts_per_day` (3) best-ranked deals/day, see config/niche.yaml
+- [x] Instagram posting -- live and verified with real posts, capped at `instagram_max_posts_per_day` (3) best-ranked deals/day. Working today via the developer app's own admin/tester access to this Instagram Business account, even without a completed Meta App Review (that review is only needed to post to *other* people's accounts at scale) -- see below
 - [ ] Claude-generated descriptions -- optional upgrade, see below
 
 Real credentials live in a local `.env` file (gitignored, never committed)
@@ -65,9 +65,9 @@ for local runs, and as GitHub Actions secrets for the manual-fallback path:
 | `TELEGRAM_BOT_TOKEN` | not set (optional) | @BotFather |
 | `TELEGRAM_CHANNEL_ID` | not set (optional) | Your Telegram channel |
 | `FACEBOOK_PAGE_ID` | `.env` | Your Facebook Page |
-| `FACEBOOK_PAGE_ACCESS_TOKEN` | `.env` (non-expiring) | Meta for Developers app |
+| `FACEBOOK_PAGE_ACCESS_TOKEN` | `.env` (non-expiring, derived Page token) | Meta for Developers app |
 | `INSTAGRAM_BUSINESS_ACCOUNT_ID` | `.env` | Linked IG Business account |
-| `INSTAGRAM_ACCESS_TOKEN` | `.env` (same token as Facebook, broader scopes) | Meta for Developers app |
+| `INSTAGRAM_ACCESS_TOKEN` | `.env` (long-lived user token) | Meta for Developers app |
 | `ANTHROPIC_API_KEY` | not set (optional) | console.anthropic.com |
 
 ## Setting up Facebook and Instagram posting
@@ -89,14 +89,15 @@ posting to your own Page):**
 1. The Instagram account has to be a Business or Creator account, linked to
    the same Facebook Page. (Done -- `@boardgameblackmarket` is linked.)
 2. In the same Meta app, request `instagram_basic` and
-   `instagram_content_publish`. (Done -- the token in `.env` carries both.)
-3. **`instagram_content_publish` requires Meta App Review for full
-   production use** -- submit a screencast showing the actual posting flow
-   end-to-end. Rejection on the first attempt is common, and there's no
-   fixed timeline. Until that's approved, actual publish calls may be
-   rejected (caught per-deal, logged, doesn't break the rest of a run) --
-   so Instagram posting is wired in and will go fully live the moment
-   review clears, with no further code changes needed.
+   `instagram_content_publish`. (Done -- granted to a long-lived user token
+   in `.env` as `INSTAGRAM_ACCESS_TOKEN`, separate from the Facebook Page
+   token.)
+3. `instagram_content_publish` formally requires Meta App Review before an
+   app can post to *other* people's Instagram accounts at scale -- but as
+   the app's own developer/admin posting to your own linked account, it
+   works today without waiting on that review (confirmed with real posts).
+   Worth submitting for review eventually for long-term robustness, but not
+   blocking current operation.
 
 ## Optional: better-written descriptions via Claude
 
