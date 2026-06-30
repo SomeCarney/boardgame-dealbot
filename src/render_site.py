@@ -686,11 +686,7 @@ def _render_rankings_section(updated: str) -> None:
         if items_html:
             hub_items_html += f'<div class="bbg-section"><p class="bbg-section-title">{section_label}</p><ul class="bbg-list">{items_html}</ul></div>\n'
 
-    criteria_html = """<p>Every list on this page is ranked by a weighted score combining Amazon star ratings
-(quality signal), review count (trust breadth), and current sales rank (commercial staying power).
-The <strong>Best of All Time</strong> list uses editorial consensus as its primary key, with the
-formula breaking ties. Lists are refreshed every month — positions shift slightly as buyer ratings
-and sales momentum change, but rarely dramatically.</p>"""
+    criteria_html = "<p>Every list on this page is ranked by a weighted score combining Amazon star ratings, review count, and current sales rank.</p>"
 
     hub_content = f"<h1>Best Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
     _write_page("best-board-games.html", "Best Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated)
