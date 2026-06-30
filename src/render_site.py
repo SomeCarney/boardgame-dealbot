@@ -73,7 +73,7 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
     <p class="tagline">{{ tagline }}</p>
     <nav>
       <a href="index.html">Deals</a>
-      <a href="best-board-games.html">Best Board Games</a>
+      <a href="best-board-games.html">Hot Board Games</a>
       <a href="guides.html">Guides</a>
       <a href="about.html">About</a>
     </nav>
@@ -674,8 +674,8 @@ def _render_rankings_section(updated: str) -> None:
 
     criteria_html = "<p>Every list on this page is ranked by a weighted score combining Amazon star ratings, review count, and current sales rank.</p>"
 
-    hub_content = f"<h1>Best Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
-    _write_page("best-board-games.html", "Best Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated)
+    hub_content = f"<h1>Hot Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
+    _write_page("best-board-games.html", "Hot Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated)
 
     # Individual ranked list pages
     for key, lst in lists.items():

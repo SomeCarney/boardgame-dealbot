@@ -605,7 +605,7 @@ games:
 lists:
   all-time:
     slug: best-all-time
-    title: "Best Board Games of All Time"
+    title: "Hottest Board Games of All Time"
     description: >
       Ranked by a combination of critical acclaim, sustained community consensus, Amazon buyer
       ratings, and commercial staying power. Games on this list have proven their value across
@@ -646,7 +646,7 @@ lists:
 
   solo:
     slug: best-solo
-    title: "Best Solo Board Games"
+    title: "Hottest Solo Board Games"
     description: >
       Games with purpose-built solo modes — not afterthoughts, not cooperative games that
       happen to allow one player. Every game here was designed to be genuinely engaging
@@ -677,7 +677,7 @@ lists:
 
   2p:
     slug: best-2-player
-    title: "Best 2-Player Board Games"
+    title: "Hottest 2-Player Board Games"
     description: >
       Games designed for exactly two players, or that genuinely shine at two — not just
       "supports 2 players" buried in the rulebook. Strictly-for-two designs are noted.
@@ -712,7 +712,7 @@ lists:
 
   3p:
     slug: best-3-player
-    title: "Best 3-Player Board Games"
+    title: "Hottest 3-Player Board Games"
     description: >
       Games that hit their stride at exactly three — no empty seats, no ganging-up dynamic,
       just the right number of players competing for the same space and resources.
@@ -742,7 +742,7 @@ lists:
 
   4p-plus:
     slug: best-4-plus-player
-    title: "Best 4+ Player Board Games"
+    title: "Hottest 4+ Player Board Games"
     description: >
       Games that actually get better with more people — designed for the full table, not
       just tolerating a crowd. Every game here rewards the interaction that comes from
@@ -773,7 +773,7 @@ lists:
 
   strategy:
     slug: best-strategy
-    title: "Best Strategy Board Games"
+    title: "Hottest Strategy Board Games"
     description: >
       Games that reward planning, reading opponents, and understanding systems. Ranges from
       "accessible to anyone" (Ticket to Ride) to "will take years to fully solve" (Terraforming
@@ -804,7 +804,7 @@ lists:
 
   coop:
     slug: best-cooperative
-    title: "Best Cooperative Board Games"
+    title: "Hottest Cooperative Board Games"
     description: >
       Everyone wins together or everyone loses together. The best games that put the whole
       table against the board — no traitor mechanics, no solo paths to victory. Coordination
@@ -835,7 +835,7 @@ lists:
 
   social-deduction:
     slug: best-social-deduction
-    title: "Best Social Deduction Board Games"
+    title: "Hottest Social Deduction Board Games"
     description: >
       Games where reading people is the entire skill — hidden roles, lying, and the moment
       someone's bluff collapses. The information gaps between players are the mechanics.
@@ -860,7 +860,7 @@ lists:
 
   party:
     slug: best-party
-    title: "Best Party Board Games"
+    title: "Hottest Party Board Games"
     description: >
       Games that work for any crowd, any background, and any age. No rulebook required
       beyond "this is how you win." Every game here can be explained in under two minutes
@@ -891,7 +891,7 @@ lists:
 
   family:
     slug: best-family
-    title: "Best Family Board Games"
+    title: "Hottest Family Board Games"
     description: >
       Games that work across the full age range at the table — simple enough to teach
       in minutes, engaging enough that adults aren't bored. Every game here has been
@@ -922,7 +922,7 @@ lists:
 
   gateway:
     slug: best-gateway
-    title: "Best Gateway Board Games"
+    title: "Hottest Gateway Board Games"
     description: >
       The games that convert people who "don't like board games" into people who do.
       Low barrier to entry, satisfying first play, and enough depth to keep coming back.
