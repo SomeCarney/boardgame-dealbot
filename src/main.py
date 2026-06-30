@@ -135,11 +135,14 @@ def main() -> None:
             bot_token=os.environ.get("TELEGRAM_BOT_TOKEN"),
             channel_id=os.environ.get("TELEGRAM_CHANNEL_ID"),
         )
-        facebook_post.post_deals(
-            new_deals,
-            page_id=os.environ.get("FACEBOOK_PAGE_ID"),
-            access_token=os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN"),
+        fb_page_id = os.environ.get("FACEBOOK_PAGE_ID")
+        fb_access_token = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
+        fb_deals = (
+            facebook_post.select_for_posting(new_deals, max_per_day=config["posting"]["facebook_max_posts_per_day"])
+            if fb_page_id and fb_access_token
+            else []
         )
+        facebook_post.post_deals(fb_deals, page_id=fb_page_id, access_token=fb_access_token)
         instagram_post.post_deals(
             new_deals,
             ig_user_id=os.environ.get("INSTAGRAM_BUSINESS_ACCOUNT_ID"),

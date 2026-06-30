@@ -8,7 +8,10 @@ server-side), so it must already be live on GitHub Pages before this runs.
 
 from __future__ import annotations
 
+import json
 import logging
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -16,6 +19,32 @@ import requests
 logger = logging.getLogger(__name__)
 
 GRAPH_API_VERSION = "v21.0"
+STATE_PATH = Path(__file__).resolve().parent.parent / "config" / "facebook_post_state.json"
+
+
+def select_for_posting(deals: list[dict[str, Any]], max_per_day: int) -> list[dict[str, Any]]:
+    """Facebook gets a curated subset of new_deals, not every qualifying one.
+    Unlike the site (lists everything) or Telegram (an opt-in channel whose
+    subscribers expect frequent updates), a brand-new Page with no following
+    yet is sensitive to post frequency -- posting too often reads as spam,
+    suppresses organic reach, and drives unfollows. deals arrives already
+    sorted best-first (see fetch_deals._deal_rank_key: confirmed best-sellers,
+    then sales rank, then % off), so this just keeps the strongest ones that
+    still fit in today's remaining quota."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    state = {"date": today, "count": 0}
+    if STATE_PATH.exists():
+        saved = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        if saved.get("date") == today:
+            state = saved
+
+    remaining = max(0, max_per_day - state["count"])
+    selected = deals[:remaining]
+
+    state["count"] += len(selected)
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    return selected
 
 
 def post_deals(deals: list[dict[str, Any]], page_id: str | None, access_token: str | None) -> None:
@@ -48,11 +77,16 @@ def _post_one(deal: dict[str, Any], page_id: str, access_token: str) -> None:
 
 
 def _build_caption(deal: dict[str, Any]) -> str:
-    lines = [deal["title"], ""]
+    """Mirrors the info on the site's deal card: short title, price/rating,
+    fact pills (incl. the Best Seller badge), full Amazon title, then the link."""
+    lines = [deal.get("short_title") or deal["title"]]
+    lines.append(f"${deal['price']:.2f} (was ${deal['typical_price']:.2f}) -- {deal['percent_off']}% OFF")
+    if deal.get("rating"):
+        lines.append(f"{deal['rating']}/5 stars -- {deal.get('review_count') or 0} reviews")
+    lines.append("")
     lines.extend(deal.get("summary_lines", []))
-    if deal.get("detailed_description"):
-        lines.append("")
-        lines.append(deal["detailed_description"])
+    lines.append("")
+    lines.append(deal["title"])
     lines.append("")
     lines.append(deal["link"])
     lines.append("")

@@ -14,3 +14,7 @@ logs/
 # enough that committing it would just add noise to the history.
 config/best_sellers_cache.json
 
+# Facebook daily-post-quota tracker -- pure runtime state (today's date +
+# count), resets itself daily, no reason to version it.
+config/facebook_post_state.json
+
