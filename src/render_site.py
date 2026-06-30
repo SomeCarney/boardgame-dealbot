@@ -53,11 +53,22 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">{{ site_name }}</a>
+    <a class="brand" href="index.html">
+      <svg class="brand-die" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="4" y="4" width="92" height="92" rx="14" fill="#e8b923"/>
+        <rect x="4" y="4" width="92" height="44" rx="14" fill="#f0ca4a" opacity="0.3"/>
+        <circle cx="30" cy="28" r="9" fill="#1c1a17"/>
+        <circle cx="70" cy="28" r="9" fill="#1c1a17"/>
+        <circle cx="30" cy="50" r="9" fill="#1c1a17"/>
+        <circle cx="70" cy="50" r="9" fill="#1c1a17"/>
+        <circle cx="30" cy="72" r="9" fill="#1c1a17"/>
+        <circle cx="70" cy="72" r="9" fill="#1c1a17"/>
+      </svg>{{ site_name }}</a>
     <p class="tagline">{{ tagline }}</p>
     <nav>
       <a href="index.html">Deals</a>
@@ -176,7 +187,15 @@ h1, h2, h3 { font-family: var(--heading-font); letter-spacing: .01em; }
   font-size: 2.6rem;
   letter-spacing: .04em;
   color: var(--gold);
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.brand-die {
+  height: 2.4rem;
+  width: 2.4rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(232,185,35,.35));
 }
 .site-header .brand:hover { color: var(--gold-bright); text-decoration: none; }
 .site-header .tagline { margin: .15rem 0 1rem; color: var(--text-muted); font-style: italic; }

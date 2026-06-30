@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- dark panel background with rounded corners -->
+  <rect width="100" height="100" rx="18" fill="#1c1a17"/>
+  <!-- gold die body -->
+  <rect x="10" y="10" width="80" height="80" rx="13" fill="#e8b923"/>
+  <!-- subtle inner bevel highlight -->
+  <rect x="10" y="10" width="80" height="38" rx="13" fill="#f0ca4a" opacity="0.35"/>
+  <!-- 6-face dots: 2 columns, 3 rows -->
+  <circle cx="33" cy="32" r="8" fill="#1c1a17"/>
+  <circle cx="67" cy="32" r="8" fill="#1c1a17"/>
+  <circle cx="33" cy="50" r="8" fill="#1c1a17"/>
+  <circle cx="67" cy="50" r="8" fill="#1c1a17"/>
+  <circle cx="33" cy="68" r="8" fill="#1c1a17"/>
+  <circle cx="67" cy="68" r="8" fill="#1c1a17"/>
+</svg>
