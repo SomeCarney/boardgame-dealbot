@@ -8,6 +8,7 @@ content) without ever touching the hand-written pages.
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -16,6 +17,7 @@ from jinja2 import Environment, select_autoescape
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
+RANKINGS_CACHE = ROOT / "config" / "rankings_cache.json"
 # GitHub Pages "deploy from a branch" only accepts / or /docs as the served
 # path -- docs/ it is, even though "site" would have been a clearer name.
 SITE_DIR = ROOT / "docs"
@@ -74,9 +76,9 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
     <p class="tagline">{{ tagline }}</p>
     <nav>
       <a href="index.html">Deals</a>
-      <a href="about.html">About</a>
-      <a href="how-we-pick-deals.html">How We Pick Deals</a>
+      <a href="best-board-games.html">Best Board Games</a>
       <a href="guides.html">Guides</a>
+      <a href="about.html">About</a>
     </nav>
   </div>
 </header>
@@ -485,6 +487,119 @@ li { margin-bottom: .35rem; }
   border-bottom: 1px solid var(--panel-border);
 }
 
+/* ── RANKED LIST (Best Board Games pages) ── */
+.ranked-list { list-style: none; padding: 0; margin-top: 1.5rem; }
+
+.ranked-item {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+.ranked-item:last-child { border-bottom: none; }
+
+.ranked-num {
+  font-family: var(--display-font);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--text-faint);
+  min-width: 3.2rem;
+  text-align: right;
+  padding-top: .15rem;
+  flex-shrink: 0;
+}
+.ranked-item:nth-child(-n+3) .ranked-num { color: var(--gold); }
+
+.ranked-img-wrap {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  background: var(--panel);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+}
+.ranked-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.ranked-img-wrap.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-size: 2rem;
+}
+
+.ranked-body { flex: 1; min-width: 0; }
+.ranked-title {
+  font-family: var(--heading-font);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  margin: 0 0 .3rem;
+}
+.ranked-title a { color: #fff; }
+.ranked-title a:hover { color: var(--gold); text-decoration: none; }
+
+.ranked-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .5rem;
+  margin: 0 0 .5rem;
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.ranked-meta span { display: flex; align-items: center; gap: .25rem; }
+
+.ranked-blurb {
+  font-size: .85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 .6rem;
+}
+
+.ranked-buy {
+  font-family: var(--heading-font);
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--bg);
+  background: var(--gold);
+  padding: .3rem .75rem;
+  border-radius: 5px;
+  display: inline-block;
+}
+.ranked-buy:hover { background: var(--gold-bright); text-decoration: none; }
+
+/* Best Board Games hub */
+.bbg-hub { margin-top: 1.5rem; }
+.bbg-section { margin-bottom: 2rem; }
+.bbg-section-title {
+  font-family: var(--display-font);
+  font-size: 1rem;
+  letter-spacing: .06em;
+  color: var(--gold);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: .4rem;
+  margin-bottom: .75rem;
+}
+.bbg-list { list-style: none; padding: 0; }
+.bbg-list li { padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+.bbg-list li:last-child { border-bottom: none; }
+.bbg-list a { font-family: var(--heading-font); font-size: 1rem; letter-spacing: .01em; }
+.bbg-list .bbg-desc { font-size: .82rem; color: var(--text-muted); display: block; margin-top: .1rem; }
+
+@media (max-width: 600px) {
+  .ranked-num { font-size: 2rem; min-width: 2.5rem; }
+  .ranked-img-wrap { width: 70px; height: 70px; }
+  .ranked-title { font-size: 1rem; }
+}
+
 /* ── FOOTER ─────────────────────────── */
 .site-footer {
   margin-top: 4rem;
@@ -540,6 +655,106 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     ]
     guides_content = GUIDES_INDEX_TEMPLATE.render(guides=guides)
     _write_page("guides.html", "Guides", "Practical board-game buying guides.", guides_content, updated)
+
+    _render_rankings_section(updated)
+
+
+def _render_rankings_section(updated: str) -> None:
+    """Generate all Best Board Games pages from the rankings cache."""
+    if not RANKINGS_CACHE.exists():
+        return
+    cache = json.loads(RANKINGS_CACHE.read_text(encoding="utf-8"))
+    lists = cache.get("lists", {})
+
+    # Hub page
+    hub_sections = [
+        ("Player Count", ["solo", "2p", "3p", "4p-plus"]),
+        ("By Genre", ["strategy", "coop", "social-deduction", "party", "family", "gateway"]),
+        ("All Time", ["all-time"]),
+    ]
+    hub_items_html = ""
+    for section_label, keys in hub_sections:
+        items_html = ""
+        for key in keys:
+            lst = lists.get(key)
+            if not lst:
+                continue
+            slug = lst["slug"]
+            title = lst["title"]
+            desc = lst["description"].replace("\n", " ").strip()[:120]
+            items_html += f'<li><a href="{slug}.html">{title}</a><span class="bbg-desc">{desc}</span></li>\n'
+        if items_html:
+            hub_items_html += f'<div class="bbg-section"><p class="bbg-section-title">{section_label}</p><ul class="bbg-list">{items_html}</ul></div>\n'
+
+    criteria_html = """<p>Every list on this page is ranked by a weighted score combining Amazon star ratings
+(quality signal), review count (trust breadth), and current sales rank (commercial staying power).
+The <strong>Best of All Time</strong> list uses editorial consensus as its primary key, with the
+formula breaking ties. Lists are refreshed every month — positions shift slightly as buyer ratings
+and sales momentum change, but rarely dramatically.</p>"""
+
+    hub_content = f"<h1>Best Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
+    _write_page("best-board-games.html", "Best Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated)
+
+    # Individual ranked list pages
+    for key, lst in lists.items():
+        slug = lst["slug"]
+        title = lst["title"]
+        description = lst["description"].replace("\n", " ").strip()
+        games = lst["games"]
+
+        # Render countdown: #N (least impressive) at top, #1 (best) at bottom.
+        # games is sorted BEST-FIRST; reverse it so #1 is revealed last.
+        total = len(games)
+        items_html = ""
+        for i, game in enumerate(reversed(games)):
+            rank_num = total - i
+            img_id = game.get("image_id")
+            if img_id:
+                img_html = f'<img src="https://m.media-amazon.com/images/I/{img_id}" alt="{game["title"]}" loading="lazy">'
+                img_wrap = f'<div class="ranked-img-wrap">{img_html}</div>'
+            else:
+                img_wrap = '<div class="ranked-img-wrap no-image">🎲</div>'
+
+            rating = game.get("rating")
+            reviews = game.get("reviews")
+            stars_html = ""
+            if rating:
+                pct = round(rating / 5 * 100, 1)
+                rev_txt = f" &middot; {reviews:,} reviews" if reviews else ""
+                stars_html = f"""<span class="stars" aria-label="{rating}/5">
+  <span class="stars-track">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+  <span class="stars-fill" style="width:{pct}%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+</span><span class="review-count">{rating}/5{rev_txt}</span>"""
+
+            meta_parts = []
+            if game.get("players"):
+                meta_parts.append(f'<span>&#128101; {game["players"]}</span>')
+            if game.get("time"):
+                meta_parts.append(f'<span>&#9201; {game["time"]}</span>')
+            if game.get("age"):
+                meta_parts.append(f'<span>Ages {game["age"]}</span>')
+            if rating:
+                meta_parts.append(f'<span>{stars_html}</span>')
+            meta_html = "\n".join(meta_parts)
+
+            blurb = game.get("blurb", "").strip()
+            blurb_html = f'<p class="ranked-blurb">{blurb}</p>' if blurb else ""
+            link = game.get("link", f'https://www.amazon.com/dp/{game["asin"]}?tag=carnivalgam06-20')
+
+            items_html += f"""<li class="ranked-item">
+  <span class="ranked-num">#{rank_num}</span>
+  <a href="{link}" rel="nofollow sponsored noopener" target="_blank">{img_wrap}</a>
+  <div class="ranked-body">
+    <h2 class="ranked-title"><a href="{link}" rel="nofollow sponsored noopener" target="_blank">{game["title"]}</a></h2>
+    <div class="ranked-meta">{meta_html}</div>
+    {blurb_html}
+    <a class="ranked-buy" href="{link}" rel="nofollow sponsored noopener" target="_blank">View on Amazon &rarr;</a>
+  </div>
+</li>"""
+
+        refresh_note = f'<p style="font-size:.8rem;color:var(--text-faint);margin-top:1rem;">Rankings last updated: {cache.get("updated_at","")[:10]}. Refreshed monthly.</p>'
+        page_content = f"<h1>{title}</h1>\n<p>{description}</p>\n{refresh_note}\n<ol class=\"ranked-list\">{items_html}</ol>"
+        _write_page(f"{slug}.html", title, description, page_content, updated)
 
 
 def _write_page(filename: str, title: str, description: str, content_html: str, updated: str) -> None:
