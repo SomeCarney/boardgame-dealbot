@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -20,6 +21,12 @@ logger = logging.getLogger(__name__)
 
 GRAPH_API_VERSION = "v21.0"
 STATE_PATH = Path(__file__).resolve().parent.parent / "config" / "facebook_post_state.json"
+
+# Meta fetches the image server-side. Right after a push, GitHub Pages' CDN
+# can still 404 (propagation delay) or an edge can hold a stale cached 404 --
+# both surface as 400s here. Retrying after a wait, with a cache-busting query
+# string so Meta's fetcher can't reuse the stale edge entry, recovers them.
+RETRY_DELAYS_SECONDS = (45, 90)
 
 
 def select_for_posting(deals: list[dict[str, Any]], max_per_day: int) -> list[dict[str, Any]]:
@@ -53,10 +60,22 @@ def post_deals(deals: list[dict[str, Any]], page_id: str | None, access_token: s
         return
 
     for deal in deals:
-        try:
-            _post_one(deal, page_id, access_token)
-        except requests.RequestException:
-            logger.exception("Failed to post deal %s to Facebook, continuing with the rest", deal.get("asin"))
+        for attempt in range(len(RETRY_DELAYS_SECONDS) + 1):
+            attempt_deal = deal
+            if attempt:
+                time.sleep(RETRY_DELAYS_SECONDS[attempt - 1])
+                attempt_deal = dict(deal)
+                attempt_deal["image_url"] = f"{deal['image_url']}?cb={attempt}"
+            try:
+                _post_one(attempt_deal, page_id, access_token)
+                if attempt:
+                    logger.info("Facebook post for %s succeeded on retry %d", deal.get("asin"), attempt)
+                break
+            except requests.RequestException:
+                if attempt == len(RETRY_DELAYS_SECONDS):
+                    logger.exception("Failed to post deal %s to Facebook after %d attempts, continuing with the rest", deal.get("asin"), attempt + 1)
+                else:
+                    logger.warning("Facebook post for %s failed (attempt %d) -- retrying with cache-buster", deal.get("asin"), attempt + 1)
 
 
 def _post_one(deal: dict[str, Any], page_id: str, access_token: str) -> None:
