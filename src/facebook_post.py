@@ -21,6 +21,24 @@ logger = logging.getLogger(__name__)
 
 GRAPH_API_VERSION = "v21.0"
 STATE_PATH = Path(__file__).resolve().parent.parent / "config" / "facebook_post_state.json"
+FAILURES_PATH = Path(__file__).resolve().parent.parent / "logs" / "social_failures.json"
+
+
+def record_failure(asin: str | None, platform: str, error: str) -> None:
+    """Appends a permanently-failed post so health_check.py can retry it later."""
+    try:
+        FAILURES_PATH.parent.mkdir(parents=True, exist_ok=True)
+        entries = json.loads(FAILURES_PATH.read_text(encoding="utf-8")) if FAILURES_PATH.exists() else []
+        entries.append({
+            "asin": asin,
+            "platform": platform,
+            "error": error[:300],
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "hc_retries": 0,
+        })
+        FAILURES_PATH.write_text(json.dumps(entries, indent=2), encoding="utf-8")
+    except Exception:  # never let bookkeeping break posting
+        logger.exception("Could not record social failure for %s", asin)
 
 # Meta fetches the image server-side. Right after a push, GitHub Pages' CDN
 # can still 404 (propagation delay) or an edge can hold a stale cached 404 --
@@ -71,9 +89,10 @@ def post_deals(deals: list[dict[str, Any]], page_id: str | None, access_token: s
                 if attempt:
                     logger.info("Facebook post for %s succeeded on retry %d", deal.get("asin"), attempt)
                 break
-            except requests.RequestException:
+            except requests.RequestException as exc:
                 if attempt == len(RETRY_DELAYS_SECONDS):
                     logger.exception("Failed to post deal %s to Facebook after %d attempts, continuing with the rest", deal.get("asin"), attempt + 1)
+                    record_failure(deal.get("asin"), "facebook", str(exc))
                 else:
                     logger.warning("Facebook post for %s failed (attempt %d) -- retrying with cache-buster", deal.get("asin"), attempt + 1)
 

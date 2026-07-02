@@ -71,9 +71,11 @@ def post_deals(deals: list[dict[str, Any]], ig_user_id: str | None, access_token
                 if attempt:
                     logger.info("Instagram post for %s succeeded on retry %d", deal.get("asin"), attempt)
                 break
-            except requests.RequestException:
+            except requests.RequestException as exc:
                 if attempt == len(RETRY_DELAYS_SECONDS):
                     logger.exception("Failed to post deal %s to Instagram after %d attempts, continuing with the rest", deal.get("asin"), attempt + 1)
+                    from facebook_post import record_failure
+                    record_failure(deal.get("asin"), "instagram", str(exc))
                 else:
                     logger.warning("Instagram post for %s failed (attempt %d) -- retrying with cache-buster", deal.get("asin"), attempt + 1)
 

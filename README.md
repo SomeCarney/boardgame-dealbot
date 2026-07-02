@@ -165,6 +165,32 @@ links where community rules require them. SEO (sitemap, structured data,
 share cards), an RSS feed (`docs/deals.xml`), and social hashtags are all
 automatic.
 
+## Self-healing and notifications
+
+Every scheduled run ends with `src/health_check.py`, which:
+1. **Retries failed social posts** -- the posting modules record permanent
+   failures to `logs/social_failures.json`; the health check retries them
+   with a fresh cache-buster once the CDN has settled, and notifies Devon
+   only if a post keeps failing (e.g. an expired Meta token).
+2. **Verifies the live site** actually shows the newest deal after a push,
+   re-pushing once if GitHub Pages deployed stale.
+3. **Auto-fixes crashes** -- on a non-zero exit it invokes Claude Code
+   headless (`claude -p ... --dangerously-skip-permissions`) to diagnose
+   the traceback, implement a minimal fix, commit, push, and re-run the
+   pipeline. A signature guard (`logs/autofix_state.json`) prevents
+   re-attempting the same failure in a loop; repeat failures escalate to a
+   notification instead. One-time setup: run `claude /login` in a terminal
+   so the CLI is authenticated.
+
+Notifications go through `scripts/notify.ps1`: a Windows toast (persists in
+Action Center) plus a phone push via ntfy.sh. To get the phone pushes,
+install the **ntfy** app (free, App Store / Play Store) and subscribe to the
+topic `bgbm-devon-alerts-7q4xk2m9`.
+
+A separate scheduled task **BoardGameSocialReminder** (Mon/Wed/Fri 6:30 PM)
+regenerates `social_drafts.md` and sends the "5-minute task" reminder for
+the community-posting routine in `marketing/GROWTH_PLAYBOOK.md`.
+
 ## Check-in checklist (this is the "passive" part)
 
 **Weekly (a few minutes):**

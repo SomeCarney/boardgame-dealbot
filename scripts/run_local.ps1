@@ -45,16 +45,35 @@ for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
     }
 }
 
+function Invoke-HealthCheck([int]$ExitCode, [int]$Pushed) {
+    # Post-run verifier/auto-fixer (src/health_check.py): retries failed social
+    # posts, confirms the live site updated, and on crashes invokes Claude Code
+    # headless to diagnose and fix. Best-effort -- must never fail the run.
+    try {
+        $hc = Start-Process -FilePath ".\.venv\Scripts\python.exe" `
+            -ArgumentList "src\health_check.py", "--exit-code", $ExitCode, "--pushed", $Pushed `
+            -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
+            -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
+        Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile
+        Remove-Item $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue
+    } catch {
+        Add-Content -Path $logFile -Value "Health check errored -- non-fatal: $_"
+    }
+}
+
 if ($proc.ExitCode -ne 0) {
     Add-Content -Path $logFile -Value "Pipeline failed with exit code $($proc.ExitCode) after $maxAttempts attempts -- not committing."
+    Invoke-HealthCheck -ExitCode $proc.ExitCode -Pushed 0
     exit $proc.ExitCode
 }
 
+$didPush = 0
 git add docs/ posted_log.json config/category_cache.json
 git diff --cached --quiet
 if ($LASTEXITCODE -ne 0) {
     git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
     git push
+    $didPush = 1
     Add-Content -Path $logFile -Value "Committed and pushed updated deals."
 
     # Tell IndexNow-capable search engines (Bing/DuckDuckGo/Yandex) the
@@ -87,3 +106,5 @@ try {
 } catch {
     Add-Content -Path $logFile -Value "Social drafts generation errored -- non-fatal: $_"
 }
+
+Invoke-HealthCheck -ExitCode 0 -Pushed $didPush
