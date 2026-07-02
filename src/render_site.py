@@ -9,6 +9,7 @@ content) without ever touching the hand-written pages.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -247,13 +248,42 @@ INDEX_CONTENT_TEMPLATE = env.from_string("""
 """)
 
 GUIDES_INDEX_TEMPLATE = env.from_string("""
-<h1>Guides</h1>
-<ul class="guide-list">
+{{ hero|safe }}
+<div class="guide-grid">
 {% for href, title, description in guides %}
-  <li><a href="{{ href }}">{{ title }}</a><span class="guide-desc">{{ description }}</span></li>
+  <a class="guide-card reveal" href="{{ href }}">
+    <span class="guide-num">{{ "%02d"|format(loop.index) }}</span>
+    <span class="guide-body">
+      <h3>{{ title }}</h3>
+      <p>{{ description }}</p>
+      <span class="bbg-cta">Read the guide</span>
+    </span>
+  </a>
 {% endfor %}
-</ul>
+</div>
 """)
+
+
+def _crumbs(*parts: tuple[str, str | None]) -> str:
+    items = [
+        f'<a href="{href}">{label}</a>' if href else f'<span class="crumb-here">{label}</span>'
+        for label, href in parts
+    ]
+    return '<nav class="crumbs">' + '<span class="crumb-sep">/</span>'.join(items) + "</nav>"
+
+
+def _page_hero(kicker: str, title: str, sub: str = "", crumbs: str = "", note: str = "") -> str:
+    sub_html = f'<p class="page-sub">{sub}</p>' if sub else ""
+    note_html = f'<p class="page-note">{note}</p>' if note else ""
+    return (
+        f'<div class="page-hero">{crumbs}'
+        f'<p class="hero-kicker">{kicker}</p>'
+        f"<h1>{title}</h1>{sub_html}{note_html}</div>"
+    )
+
+
+def _strip_leading_h1(page_html: str) -> str:
+    return re.sub(r"<h1[^>]*>.*?</h1>\s*", "", page_html, count=1, flags=re.DOTALL)
 
 STYLE_CSS = """
 :root {
@@ -955,6 +985,252 @@ html.js .reveal.in { opacity: 1; transform: none; }
   .ranked-title { font-size: 1rem; }
 }
 
+/* ── PAGE HERO (interior pages) ───────── */
+.page-hero {
+  position: relative;
+  padding: 1.6rem 0 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--panel-border);
+}
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: -4rem -14rem auto auto;
+  width: 32rem;
+  height: 14rem;
+  background: radial-gradient(closest-side, rgba(232,185,35,.07), transparent 70%);
+  pointer-events: none;
+}
+.crumbs {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-faint);
+  margin-bottom: 1.3rem;
+}
+.crumbs a { color: var(--text-muted); }
+.crumbs a:hover { color: var(--gold); text-decoration: none; }
+.crumb-sep { margin: 0 .35rem; color: var(--text-faint); }
+.crumb-here { color: var(--gold-dim); }
+.page-hero h1 {
+  font-family: var(--display-font);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  line-height: .95;
+  letter-spacing: .02em;
+  color: #fff;
+  margin: 0 0 .8rem;
+}
+.page-sub { color: var(--text-muted); max-width: 46rem; margin: 0; font-size: 1rem; }
+.page-note { font-size: .75rem; color: var(--text-faint); margin: .9rem 0 0; }
+
+/* ── HOT BOARD GAMES HUB CARDS ────────── */
+.bbg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.bbg-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.4rem 1.25rem;
+  box-shadow: var(--shadow);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.bbg-card:hover {
+  border-color: var(--gold-dim);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+.bbg-card-imgs { display: flex; margin-bottom: 1.1rem; }
+.bbg-card-imgs img {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  border: 2px solid var(--panel-border);
+  background: #fff;
+  object-fit: contain;
+  padding: 4px;
+  margin-left: -16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.45);
+  transition: transform .25s var(--ease);
+}
+.bbg-card-imgs img:first-child { margin-left: 0; }
+.bbg-card:hover .bbg-card-imgs img:nth-child(1) { transform: translateY(-4px) rotate(-3deg); }
+.bbg-card:hover .bbg-card-imgs img:nth-child(2) { transform: translateY(-6px); }
+.bbg-card:hover .bbg-card-imgs img:nth-child(3) { transform: translateY(-4px) rotate(3deg); }
+.bbg-card:hover .bbg-card-imgs img:nth-child(4) { transform: translateY(-6px) rotate(-2deg); }
+.bbg-card:hover .bbg-card-imgs img:nth-child(5) { transform: translateY(-4px) rotate(2deg); }
+.bbg-card-body { display: flex; flex-direction: column; flex: 1; }
+.bbg-count {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .66rem;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--gold-dim);
+  margin-bottom: .4rem;
+}
+.bbg-card h3 {
+  font-family: var(--heading-font);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: #fff;
+  margin: 0 0 .45rem;
+}
+.bbg-card p { font-size: .84rem; color: var(--text-muted); line-height: 1.55; margin: 0 0 1rem; flex: 1; }
+.bbg-cta {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.bbg-cta::after { content: "\\2192"; transition: transform .2s var(--ease); }
+.bbg-card:hover .bbg-cta::after, .guide-card:hover .bbg-cta::after, .related-card:hover .bbg-cta::after { transform: translateX(4px); }
+
+.bbg-card.featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 2.25rem;
+  padding: 1.9rem 2.2rem;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(232,185,35,.08), transparent 55%),
+    var(--panel);
+}
+.bbg-card.featured .bbg-card-imgs { margin-bottom: 0; flex-shrink: 0; }
+.bbg-card.featured .bbg-card-imgs img { width: 76px; height: 76px; }
+.bbg-card.featured h3 { font-size: 1.55rem; }
+.bbg-card.featured p { font-size: .92rem; }
+
+/* ── GUIDES INDEX CARDS ───────────────── */
+.guide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.guide-card {
+  display: flex;
+  gap: 1.3rem;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.guide-card:hover {
+  border-color: var(--gold-dim);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+.guide-num {
+  font-family: var(--display-font);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: .5;
+  min-width: 2.4rem;
+  transition: opacity .2s;
+}
+.guide-card:hover .guide-num { opacity: 1; }
+.guide-body { display: flex; flex-direction: column; }
+.guide-card h3 { font-family: var(--heading-font); font-size: 1.08rem; line-height: 1.3; color: #fff; margin: 0 0 .4rem; }
+.guide-card p { font-size: .85rem; color: var(--text-muted); line-height: 1.55; margin: 0 0 .9rem; flex: 1; }
+
+/* ── PROSE (article pages) ────────────── */
+.prose { max-width: 46rem; line-height: 1.75; }
+.prose > p:first-of-type { font-size: 1.13rem; color: #e5ddc8; }
+.prose h2 {
+  font-size: 1.35rem;
+  color: #fff;
+  margin: 2.3rem 0 .8rem;
+  padding-left: .85rem;
+  border-left: 3px solid var(--gold);
+}
+.prose h3 { font-size: 1.08rem; color: #fff; margin: 1.7rem 0 .5rem; }
+.prose p { margin: .95rem 0; }
+.prose ul, .prose ol { margin: 1rem 0; padding-left: 1.5rem; }
+.prose li { margin-bottom: .5rem; }
+.prose li::marker { color: var(--gold); }
+.prose a { text-decoration: underline; text-decoration-color: rgba(232,185,35,.45); text-underline-offset: 3px; }
+.prose a:hover { text-decoration-color: var(--gold-bright); }
+.prose strong { color: #fff; }
+.prose blockquote {
+  border-left: 3px solid var(--gold-dim);
+  padding: .25rem 1.1rem;
+  margin: 1.2rem 0;
+  color: var(--text-muted);
+}
+.prose table { border-collapse: collapse; margin: 1.2rem 0; width: 100%; font-size: .9rem; }
+.prose th, .prose td { border: 1px solid var(--panel-border); padding: .55rem .8rem; text-align: left; }
+.prose th { background: var(--panel); font-family: var(--heading-font); font-weight: 600; }
+
+/* ── MORE / RELATED BLOCKS ────────────── */
+.more-block { margin-top: 3.5rem; padding-top: 1.75rem; border-top: 1px solid var(--panel-border); }
+.more-title {
+  font-family: var(--display-font);
+  font-size: 1.05rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 1.1rem;
+}
+.more-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+.more-pills a {
+  font-size: .84rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: .45rem 1.05rem;
+  transition: color .15s, border-color .15s, transform .15s;
+}
+.more-pills a:hover { color: var(--gold); border-color: var(--gold-dim); transform: translateY(-1px); text-decoration: none; }
+
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.related-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.2rem;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.related-card:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+}
+.related-card h4 { font-family: var(--heading-font); font-size: .96rem; line-height: 1.3; color: #fff; margin: 0 0 .35rem; }
+.related-card p { font-size: .78rem; color: var(--text-muted); line-height: 1.5; margin: 0 0 .8rem; flex: 1; }
+
+/* ranked list rows: subtle hover */
+.ranked-item { border-radius: 8px; transition: background .2s; padding-left: .5rem; padding-right: .5rem; margin: 0 -.5rem; }
+.ranked-item:hover { background: rgba(255,255,255,.025); }
+
+@media (max-width: 900px) {
+  .bbg-grid { grid-template-columns: 1fr 1fr; }
+  .bbg-card.featured { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  .related-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .bbg-grid, .guide-grid { grid-template-columns: 1fr; }
+}
+
 /* ── FOOTER ─────────────────────────── */
 .site-footer {
   margin-top: 5rem;
@@ -1182,25 +1458,58 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
         index_content, updated, active="deals", jsonld=_index_jsonld(deals),
     )
 
+    guides = [
+        (out_filename, _title_from_html((CONTENT_DIR / content_filename).read_text()) or out_filename, description)
+        for content_filename, out_filename, _nav_title, description in EVERGREEN_PAGES
+        if content_filename.startswith("guide-") and (CONTENT_DIR / content_filename).exists()
+    ]
+
     for content_filename, out_filename, _nav_title, description in EVERGREEN_PAGES:
         source = CONTENT_DIR / content_filename
         if not source.exists():
             continue  # don't fail the whole run over one missing evergreen page
         page_html = source.read_text(encoding="utf-8")
         title = _title_from_html(page_html) or out_filename
-        active = "guides" if content_filename.startswith("guide-") else "about"
-        _write_page(out_filename, title, description, page_html, updated, active=active)
+        body = f'<article class="prose">{_strip_leading_h1(page_html)}</article>'
 
-    guides = [
-        (out_filename, _title_from_html((CONTENT_DIR / content_filename).read_text()) or out_filename, description)
-        for content_filename, out_filename, _nav_title, description in EVERGREEN_PAGES
-        if content_filename.startswith("guide-") and (CONTENT_DIR / content_filename).exists()
-    ]
-    guides_content = GUIDES_INDEX_TEMPLATE.render(guides=guides)
+        if content_filename.startswith("guide-"):
+            active = "guides"
+            crumbs = _crumbs(("Home", "index.html"), ("Guides", "guides.html"), (title, None))
+            hero = _page_hero("Field manual", title, description, crumbs)
+            body += _related_guides_html(out_filename, guides)
+        else:
+            active = "about"
+            kicker = "The method" if out_filename.startswith("how-we-pick") else "The operation"
+            crumbs = _crumbs(("Home", "index.html"), (title, None))
+            hero = _page_hero(kicker, title, description, crumbs)
+        _write_page(out_filename, title, description, hero + body, updated, active=active)
+
+    guides_hero = _page_hero(
+        "The field manual",
+        "Guides",
+        "Practical, no-nonsense answers to the questions every board game buyer eventually asks.",
+        _crumbs(("Home", "index.html"), ("Guides", None)),
+    )
+    guides_content = GUIDES_INDEX_TEMPLATE.render(guides=guides, hero=guides_hero)
     _write_page("guides.html", "Guides", "Practical board-game buying guides.", guides_content, updated, active="guides")
 
     _render_rankings_section(updated)
     _write_seo_files(deals, updated)
+
+
+def _related_guides_html(current: str, guides: list[tuple[str, str, str]]) -> str:
+    """Three other guides, picked cyclically from the current one's position."""
+    others = [g for g in guides if g[0] != current]
+    if not others:
+        return ""
+    idx = next((i for i, g in enumerate(guides) if g[0] == current), 0)
+    picks = [others[(idx + i) % len(others)] for i in range(min(3, len(others)))]
+    cards = "".join(
+        f'<a class="related-card reveal" href="{href}"><h4>{title}</h4><p>{desc}</p>'
+        f'<span class="bbg-cta">Read</span></a>'
+        for href, title, desc in picks
+    )
+    return f'<div class="more-block"><p class="more-title">More from the field manual</p><div class="related-grid">{cards}</div></div>'
 
 
 def _index_jsonld(deals: list[dict[str, Any]]) -> str:
@@ -1313,7 +1622,7 @@ def _render_rankings_section(updated: str) -> None:
     cache = json.loads(RANKINGS_CACHE.read_text(encoding="utf-8"))
     lists = cache.get("lists", {})
 
-    # Hub page
+    # Hub page: one collage card per list, top games' box art stacked
     hub_sections = [
         ("All Time", ["all-time"]),
         ("Player Count", ["solo", "2p", "3p", "4p-plus"]),
@@ -1321,22 +1630,48 @@ def _render_rankings_section(updated: str) -> None:
     ]
     hub_items_html = ""
     for section_label, keys in hub_sections:
-        items_html = ""
+        cards_html = ""
         for key in keys:
             lst = lists.get(key)
             if not lst:
                 continue
             slug = lst["slug"]
             title = lst["title"]
-            desc = lst["description"].replace("\n", " ").strip()[:120]
-            items_html += f'<li><a href="{slug}.html">{title}</a><span class="bbg-desc">{desc}</span></li>\n'
-        if items_html:
-            hub_items_html += f'<div class="bbg-section"><p class="bbg-section-title">{section_label}</p><ul class="bbg-list">{items_html}</ul></div>\n'
+            desc = lst["description"].replace("\n", " ").strip()
+            games = lst.get("games", [])
+            featured = key == "all-time"
+            n_thumbs = 5 if featured else 3
+            # first N games that actually have box art
+            thumb_imgs = [g for g in games if g.get("image_id")][:n_thumbs]
+            thumbs = "".join(
+                f'<img src="https://m.media-amazon.com/images/I/{g["image_id"]}" alt="" loading="lazy">'
+                for g in thumb_imgs
+            )
+            feat_cls = " featured" if featured else ""
+            cards_html += (
+                f'<a class="bbg-card{feat_cls} reveal" href="{slug}.html">'
+                f'<div class="bbg-card-imgs">{thumbs}</div>'
+                f'<div class="bbg-card-body">'
+                f'<span class="bbg-count">{len(games)} games ranked</span>'
+                f"<h3>{title}</h3><p>{desc}</p>"
+                f'<span class="bbg-cta">See the countdown</span>'
+                f"</div></a>"
+            )
+        if cards_html:
+            hub_items_html += f'<div class="bbg-section"><p class="bbg-section-title">{section_label}</p><div class="bbg-grid">{cards_html}</div></div>\n'
 
-    criteria_html = "<p>Every list on this page is ranked by a weighted score combining Amazon star ratings, review count, and current sales rank.</p>"
-
-    hub_content = f"<h1>Hot Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
+    hub_hero = _page_hero(
+        "Ranked. Refreshed monthly.",
+        "Hot Board Games",
+        "Every list on this page is ranked by a weighted score combining Amazon star ratings, review count, and current sales rank.",
+        _crumbs(("Home", "index.html"), ("Hot Board Games", None)),
+    )
+    hub_content = f'{hub_hero}\n<div class="bbg-hub">{hub_items_html}</div>'
     _write_page("best-board-games.html", "Hot Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated, active="hot")
+
+    def _list_label(list_title: str) -> str:
+        label = list_title.replace("Hottest ", "").replace(" Board Games", "").strip()
+        return "All Time" if label in ("", "of All Time") else label
 
     # Individual ranked list pages
     for key, lst in lists.items():
@@ -1395,8 +1730,19 @@ def _render_rankings_section(updated: str) -> None:
   </div>
 </li>"""
 
-        refresh_note = f'<p style="font-size:.8rem;color:var(--text-faint);margin-top:1rem;">Rankings last updated: {cache.get("updated_at","")[:10]}. Refreshed monthly.</p>'
-        page_content = f"<h1>{title}</h1>\n<p>{description}</p>\n{refresh_note}\n<ol class=\"ranked-list\">{items_html}</ol>"
+        hero = _page_hero(
+            f"Ranked countdown &middot; {total} games",
+            title,
+            description,
+            _crumbs(("Home", "index.html"), ("Hot Board Games", "best-board-games.html"), (_list_label(title), None)),
+            note=f'Rankings last updated {cache.get("updated_at", "")[:10]} &middot; refreshed monthly &middot; scroll for #1',
+        )
+        pills = "".join(
+            f'<a href="{other["slug"]}.html">{_list_label(other["title"])}</a>'
+            for other_key, other in lists.items() if other_key != key
+        )
+        more_block = f'<div class="more-block"><p class="more-title">More hot lists</p><div class="more-pills">{pills}</div></div>'
+        page_content = f'{hero}\n<ol class="ranked-list">{items_html}</ol>\n{more_block}'
 
         # ItemList structured data: best-first, matching the list's true ranking
         jsonld_items = []

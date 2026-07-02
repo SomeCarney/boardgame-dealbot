@@ -148,6 +148,24 @@ def compute_ranked_list(
     return rows[:count]
 
 
+def _previous_image_ids() -> dict[str, str]:
+    """ASIN -> image_id from the existing cache. Keepa occasionally returns
+    products without image data (seen live 2026-07-02); without this guard a
+    single bad monthly fetch silently strips box art off the whole site."""
+    if not CACHE_PATH.exists():
+        return {}
+    try:
+        old = json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    out: dict[str, str] = {}
+    for lst in old.get("lists", {}).values():
+        for g in lst.get("games", []):
+            if g.get("asin") and g.get("image_id"):
+                out[g["asin"]] = g["image_id"]
+    return out
+
+
 def main(dry_run: bool = False) -> None:
     cfg = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     game_defs: dict[str, Any] = cfg.get("games", {})
@@ -164,6 +182,16 @@ def main(dry_run: bool = False) -> None:
 
     keepa_data = fetch_keepa_data(all_asins)
     logger.info("Got data for %d/%d ASINs", len(keepa_data), len(all_asins))
+
+    # Backstop missing images with the previous cache's
+    prev_images = _previous_image_ids()
+    restored = 0
+    for asin, kd in keepa_data.items():
+        if not kd.get("image_id") and asin in prev_images:
+            kd["image_id"] = prev_images[asin]
+            restored += 1
+    if restored:
+        logger.warning("Keepa returned no image for %d ASIN(s) -- kept previous box art", restored)
 
     cache: dict[str, Any] = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
