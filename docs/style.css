@@ -25,7 +25,14 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* hidden = fallback for older mobile browsers; clip = modern, keeps
+     position:sticky working. Insurance against any element ever making
+     phones horizontally pannable. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
 
 body {
   font-family: var(--body-font);
@@ -217,8 +224,11 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .hero::before {
   content: "";
   position: absolute;
-  inset: -6rem -20rem -4rem auto;
+  /* anchored inside the right edge -- a negative right offset here made
+     phones horizontally scrollable into empty space */
+  inset: -6rem 0 -4rem auto;
   width: 44rem;
+  max-width: 100%;
   background: radial-gradient(closest-side, rgba(232,185,35,.09), transparent 70%);
   pointer-events: none;
 }
@@ -708,8 +718,9 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .page-hero::before {
   content: "";
   position: absolute;
-  inset: -4rem -14rem auto auto;
+  inset: -4rem 0 auto auto;
   width: 32rem;
+  max-width: 100%;
   height: 14rem;
   background: radial-gradient(closest-side, rgba(232,185,35,.07), transparent 70%);
   pointer-events: none;
