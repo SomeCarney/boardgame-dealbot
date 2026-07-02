@@ -56,6 +56,18 @@ if ($LASTEXITCODE -ne 0) {
     git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
     git push
     Add-Content -Path $logFile -Value "Committed and pushed updated deals."
+
+    # Tell IndexNow-capable search engines (Bing/DuckDuckGo/Yandex) the
+    # homepage changed. Best-effort: never fail the run over it.
+    try {
+        $pingProc = Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "src\ping_search_engines.py" `
+            -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
+            -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
+        Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile
+        Remove-Item $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue
+    } catch {
+        Add-Content -Path $logFile -Value "IndexNow ping errored -- non-fatal: $_"
+    }
 } else {
     Add-Content -Path $logFile -Value "No new deals this run -- nothing to commit."
 }

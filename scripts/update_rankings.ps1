@@ -49,6 +49,17 @@ if ($LASTEXITCODE -ne 0) {
         commit -q -m "Monthly rankings update $month"
     git push
     Add-Content -Path $logFile -Value "Rankings committed and pushed for $month."
+
+    # Resubmit every page to IndexNow after the monthly refresh (best-effort).
+    try {
+        $pingProc = Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "src\ping_search_engines.py", "--all" `
+            -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
+            -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
+        Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile
+        Remove-Item $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue
+    } catch {
+        Add-Content -Path $logFile -Value "IndexNow ping errored -- non-fatal: $_"
+    }
 } else {
     Add-Content -Path $logFile -Value "No changes in rankings this month."
 }

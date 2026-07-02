@@ -22,6 +22,7 @@ compounds. When in doubt, post the clean link and skip the site plug.
 | Instagram hashtags (10 discovery tags per post) | Automatic on every IG post |
 | Facebook hashtags (3 per post) | Automatic on every FB post |
 | **Post drafts**: `social_drafts.md` in the repo root is rewritten after every bot run with copy-paste-ready Reddit/BGG/FB/X text for the freshest deals | Automatic |
+| **IndexNow pings**: every run notifies Bing/DuckDuckGo/Yandex that the homepage changed; the monthly rankings refresh resubmits every page | Automatic |
 
 The ranked lists ("Hottest X Board Games") are the SEO engine: they target long-tail
 searches like "best social deduction board games" and refresh monthly, which Google likes.
@@ -118,9 +119,21 @@ and the automation gets built.
 - **Amazon Associates dashboard:** clicks first, then orders. Clicks are the leading signal.
 - **Reddit profile:** karma on deal posts trending up = the community trusts the account.
 - **Facebook/Instagram insights:** follower count and reach per post.
-- **Google Search Console** (worth setting up — free, 10 min, needs the GitHub Pages site
-  verified): shows which ranked lists are getting search impressions. The lists usually
-  start showing impressions within 4-8 weeks.
+- **Google Search Console** (free — the site is pre-wired for it, ~3 min of your part):
+  1. Go to https://search.google.com/search-console and sign in with your Google account.
+  2. Click "Add property" → choose **URL prefix** (NOT Domain) → enter
+     `https://somecarney.github.io/boardgame-dealbot/`
+  3. On the verification screen pick **HTML tag** and copy the long `content="..."` value
+     from the meta tag it shows you.
+  4. Paste that value to Claude (or into `GOOGLE_SITE_VERIFICATION` in
+     `src/render_site.py`, then re-render and push). It goes into every page head.
+  5. Back in Search Console click **Verify**, then open **Sitemaps** in the left menu,
+     type `sitemap.xml`, and click Submit.
+
+  Once verified, Search Console shows which ranked lists get search impressions.
+  The lists usually start showing impressions within 4-8 weeks.
+- **Bing/DuckDuckGo/Yandex** need nothing from you — the bot submits pages to them
+  automatically via IndexNow after every run.
 
 Realistic arc: weeks 1-4 near zero, then deal posts start driving spikes of 50-300 visits,
 and search traffic to the ranked lists compounds from month 2-3 onward. The 3-sales/180-day

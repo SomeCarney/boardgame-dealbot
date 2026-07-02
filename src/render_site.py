@@ -28,6 +28,9 @@ DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 BASE_URL = "https://somecarney.github.io/boardgame-dealbot"
 FACEBOOK_URL = "https://www.facebook.com/profile.php?id=1225021374020132"
 INSTAGRAM_URL = "https://www.instagram.com/boardgameblackmarket/"
+# Google Search Console ownership proof -- rendered into every page head.
+# Not a secret (it is published in the HTML by design). Empty = tag omitted.
+GOOGLE_SITE_VERIFICATION = ""
 
 # filename in content/ -> (output filename, nav title, <meta description>)
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
@@ -54,7 +57,8 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 <title>{{ title }} | {{ site_name }}</title>
 <meta name="description" content="{{ description }}">
 <meta name="theme-color" content="#0e0d0b">
-<link rel="canonical" href="{{ canonical }}">
+{% if google_verification %}<meta name="google-site-verification" content="{{ google_verification }}">
+{% endif %}<link rel="canonical" href="{{ canonical }}">
 <meta property="og:site_name" content="{{ site_name }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ title }}">
@@ -1442,6 +1446,7 @@ def _write_page(
         instagram_url=INSTAGRAM_URL,
         year=datetime.now(timezone.utc).year,
         jsonld=jsonld,
+        google_verification=GOOGLE_SITE_VERIFICATION,
     )
     (SITE_DIR / filename).write_text(html, encoding="utf-8")
 
