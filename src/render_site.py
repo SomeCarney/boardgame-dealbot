@@ -505,6 +505,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 2rem;
   padding: 2.5rem 0 3rem;
   margin-bottom: 1.5rem;
@@ -572,8 +573,6 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .hero-die {
   width: clamp(170px, 22vw, 270px);
   flex-shrink: 0;
-  /* auto margins center the die in whatever space the copy leaves over */
-  margin: 0 auto;
   opacity: .92;
   transform: rotate(12deg);
   filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
