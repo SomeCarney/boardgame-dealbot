@@ -210,7 +210,6 @@ html.js .reveal.in { opacity: 1; transform: none; }
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 2rem;
   padding: 2.5rem 0 3rem;
   margin-bottom: 1.5rem;
@@ -275,6 +274,8 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .hero-die {
   width: clamp(170px, 22vw, 270px);
   flex-shrink: 0;
+  /* auto margins center the die in whatever space the copy leaves over */
+  margin: 0 auto;
   opacity: .92;
   transform: rotate(12deg);
   filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
@@ -941,6 +942,15 @@ html.js .reveal.in { opacity: 1; transform: none; }
 }
 @media (max-width: 640px) {
   .bbg-grid, .guide-grid { grid-template-columns: 1fr; }
+  .bbg-card.featured { padding: 1.4rem; gap: 1rem; }
+  .bbg-card.featured .bbg-card-imgs img { width: 56px; height: 56px; }
+  .bbg-card.featured h3 { font-size: 1.25rem; }
+  .guide-card { padding: 1.2rem; gap: 1rem; }
+  .guide-num { font-size: 2rem; min-width: 2rem; }
+  .page-hero { padding: 1rem 0 1.5rem; margin-bottom: 1.5rem; }
+  .page-hero h1 { font-size: clamp(1.9rem, 8.5vw, 2.6rem); }
+  .crumbs { font-size: .66rem; margin-bottom: 1rem; }
+  .more-block { margin-top: 2.5rem; }
 }
 
 /* ── FOOTER ─────────────────────────── */
