@@ -30,7 +30,7 @@ FACEBOOK_URL = "https://www.facebook.com/profile.php?id=1225021374020132"
 INSTAGRAM_URL = "https://www.instagram.com/boardgameblackmarket/"
 # Google Search Console ownership proof -- rendered into every page head.
 # Not a secret (it is published in the HTML by design). Empty = tag omitted.
-GOOGLE_SITE_VERIFICATION = ""
+GOOGLE_SITE_VERIFICATION = "yL_iQ9hYbc0kDN2G9tMBb-88d995a5_5cz60ED4a-4w"
 
 # filename in content/ -> (output filename, nav title, <meta description>)
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
