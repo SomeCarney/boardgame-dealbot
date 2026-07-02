@@ -128,19 +128,29 @@ def extract_facts(deal: dict[str, Any]) -> dict[str, Any]:
 
 
 def _players_line(facts: dict[str, Any]) -> str | None:
-    if "min_players" not in facts:
+    lo, hi = facts.get("min_players"), facts.get("max_players")
+    if lo is None and hi is None:
         return None
-    if facts["min_players"] == facts.get("max_players"):
-        return f"Players: {facts['min_players']}"
-    return f"Players: {facts['min_players']}-{facts['max_players']}"
+    if hi is None:
+        return f"Players: {lo}+"  # "4+ players" listings set min only
+    if lo is None:
+        return f"Players: up to {hi}"
+    if lo == hi:
+        return f"Players: {lo}"
+    return f"Players: {lo}-{hi}"
 
 
 def _playtime_line(facts: dict[str, Any]) -> str | None:
-    if "min_minutes" not in facts:
+    lo, hi = facts.get("min_minutes"), facts.get("max_minutes")
+    if lo is None and hi is None:
         return None
-    if facts["min_minutes"] == facts.get("max_minutes"):
-        return f"Playtime: ~{facts['min_minutes']} min"
-    return f"Playtime: ~{facts['min_minutes']}-{facts['max_minutes']} min"
+    if hi is None:
+        return f"Playtime: ~{lo}+ min"
+    if lo is None:
+        return f"Playtime: up to {hi} min"
+    if lo == hi:
+        return f"Playtime: ~{lo} min"
+    return f"Playtime: ~{lo}-{hi} min"
 
 
 def _best_for_line(facts: dict[str, Any]) -> str:
