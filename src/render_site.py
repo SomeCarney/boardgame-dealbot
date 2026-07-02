@@ -25,6 +25,9 @@ SITE_DIR = ROOT / "docs"
 SITE_NAME = "Board Game Black Market"
 TAGLINE = "Underground deals on board games -- no markup, no nonsense."
 DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
+BASE_URL = "https://somecarney.github.io/boardgame-dealbot"
+FACEBOOK_URL = "https://www.facebook.com/profile.php?id=1225021374020132"
+INSTAGRAM_URL = "https://www.instagram.com/boardgameblackmarket/"
 
 # filename in content/ -> (output filename, nav title, <meta description>)
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
@@ -44,22 +47,38 @@ GUIDE_SLUGS = {f for f in EVERGREEN_PAGES if f[0].startswith("guide-")}
 env = Environment(autoescape=select_autoescape(["html"]))
 
 BASE_TEMPLATE = env.from_string("""<!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ title }} | {{ site_name }}</title>
 <meta name="description" content="{{ description }}">
+<meta name="theme-color" content="#0e0d0b">
+<link rel="canonical" href="{{ canonical }}">
+<meta property="og:site_name" content="{{ site_name }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:image" content="{{ base_url }}/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title }}">
+<meta name="twitter:description" content="{{ description }}">
+<meta name="twitter:image" content="{{ base_url }}/og-image.png">
+<script>document.documentElement.className = 'js';</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate" type="application/rss+xml" title="{{ site_name }} deal feed" href="{{ base_url }}/deals.xml">
+{% if jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endif %}
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="index.html" aria-label="{{ site_name }} — home">
       <svg class="brand-die" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
         <rect x="4" y="4" width="92" height="92" rx="14" fill="#e8b923"/>
         <rect x="4" y="4" width="92" height="44" rx="14" fill="#f0ca4a" opacity="0.3"/>
@@ -69,34 +88,83 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
         <circle cx="70" cy="50" r="9" fill="#1c1a17"/>
         <circle cx="30" cy="72" r="9" fill="#1c1a17"/>
         <circle cx="70" cy="72" r="9" fill="#1c1a17"/>
-      </svg>{{ site_name }}</a>
-    <p class="tagline">{{ tagline }}</p>
-    <nav>
-      <a href="index.html">Deals</a>
-      <a href="best-board-games.html">Hot Board Games</a>
-      <a href="guides.html">Guides</a>
-      <a href="about.html">About</a>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-top">Board Game</span>
+        <span class="brand-main">Black Market</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" class="site-nav">
+      <a href="index.html"{% if active == 'deals' %} class="active" aria-current="page"{% endif %}>Deals</a>
+      <a href="best-board-games.html"{% if active == 'hot' %} class="active" aria-current="page"{% endif %}>Hot Board Games</a>
+      <a href="guides.html"{% if active == 'guides' %} class="active" aria-current="page"{% endif %}>Guides</a>
+      <a href="about.html"{% if active == 'about' %} class="active" aria-current="page"{% endif %}>About</a>
+      <span class="nav-social">
+        <a href="{{ facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.3-.04-1.3-.12-2.45-.12-2.4 0-4.05 1.46-4.05 4.15v2.27H7.5V13h2.7v8h3.3z"/></svg>
+        </a>
+        <a href="{{ instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4.3c2.5 0 2.8 0 3.8.06 2.55.11 3.74 1.32 3.85 3.85.05 1 .06 1.28.06 3.79 0 2.5-.01 2.8-.06 3.78-.11 2.53-1.3 3.74-3.85 3.86-1 .04-1.3.05-3.8.05s-2.8 0-3.79-.05c-2.55-.12-3.74-1.34-3.85-3.86-.05-1-.06-1.28-.06-3.79s.01-2.79.06-3.78C4.47 5.68 5.66 4.47 8.21 4.36c1-.05 1.29-.06 3.79-.06zM12 2.4c-2.55 0-2.87.01-3.87.06C4.72 2.62 2.83 4.5 2.67 7.92c-.05 1-.06 1.32-.06 3.87s.01 2.88.06 3.88c.16 3.41 2.04 5.3 5.46 5.46 1 .04 1.32.06 3.87.06s2.87-.02 3.87-.06c3.41-.16 5.31-2.04 5.46-5.46.05-1 .06-1.33.06-3.88s-.01-2.87-.06-3.87c-.15-3.41-2.04-5.3-5.45-5.46-1-.05-1.33-.06-3.88-.06zm0 4.57a5.03 5.03 0 1 0 0 10.06 5.03 5.03 0 0 0 0-10.06zm0 8.3a3.27 3.27 0 1 1 0-6.53 3.27 3.27 0 0 1 0 6.54zm5.23-9.68a1.18 1.18 0 1 0 0 2.35 1.18 1.18 0 0 0 0-2.35z"/></svg>
+        </a>
+      </span>
     </nav>
   </div>
 </header>
-<main>
+<main id="main" class="wrap">
 {{ content|safe }}
 </main>
 <footer class="site-footer">
-  <p>{{ disclosure }}</p>
-  <p>Last updated {{ updated }} UTC.</p>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p class="footer-logo">Board Game <span>Black Market</span></p>
+        <p class="footer-tag">{{ tagline }}</p>
+        <p class="footer-social">
+          <a href="{{ facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.3-.04-1.3-.12-2.45-.12-2.4 0-4.05 1.46-4.05 4.15v2.27H7.5V13h2.7v8h3.3z"/></svg></a>
+          <a href="{{ instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4.3c2.5 0 2.8 0 3.8.06 2.55.11 3.74 1.32 3.85 3.85.05 1 .06 1.28.06 3.79 0 2.5-.01 2.8-.06 3.78-.11 2.53-1.3 3.74-3.85 3.86-1 .04-1.3.05-3.8.05s-2.8 0-3.79-.05c-2.55-.12-3.74-1.34-3.85-3.86-.05-1-.06-1.28-.06-3.79s.01-2.79.06-3.78C4.47 5.68 5.66 4.47 8.21 4.36c1-.05 1.29-.06 3.79-.06zM12 2.4c-2.55 0-2.87.01-3.87.06C4.72 2.62 2.83 4.5 2.67 7.92c-.05 1-.06 1.32-.06 3.87s.01 2.88.06 3.88c.16 3.41 2.04 5.3 5.46 5.46 1 .04 1.32.06 3.87.06s2.87-.02 3.87-.06c3.41-.16 5.31-2.04 5.46-5.46.05-1 .06-1.33.06-3.88s-.01-2.87-.06-3.87c-.15-3.41-2.04-5.3-5.45-5.46-1-.05-1.33-.06-3.88-.06zm0 4.57a5.03 5.03 0 1 0 0 10.06 5.03 5.03 0 0 0 0-10.06zm0 8.3a3.27 3.27 0 1 1 0-6.53 3.27 3.27 0 0 1 0 6.54zm5.23-9.68a1.18 1.18 0 1 0 0 2.35 1.18 1.18 0 0 0 0-2.35z"/></svg></a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">Browse</p>
+        <a href="index.html">Current deals</a>
+        <a href="best-board-games.html">Hot board games</a>
+        <a href="guides.html">Buying guides</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">Popular guides</p>
+        <a href="guide-reading-price-history.html">Is this deal actually good?</a>
+        <a href="guide-gateway-games.html">Gateway games</a>
+        <a href="guide-seasonal-sales.html">When sales actually happen</a>
+        <a href="how-we-pick-deals.html">How we pick deals</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">Never miss a drop</p>
+        <p class="footer-note">Every deal is posted to Facebook and Instagram the moment we find it. Follow there, or grab the <a href="deals.xml">RSS feed</a>.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>{{ disclosure }}</p>
+      <p>&copy; {{ year }} {{ site_name }} &middot; Last updated {{ updated }} UTC</p>
+    </div>
+  </div>
 </footer>
+<button class="to-top" aria-label="Back to top">&uarr;</button>
+<script src="site.js" defer></script>
 </body>
 </html>
 """)
 
 DEAL_CARD_TEMPLATE = env.from_string("""
-<article class="deal">
+<article class="deal reveal" data-off="{{ deal.percent_off }}" data-price="{{ deal.price }}" data-rating="{{ deal.rating or 0 }}" data-bs="{{ '1' if deal.is_best_seller else '0' }}">
   {# deal.image_url (the price-banner version) is for social posts, which have
      no surrounding page layout -- the site has its own price/rating block,
      so the plain branded thumbnail (no banner) fits better here #}
   {% set img = deal.site_image_url or deal.image %}
-  {% if img %}<img src="{{ img }}" alt="" loading="lazy">{% endif %}
+  {% if img %}<div class="deal-img"><img src="{{ img }}" alt="" loading="lazy"></div>{% endif %}
   <div class="deal-body">
     <h2 class="deal-title"><a href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">{{ deal.short_title or deal.title }}</a></h2>
     <p class="price">
@@ -125,13 +193,50 @@ DEAL_CARD_TEMPLATE = env.from_string("""
 """)
 
 INDEX_CONTENT_TEMPLATE = env.from_string("""
-<div class="deals-header">
-  <h1>Current Board Game Deals</h1>
-  <span class="deals-freshness">Re-checked every 4 hours</span>
+<section class="hero">
+  <div class="hero-copy">
+    <p class="hero-kicker">The underground price index</p>
+    <h1 class="hero-title">Great games.<br><span class="hero-gold">Black market prices.</span></h1>
+    <p class="hero-sub">Every deal below is checked against 90 days of real Amazon price history.
+    No inflated &#8220;was&#8221; prices, no fake sales &mdash; just genuine drops on games worth owning.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#deals">Browse today's deals</a>
+      <a class="btn btn-ghost" href="best-board-games.html">Hot board games</a>
+    </div>
+    {% if stats %}
+    <dl class="hero-stats">
+      <div><dt>{{ stats.count }}</dt><dd>deals live now</dd></div>
+      <div><dt>{{ stats.avg_off }}%</dt><dd>average discount</dd></div>
+      <div><dt>{{ stats.max_off }}%</dt><dd>deepest cut</dd></div>
+    </dl>
+    {% endif %}
+  </div>
+  <svg class="hero-die" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="4" y="4" width="92" height="92" rx="14" fill="#e8b923"/>
+    <rect x="4" y="4" width="92" height="44" rx="14" fill="#f0ca4a" opacity="0.3"/>
+    <circle cx="30" cy="28" r="9" fill="#1c1a17"/>
+    <circle cx="70" cy="28" r="9" fill="#1c1a17"/>
+    <circle cx="30" cy="50" r="9" fill="#1c1a17"/>
+    <circle cx="70" cy="50" r="9" fill="#1c1a17"/>
+    <circle cx="30" cy="72" r="9" fill="#1c1a17"/>
+    <circle cx="70" cy="72" r="9" fill="#1c1a17"/>
+  </svg>
+</section>
+
+<div class="deals-header" id="deals">
+  <h2 class="section-heading">Current Deals</h2>
+  <span class="deals-freshness"><span class="pulse-dot" aria-hidden="true"></span>Re-checked every 4 hours</span>
 </div>
-<p>Genuine price drops on board games &mdash; tracked automatically against 90-day price history so nothing here is a fake &#8220;sale.&#8221;</p>
 {% if deals_html %}
+<div class="filter-bar" role="group" aria-label="Filter deals">
+  <button class="chip is-active" data-filter="all">All deals</button>
+  <button class="chip" data-filter="deep">30%+ off</button>
+  <button class="chip" data-filter="under25">Under $25</button>
+  <button class="chip" data-filter="bestseller">Best sellers</button>
+  <button class="chip" data-filter="toprated">4.7&#9733; &amp; up</button>
+</div>
 <div class="deal-grid">{{ deals_html|safe }}</div>
+<p class="filter-empty" hidden>Nothing matches that filter right now &mdash; try another.</p>
 {% else %}
 <p>No qualifying deals right now &mdash; check back soon.</p>
 {% endif %}
@@ -150,7 +255,7 @@ STYLE_CSS = """
 :root {
   color-scheme: dark;
   --bg: #0e0d0b;
-  --bg2: #161410;
+  --bg2: #131109;
   --panel: #1e1b17;
   --panel-hover: #252119;
   --panel-border: #38312a;
@@ -162,28 +267,45 @@ STYLE_CSS = """
   --gold-dim: #c49b18;
   --red: #b3242a;
   --red-bright: #d43030;
+  --live: #46d369;
   --display-font: 'Bebas Neue', Oswald, Impact, sans-serif;
   --heading-font: Oswald, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --body-font: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --body-font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   --radius: 10px;
   --shadow: 0 2px 12px rgba(0,0,0,.45);
   --shadow-lg: 0 4px 24px rgba(0,0,0,.6);
+  --ease: cubic-bezier(.2,.6,.2,1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--body-font);
   background: var(--bg);
   color: var(--text);
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 1.25rem 4rem;
   line-height: 1.6;
+  overflow-x: clip;
 }
+/* gold hairline pinned to the very top of the viewport */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-bright) 50%, var(--gold-dim));
+  z-index: 60;
+}
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 1.5rem; }
+main.wrap { padding-bottom: 4rem; }
 
 a { color: var(--gold); text-decoration: none; }
 a:hover, a:focus { color: var(--gold-bright); text-decoration: underline; }
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+::selection { background: var(--gold); color: var(--bg); }
 
 h1, h2, h3, h4 { font-family: var(--heading-font); letter-spacing: .01em; line-height: 1.2; }
 h1 { font-size: 2rem; margin: 1.5rem 0 .6rem; }
@@ -193,64 +315,303 @@ p { margin: .75rem 0; }
 ul, ol { padding-left: 1.4rem; margin: .75rem 0; }
 li { margin-bottom: .35rem; }
 
-/* ── HEADER ─────────────────────────────── */
-.site-header {
-  background: var(--panel);
-  border-bottom: 3px solid var(--gold);
-  margin: 0 -1.25rem 2.5rem;
-  padding: 0 1.25rem;
-  box-shadow: var(--shadow);
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--gold);
+  color: var(--bg);
+  padding: .5rem 1rem;
+  z-index: 100;
+  font-weight: 600;
 }
-.header-inner { max-width: 1100px; margin: 0 auto; padding: 1.5rem 0 1rem; }
-.site-header .brand {
-  font-family: var(--display-font);
-  font-size: 2.5rem;
-  letter-spacing: .04em;
-  color: var(--gold);
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  line-height: 1;
+.skip-link:focus { left: 0; }
+
+/* scroll-reveal (JS adds .in; no-JS builds skip the hidden state entirely) */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
 }
-.brand-die {
-  height: 2.2rem;
-  width: 2.2rem;
-  flex-shrink: 0;
-  filter: drop-shadow(0 2px 8px rgba(232,185,35,.4));
-}
-.site-header .brand:hover { color: var(--gold-bright); text-decoration: none; }
-.site-header .tagline {
-  margin: .3rem 0 1rem;
-  color: var(--text-muted);
-  font-size: .9rem;
-  letter-spacing: .015em;
-}
-.site-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .25rem .1rem;
-}
-.site-header nav a {
-  font-family: var(--heading-font);
-  font-weight: 500;
-  font-size: .875rem;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: var(--text-muted);
-  padding: .3rem .7rem;
-  border-radius: 4px;
-  transition: color .15s, background .15s;
-}
-.site-header nav a:hover {
-  color: var(--gold);
-  background: rgba(232,185,35,.08);
-  text-decoration: none;
+html.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
 
+/* ── HEADER ─────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background:
+    repeating-linear-gradient(-45deg, rgba(232,185,35,.02) 0 1px, transparent 1px 9px),
+    rgba(16,14,11,.88);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border-bottom: 1px solid var(--panel-border);
+  margin-bottom: 2.5rem;
+}
+.header-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: .95rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: padding .25s var(--ease);
+}
+.site-header.scrolled .header-inner { padding-top: .5rem; padding-bottom: .5rem; }
+.site-header.scrolled { box-shadow: var(--shadow-lg); }
+
+.brand { display: flex; align-items: center; gap: .7rem; line-height: 1; }
+.brand:hover { text-decoration: none; }
+.brand-die {
+  height: 2.6rem;
+  width: 2.6rem;
+  flex-shrink: 0;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 2px 10px rgba(232,185,35,.35));
+  transition: transform .45s var(--ease);
+}
+.brand:hover .brand-die { transform: rotate(8deg) scale(1.06); }
+.brand-text { display: flex; flex-direction: column; gap: .18rem; }
+.brand-top {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .62rem;
+  text-transform: uppercase;
+  letter-spacing: .42em;
+  color: var(--text-muted);
+}
+.brand-main {
+  font-family: var(--display-font);
+  font-size: 1.8rem;
+  letter-spacing: .05em;
+  color: var(--gold);
+  transition: color .2s;
+}
+.brand:hover .brand-main { color: var(--gold-bright); }
+
+.site-nav { display: flex; align-items: center; gap: .25rem; }
+.site-nav a {
+  position: relative;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  padding: .5rem .8rem;
+  transition: color .18s;
+}
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: .8rem; right: .8rem; bottom: .2rem;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s var(--ease);
+}
+.site-nav a:hover { color: var(--text); text-decoration: none; }
+.site-nav a:hover::after, .site-nav a.active::after { transform: scaleX(1); }
+.site-nav a.active { color: var(--gold); }
+
+.nav-social {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin-left: .6rem;
+  padding-left: .9rem;
+  border-left: 1px solid var(--panel-border);
+}
+.nav-social a { padding: .4rem; color: var(--text-muted); display: inline-flex; transition: color .18s, transform .18s; }
+.nav-social a:hover { color: var(--gold); transform: translateY(-2px); }
+.nav-social svg { width: 18px; height: 18px; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: none;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: transform .25s var(--ease), opacity .2s;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── HERO ───────────────────────────────── */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 0 3rem;
+  margin-bottom: 1.5rem;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -6rem -20rem -4rem auto;
+  width: 44rem;
+  background: radial-gradient(closest-side, rgba(232,185,35,.09), transparent 70%);
+  pointer-events: none;
+}
+.hero-copy { max-width: 40rem; }
+.hero-kicker {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .34em;
+  color: var(--gold-dim);
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+.hero-kicker::before { content: ""; width: 28px; height: 2px; background: var(--gold-dim); }
+.hero-title {
+  font-family: var(--display-font);
+  font-size: clamp(3.2rem, 7vw, 5rem);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: .02em;
+  color: #fff;
+  margin: 0 0 1.1rem;
+}
+.hero-gold {
+  color: var(--gold);
+  text-shadow: 0 0 34px rgba(232,185,35,.35);
+}
+.hero-sub { font-size: 1.02rem; color: var(--text-muted); max-width: 33rem; margin: 0 0 1.6rem; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+.hero-stats {
+  display: flex;
+  gap: 2.6rem;
+  margin: 2.2rem 0 0;
+}
+.hero-stats dt {
+  font-family: var(--display-font);
+  font-size: 2.3rem;
+  line-height: 1;
+  color: var(--gold);
+}
+.hero-stats dd {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-faint);
+  margin-top: .3rem;
+}
+
+.hero-die {
+  width: clamp(170px, 22vw, 270px);
+  flex-shrink: 0;
+  opacity: .92;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
+  animation: die-float 7s ease-in-out infinite;
+}
+@keyframes die-float {
+  50% { transform: rotate(9deg) translateY(-14px); }
+}
+
+/* ── BUTTONS ────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: .72rem 1.5rem;
+  border-radius: 8px;
+  transition: background .18s, color .18s, border-color .18s, transform .18s, box-shadow .18s;
+}
+.btn:hover { text-decoration: none; transform: translateY(-2px); }
+.btn-gold { background: var(--gold); color: var(--bg); }
+.btn-gold:hover { background: var(--gold-bright); color: var(--bg); box-shadow: 0 6px 22px rgba(232,185,35,.3); }
+.btn-ghost { border: 1px solid var(--panel-border); color: var(--text); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── SECTION HEADINGS / FILTERS ─────────── */
+.section-heading {
+  font-family: var(--display-font);
+  font-size: 2.1rem;
+  font-weight: 400;
+  letter-spacing: .03em;
+  color: #fff;
+  margin: 0;
+}
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--live);
+  margin-right: .45rem;
+  animation: pulse 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(70,211,105,.45); }
+  70% { box-shadow: 0 0 0 9px rgba(70,211,105,0); }
+  100% { box-shadow: 0 0 0 0 rgba(70,211,105,0); }
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 0 0 1.5rem;
+}
+.chip {
+  font-family: var(--body-font);
+  font-weight: 500;
+  font-size: .82rem;
+  color: var(--text-muted);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: .45rem 1.05rem;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s, transform .15s;
+}
+.chip:hover { color: var(--text); border-color: var(--gold-dim); transform: translateY(-1px); }
+.chip.is-active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 600;
+}
+.filter-empty { color: var(--text-muted); padding: 1.5rem 0; }
+
 /* ── DEAL GRID ──────────────────────────── */
-.deals-header { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.deals-header h1 { margin: 0; }
-.deals-freshness { font-size: .82rem; color: var(--text-faint); }
+.deals-header { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1.1rem; scroll-margin-top: 90px; }
+.deals-freshness { font-size: .82rem; color: var(--text-faint); display: inline-flex; align-items: center; }
 
 .deal-grid {
   display: grid;
@@ -271,15 +632,19 @@ li { margin-bottom: .35rem; }
 .deal:hover {
   border-color: var(--gold-dim);
   box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
-.deal img {
+.deal.filtered-out { display: none; }
+.deal-img { overflow: hidden; background: var(--bg2); }
+.deal-img img, .deal > img {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
   background: var(--bg2);
+  transition: transform .45s var(--ease);
 }
+.deal:hover .deal-img img { transform: scale(1.05); }
 .deal-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; flex: 1; }
 
 .deal-title { font-size: 1.5rem; font-family: var(--heading-font); line-height: 1.2; margin: 0 0 .5rem; }
@@ -588,29 +953,204 @@ li { margin-bottom: .35rem; }
 
 /* ── FOOTER ─────────────────────────── */
 .site-footer {
-  margin-top: 4rem;
-  padding-top: 1.25rem;
+  margin-top: 5rem;
   border-top: 1px solid var(--panel-border);
-  color: var(--text-faint);
-  font-size: .82rem;
+  background: var(--bg2);
+  padding: 3rem 0 2rem;
+  font-size: .88rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1.4fr;
+  gap: 2.5rem;
+}
+.footer-logo {
+  font-family: var(--display-font);
+  font-size: 1.45rem;
+  letter-spacing: .05em;
+  color: var(--text);
+  margin: 0 0 .4rem;
+  line-height: 1.1;
+}
+.footer-logo span { color: var(--gold); }
+.footer-tag { color: var(--text-faint); font-size: .84rem; margin: 0 0 1rem; }
+.footer-social { display: flex; gap: .9rem; margin: 0; }
+.footer-social a { color: var(--text-muted); display: inline-flex; transition: color .18s, transform .18s; }
+.footer-social a:hover { color: var(--gold); transform: translateY(-2px); }
+.footer-social svg { width: 20px; height: 20px; }
+
+.footer-col { display: flex; flex-direction: column; gap: .5rem; }
+.footer-heading {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--gold-dim);
+  margin: 0 0 .4rem;
+}
+.footer-col a { color: var(--text-muted); font-size: .86rem; }
+.footer-col a:hover { color: var(--gold); text-decoration: none; }
+.footer-note { color: var(--text-muted); font-size: .84rem; margin: 0; line-height: 1.55; }
+
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.05);
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: .5rem 2rem;
+  color: var(--text-faint);
+  font-size: .76rem;
 }
+.footer-bottom p { margin: 0; }
+
+/* ── BACK TO TOP ─────────────────────── */
+.to-top {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 40;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  color: var(--gold);
+  font-size: 1.15rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity .25s, transform .25s, background .18s, color .18s;
+  box-shadow: var(--shadow);
+}
+.to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+.to-top:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
 /* ── RESPONSIVE ─────────────────────── */
+@media (max-width: 900px) {
+  .hero-die { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+@media (max-width: 820px) {
+  .nav-toggle { display: flex; }
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba(16,14,11,.98);
+    border-bottom: 1px solid var(--panel-border);
+    padding: .5rem 1.25rem 1rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-nav.open { display: flex; }
+  .site-nav a { padding: .8rem .4rem; border-bottom: 1px solid rgba(255,255,255,.04); }
+  .site-nav a::after { display: none; }
+  .nav-social { margin: .6rem 0 0; padding: .6rem 0 0; border-left: none; border-top: 1px solid var(--panel-border); }
+}
 @media (max-width: 600px) {
-  body { padding: 0 .85rem 3rem; }
-  .site-header { margin: 0 -.85rem 1.75rem; padding: 0 .85rem; }
-  .site-header .brand { font-size: 1.9rem; }
+  .wrap, .header-inner { padding-left: 1rem; padding-right: 1rem; }
+  .brand-main { font-size: 1.5rem; }
+  .brand-top { font-size: .55rem; letter-spacing: .34em; }
+  .brand-die { height: 2.1rem; width: 2.1rem; }
   h1 { font-size: 1.6rem; }
+  .hero { padding: 1.5rem 0 2rem; }
+  .hero-title { font-size: clamp(2.2rem, 10.5vw, 3.2rem); }
+  .hero-stats { gap: 1.6rem; }
+  .hero-stats dt { font-size: 1.9rem; }
+  .section-heading { font-size: 1.7rem; }
   .deal-grid, .game-grid { grid-template-columns: 1fr 1fr; gap: .85rem; }
   .deal-title { font-size: 1.2rem; }
   .deal .price .now { font-size: 1.7rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
 }
 @media (max-width: 400px) {
   .deal-grid, .game-grid { grid-template-columns: 1fr; }
 }
+"""
+
+SITE_JS = """
+(function () {
+  var header = document.querySelector('.site-header');
+  var toTop = document.querySelector('.to-top');
+
+  function onScroll() {
+    if (header) header.classList.toggle('scrolled', window.scrollY > 8);
+    if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (toTop) {
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.getElementById('site-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Deal filter chips (index page only)
+  var chips = document.querySelectorAll('.chip[data-filter]');
+  var cards = document.querySelectorAll('.deal-grid .deal');
+  var empty = document.querySelector('.filter-empty');
+  var tests = {
+    all: function () { return true; },
+    deep: function (c) { return parseFloat(c.dataset.off) >= 30; },
+    under25: function (c) { return parseFloat(c.dataset.price) < 25; },
+    bestseller: function (c) { return c.dataset.bs === '1'; },
+    toprated: function (c) { return parseFloat(c.dataset.rating) >= 4.7; }
+  };
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('is-active'); });
+      chip.classList.add('is-active');
+      var test = tests[chip.dataset.filter] || tests.all;
+      var shown = 0;
+      cards.forEach(function (card) {
+        var ok = test(card);
+        card.classList.toggle('filtered-out', !ok);
+        if (ok) { shown++; card.classList.add('in'); }
+      });
+      if (empty) empty.hidden = shown !== 0;
+    });
+  });
+
+  // Scroll-reveal
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  if (reduced || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+})();
 """
 
 
@@ -620,11 +1160,23 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
     (SITE_DIR / "style.css").write_text(STYLE_CSS.strip() + "\n", encoding="utf-8")
+    (SITE_DIR / "site.js").write_text(SITE_JS.strip() + "\n", encoding="utf-8")
 
     deals = deals[:max_listed]
+    stats = None
+    if deals:
+        offs = [d.get("percent_off") or 0 for d in deals]
+        stats = {
+            "count": len(deals),
+            "avg_off": round(sum(offs) / len(offs)),
+            "max_off": max(offs),
+        }
     cards = "\n".join(DEAL_CARD_TEMPLATE.render(deal=d) for d in deals)
-    index_content = INDEX_CONTENT_TEMPLATE.render(tagline=TAGLINE, deals_html=cards)
-    _write_page("index.html", "Board Game Deals", "Automatically tracked board game price drops on Amazon, updated every few hours.", index_content, updated)
+    index_content = INDEX_CONTENT_TEMPLATE.render(tagline=TAGLINE, deals_html=cards, stats=stats)
+    _write_page(
+        "index.html", "Board Game Deals", "Automatically tracked board game price drops on Amazon, updated every few hours.",
+        index_content, updated, active="deals", jsonld=_index_jsonld(deals),
+    )
 
     for content_filename, out_filename, _nav_title, description in EVERGREEN_PAGES:
         source = CONTENT_DIR / content_filename
@@ -632,7 +1184,8 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
             continue  # don't fail the whole run over one missing evergreen page
         page_html = source.read_text(encoding="utf-8")
         title = _title_from_html(page_html) or out_filename
-        _write_page(out_filename, title, description, page_html, updated)
+        active = "guides" if content_filename.startswith("guide-") else "about"
+        _write_page(out_filename, title, description, page_html, updated, active=active)
 
     guides = [
         (out_filename, _title_from_html((CONTENT_DIR / content_filename).read_text()) or out_filename, description)
@@ -640,9 +1193,113 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
         if content_filename.startswith("guide-") and (CONTENT_DIR / content_filename).exists()
     ]
     guides_content = GUIDES_INDEX_TEMPLATE.render(guides=guides)
-    _write_page("guides.html", "Guides", "Practical board-game buying guides.", guides_content, updated)
+    _write_page("guides.html", "Guides", "Practical board-game buying guides.", guides_content, updated, active="guides")
 
     _render_rankings_section(updated)
+    _write_seo_files(deals, updated)
+
+
+def _index_jsonld(deals: list[dict[str, Any]]) -> str:
+    """WebSite + Organization + ItemList structured data for the homepage."""
+    items = []
+    for i, d in enumerate(deals[:20], start=1):
+        product: dict[str, Any] = {
+            "@type": "Product",
+            "name": d.get("short_title") or d.get("title", ""),
+            "url": d.get("link", ""),
+            "offers": {
+                "@type": "Offer",
+                "price": f"{d.get('price', 0):.2f}",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "url": d.get("link", ""),
+            },
+        }
+        img = d.get("site_image_url") or d.get("image")
+        if img:
+            product["image"] = img
+        if d.get("rating") and d.get("review_count"):
+            product["aggregateRating"] = {
+                "@type": "AggregateRating",
+                "ratingValue": d["rating"],
+                "reviewCount": d["review_count"],
+            }
+        items.append({"@type": "ListItem", "position": i, "item": product})
+
+    graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "name": SITE_NAME,
+                "url": BASE_URL,
+                "description": TAGLINE.replace("--", "—"),
+            },
+            {
+                "@type": "Organization",
+                "name": SITE_NAME,
+                "url": BASE_URL,
+                "logo": f"{BASE_URL}/og-image.png",
+                "sameAs": [FACEBOOK_URL, INSTAGRAM_URL],
+            },
+            {"@type": "ItemList", "itemListElement": items},
+        ],
+    }
+    return json.dumps(graph, ensure_ascii=False)
+
+
+def _write_seo_files(deals: list[dict[str, Any]], updated: str) -> None:
+    """sitemap.xml, robots.txt, and an RSS feed of current deals."""
+    from email.utils import format_datetime
+    from xml.sax.saxutils import escape
+
+    today = updated[:10]
+    pages = sorted(p.name for p in SITE_DIR.glob("*.html"))
+    url_entries = "\n".join(
+        f"  <url><loc>{BASE_URL}/{'' if name == 'index.html' else name}</loc><lastmod>{today}</lastmod></url>"
+        for name in pages
+    )
+    sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{url_entries}\n</urlset>\n'
+    (SITE_DIR / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+
+    robots = f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n"
+    (SITE_DIR / "robots.txt").write_text(robots, encoding="utf-8")
+
+    now_utc = datetime.now(timezone.utc)
+    items_xml = ""
+    for d in deals[:25]:
+        title = f"{d.get('short_title') or d.get('title', '')} — ${d.get('price', 0):.2f} ({d.get('percent_off', 0)}% off)"
+        pub = now_utc
+        if d.get("posted_at"):
+            try:
+                pub = datetime.fromisoformat(str(d["posted_at"]).replace("Z", "+00:00"))
+                if pub.tzinfo is None:
+                    pub = pub.replace(tzinfo=timezone.utc)
+            except ValueError:
+                pass
+        desc_bits = [f"${d.get('price', 0):.2f}, was ${d.get('typical_price', 0):.2f} — {d.get('percent_off', 0)}% off."]
+        if d.get("rating"):
+            desc_bits.append(f"{d['rating']}/5 stars ({d.get('review_count') or 0} reviews).")
+        items_xml += (
+            "  <item>\n"
+            f"    <title>{escape(title)}</title>\n"
+            f"    <link>{escape(d.get('link', BASE_URL))}</link>\n"
+            f"    <guid isPermaLink=\"false\">{escape(str(d.get('asin', '')))}-{d.get('price', 0)}</guid>\n"
+            f"    <pubDate>{format_datetime(pub)}</pubDate>\n"
+            f"    <description>{escape(' '.join(desc_bits))}</description>\n"
+            "  </item>\n"
+        )
+    rss = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0">\n<channel>\n'
+        f"  <title>{escape(SITE_NAME)} — Deal Feed</title>\n"
+        f"  <link>{BASE_URL}</link>\n"
+        "  <description>Genuine board game price drops, checked against 90-day Amazon price history.</description>\n"
+        f"  <lastBuildDate>{format_datetime(now_utc)}</lastBuildDate>\n"
+        f"{items_xml}"
+        "</channel>\n</rss>\n"
+    )
+    (SITE_DIR / "deals.xml").write_text(rss, encoding="utf-8")
 
 
 def _render_rankings_section(updated: str) -> None:
@@ -675,7 +1332,7 @@ def _render_rankings_section(updated: str) -> None:
     criteria_html = "<p>Every list on this page is ranked by a weighted score combining Amazon star ratings, review count, and current sales rank.</p>"
 
     hub_content = f"<h1>Hot Board Games</h1>\n{criteria_html}\n<div class=\"bbg-hub\">{hub_items_html}</div>"
-    _write_page("best-board-games.html", "Hot Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated)
+    _write_page("best-board-games.html", "Hot Board Games", "Ranked lists of the best board games by player count, genre, and all time.", hub_content, updated, active="hot")
 
     # Individual ranked list pages
     for key, lst in lists.items():
@@ -723,7 +1380,7 @@ def _render_rankings_section(updated: str) -> None:
             blurb_html = f'<p class="ranked-blurb">{blurb}</p>' if blurb else ""
             link = game.get("link", f'https://www.amazon.com/dp/{game["asin"]}?tag=carnivalgam06-20')
 
-            items_html += f"""<li class="ranked-item">
+            items_html += f"""<li class="ranked-item reveal">
   <span class="ranked-num">#{rank_num}</span>
   <a href="{link}" rel="nofollow sponsored noopener" target="_blank">{img_wrap}</a>
   <div class="ranked-body">
@@ -736,10 +1393,40 @@ def _render_rankings_section(updated: str) -> None:
 
         refresh_note = f'<p style="font-size:.8rem;color:var(--text-faint);margin-top:1rem;">Rankings last updated: {cache.get("updated_at","")[:10]}. Refreshed monthly.</p>'
         page_content = f"<h1>{title}</h1>\n<p>{description}</p>\n{refresh_note}\n<ol class=\"ranked-list\">{items_html}</ol>"
-        _write_page(f"{slug}.html", title, description, page_content, updated)
+
+        # ItemList structured data: best-first, matching the list's true ranking
+        jsonld_items = []
+        for pos, game in enumerate(games, start=1):
+            entry: dict[str, Any] = {
+                "@type": "ListItem",
+                "position": pos,
+                "name": game["title"],
+                "url": game.get("link", ""),
+            }
+            if game.get("image_id"):
+                entry["image"] = f"https://m.media-amazon.com/images/I/{game['image_id']}"
+            jsonld_items.append(entry)
+        jsonld = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": title,
+            "description": description,
+            "itemListElement": jsonld_items,
+        }, ensure_ascii=False)
+
+        _write_page(f"{slug}.html", title, description, page_content, updated, active="hot", jsonld=jsonld)
 
 
-def _write_page(filename: str, title: str, description: str, content_html: str, updated: str) -> None:
+def _write_page(
+    filename: str,
+    title: str,
+    description: str,
+    content_html: str,
+    updated: str,
+    active: str = "",
+    jsonld: str | None = None,
+) -> None:
+    canonical = BASE_URL + "/" + ("" if filename == "index.html" else filename)
     html = BASE_TEMPLATE.render(
         title=title,
         description=description,
@@ -748,6 +1435,13 @@ def _write_page(filename: str, title: str, description: str, content_html: str, 
         disclosure=DISCLOSURE,
         content=content_html,
         updated=updated,
+        active=active,
+        canonical=canonical,
+        base_url=BASE_URL,
+        facebook_url=FACEBOOK_URL,
+        instagram_url=INSTAGRAM_URL,
+        year=datetime.now(timezone.utc).year,
+        jsonld=jsonld,
     )
     (SITE_DIR / filename).write_text(html, encoding="utf-8")
 

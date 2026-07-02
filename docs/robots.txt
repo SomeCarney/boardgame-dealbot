@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://somecarney.github.io/boardgame-dealbot/sitemap.xml

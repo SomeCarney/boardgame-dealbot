@@ -19,3 +19,4 @@ config/best_sellers_cache.json
 config/facebook_post_state.json
 config/instagram_post_state.json
 
+social_drafts.md

@@ -91,4 +91,7 @@ def _build_caption(deal: dict[str, Any]) -> str:
     lines.append(deal["link"])
     lines.append("")
     lines.append("As an Amazon Associate I earn from qualifying purchases.")
+    lines.append("")
+    # Facebook rewards fewer, targeted tags than Instagram
+    lines.append("#boardgames #boardgamedeals #gamenight")
     return "\n".join(lines)

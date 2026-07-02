@@ -125,4 +125,10 @@ def _build_caption(deal: dict[str, Any]) -> str:
     lines.append(deal["link"])
     lines.append("")
     lines.append("As an Amazon Associate I earn from qualifying purchases.")
+    lines.append("")
+    # Discovery hashtags: mix of large (reach) and mid-size (ranking) tags.
+    lines.append(
+        "#boardgames #boardgamedeals #tabletopgames #boardgamegeek #gamenight "
+        "#familygamenight #boardgamer #tabletopgaming #boardgamesofinstagram #boardgameaddict"
+    )
     return "\n".join(lines)

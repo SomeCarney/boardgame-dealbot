@@ -59,3 +59,19 @@ if ($LASTEXITCODE -ne 0) {
 } else {
     Add-Content -Path $logFile -Value "No new deals this run -- nothing to commit."
 }
+
+# Refresh social_drafts.md (local-only, gitignored) with copy-paste-ready
+# community posts for the freshest deals. Best-effort: a failure here must
+# never fail the money pipeline.
+try {
+    $draftProc = Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "src\make_social_drafts.py" `
+        -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
+        -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
+    Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile
+    Remove-Item $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue
+    if ($draftProc.ExitCode -ne 0) {
+        Add-Content -Path $logFile -Value "Social drafts generation failed (exit $($draftProc.ExitCode)) -- non-fatal."
+    }
+} catch {
+    Add-Content -Path $logFile -Value "Social drafts generation errored -- non-fatal: $_"
+}
