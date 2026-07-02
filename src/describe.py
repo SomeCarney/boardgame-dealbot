@@ -164,17 +164,23 @@ def _best_for_line(facts: dict[str, Any]) -> str:
     return "Best for: general tabletop game fans"
 
 
-def extract_short_title(full_title: str) -> str:
-    """Strip brand names and generic suffixes from a verbose Amazon product title
-    to get something close to the actual game name."""
-    part = _TITLE_SPLIT_RE.split(full_title)[0].strip()
-    part = _BRAND_PREFIX_RE.sub("", part).strip()
-    for _ in range(3):
-        cleaned = _TRAILING_JUNK_RE.sub("", part).strip()
-        if cleaned == part:
-            break
-        part = cleaned
-    return part or full_title.split(",")[0].strip()
+def extract_short_title(full_title: str, brand: str | None = None) -> str:
+    """The actual game name, not the Amazon listing title. Delegates to
+    game_title.get_game_title, which verifies candidates against the
+    BoardGameGeek database and falls back to heuristics. Never raises."""
+    try:
+        from game_title import get_game_title
+        return get_game_title(full_title, brand)
+    except Exception:
+        # last-resort legacy heuristic -- a bad short title must never kill a run
+        part = _TITLE_SPLIT_RE.split(full_title)[0].strip()
+        part = _BRAND_PREFIX_RE.sub("", part).strip()
+        for _ in range(3):
+            cleaned = _TRAILING_JUNK_RE.sub("", part).strip()
+            if cleaned == part:
+                break
+            part = cleaned
+        return part or full_title.split(",")[0].strip()
 
 
 def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
@@ -190,7 +196,7 @@ def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
     return {
         "summary_lines": summary_lines,
         "detailed": _generate_detailed(deal, facts),
-        "short_title": extract_short_title(deal.get("title", "")),
+        "short_title": extract_short_title(deal.get("title", ""), deal.get("brand")),
         "facts": facts,
     }
 

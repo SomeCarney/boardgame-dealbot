@@ -228,6 +228,7 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
         deals.append({
             "asin": p.get("asin"),
             "title": p.get("title") or "Unknown title",
+            "brand": p.get("brand") or "",
             "description": p.get("description") or "",
             "features": p.get("features") or [],
             "price": price,
