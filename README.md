@@ -155,11 +155,23 @@ Disable-ScheduledTask -TaskName "BoardGameDealBot"    # pause it
 Run history (including errors) is in `logs\run_local.log` -- check there
 first if a weekly glance at the site looks stale.
 
+## Growing the audience
+
+See `marketing/GROWTH_PLAYBOOK.md` for the full strategy (~30 min/week).
+The short version: after every run the bot rewrites `social_drafts.md`
+(local-only, gitignored) with copy-paste-ready posts for r/boardgamedeals,
+the BGG Bargains forum, Facebook groups, and X -- with clean non-affiliate
+links where community rules require them. SEO (sitemap, structured data,
+share cards), an RSS feed (`docs/deals.xml`), and social hashtags are all
+automatic.
+
 ## Check-in checklist (this is the "passive" part)
 
 **Weekly (a few minutes):**
 - Skim the last few posts on the site -- do they look like real, sensible
   deals?
+- Open `social_drafts.md` and post the best deal to r/boardgamedeals
+  (see the growth playbook for the rules that keep the account safe).
 - Check the Amazon Associates dashboard for clicks/sales.
 - If the site looks stale, check `logs\run_local.log` and that this PC has
   been on/connected -- the schedule only runs while it is.
