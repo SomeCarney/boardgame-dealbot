@@ -27,6 +27,7 @@ import facebook_post  # noqa: E402
 import fetch_deals  # noqa: E402
 import image_compose  # noqa: E402
 import instagram_post  # noqa: E402
+import refresh_deals  # noqa: E402
 import render_site  # noqa: E402
 import telegram_post  # noqa: E402
 
@@ -106,7 +107,19 @@ def main() -> None:
     dry_run = os.environ.get("DRY_RUN") == "1"
     config = load_config()
     log = load_log()
-    already_posted = {entry["asin"] for entry in log}
+
+    # Re-check the deals currently on the site; discounts that ended come off
+    # the site but stay in the log as history (see refresh_deals.py).
+    if not dry_run:
+        try:
+            if refresh_deals.mark_expired(log, config):
+                save_log(log)  # persist immediately so a later crash can't lose it
+        except Exception:
+            logger.exception("Deal refresh failed -- continuing with all listed deals")
+
+    # Expired entries don't block re-posting: if the same game genuinely goes
+    # on sale again later, it qualifies as a fresh deal (new log entry).
+    already_posted = {entry["asin"] for entry in log if not entry.get("expired_at")}
 
     candidates = fetch_deals.fetch_deals(config)
     logger.info("Fetched %d candidate deals", len(candidates))

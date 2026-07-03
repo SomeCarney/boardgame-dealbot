@@ -29,7 +29,7 @@ affiliate:
   # never committed to this file
 
 site:
-  base_url: "https://somecarney.github.io/boardgame-dealbot"
+  base_url: "https://boardgameblackmarket.com"
   # used to build public URLs for composited images (Facebook/Instagram's
   # APIs fetch images by URL server-side, so they need to be live on Pages
   # before the post call is made -- main.py commits+pushes before posting)

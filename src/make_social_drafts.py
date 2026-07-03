@@ -35,6 +35,8 @@ def _fresh_deals() -> list[dict]:
     cutoff = datetime.now(timezone.utc) - timedelta(hours=FRESH_WINDOW_HOURS)
     fresh = []
     for d in log:
+        if d.get("expired_at"):
+            continue  # never draft a post for a deal that already ended
         try:
             posted = datetime.fromisoformat(str(d.get("posted_at", "")).replace("Z", "+00:00"))
             if posted.tzinfo is None:

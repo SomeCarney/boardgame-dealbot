@@ -1476,8 +1476,9 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     (SITE_DIR / "style.css").write_text(STYLE_CSS.strip() + "\n", encoding="utf-8")
     (SITE_DIR / "site.js").write_text(SITE_JS.strip() + "\n", encoding="utf-8")
 
-    # a deal card without box art looks broken -- skip imageless deals entirely
-    deals = [d for d in deals if d.get("site_image_url") or d.get("image")]
+    # skip deals whose discount has ended (kept in the log as sale history)
+    # and deals without box art (a bare card looks broken)
+    deals = [d for d in deals if not d.get("expired_at") and (d.get("site_image_url") or d.get("image"))]
     deals = deals[:max_listed]
     stats = None
     if deals:
