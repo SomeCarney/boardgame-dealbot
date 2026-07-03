@@ -45,6 +45,13 @@ SOCIAL_SIZE = 1080
 BANNER_HEIGHT = 280
 THUMB_SIZE = 800
 
+# Instagram's profile grid crops square posts to a centered 3:4 tile, keeping
+# only the middle 810px horizontally. Product art, prices, and badges must all
+# live inside this band or they get clipped in the grid (feed shows the full
+# square; Facebook is unaffected either way).
+SAFE_W = 810
+SAFE_X0 = (SOCIAL_SIZE - SAFE_W) // 2
+
 FONT_IMPACT = "C:/Windows/Fonts/impact.ttf"
 FONT_BOLD = "C:/Windows/Fonts/arialbd.ttf"
 
@@ -135,37 +142,47 @@ def _build_social_canvas(product_img: Image.Image, deal: dict[str, Any]) -> Imag
     canvas = Image.new("RGB", (SOCIAL_SIZE, SOCIAL_SIZE), BRAND_PANEL)
 
     available_height = SOCIAL_SIZE - BANNER_HEIGHT
-    resized = _fit(product_img, SOCIAL_SIZE, available_height)
+    resized = _fit(product_img, SAFE_W, available_height)
     paste_x = (SOCIAL_SIZE - resized.width) // 2
     paste_y = (available_height - resized.height) // 2
     canvas.paste(resized, (paste_x, paste_y))
 
     draw = ImageDraw.Draw(canvas, "RGBA")
     banner_top = SOCIAL_SIZE - BANNER_HEIGHT
+    # background strip still runs edge to edge -- only CONTENT needs the safe zone
     draw.rectangle([0, banner_top, SOCIAL_SIZE, SOCIAL_SIZE], fill=(15, 14, 12, 235))
 
     now_font = ImageFont.truetype(FONT_IMPACT, 110)
     was_font = ImageFont.truetype(FONT_BOLD, 46)
     badge_font = ImageFont.truetype(FONT_IMPACT, 64)
 
-    text_x = 50
     was_text = f"${deal['typical_price']:.2f}"
+    now_text = f"${deal['price']:.2f}"
+    badge_text = f"{deal['percent_off']}% OFF"
+
+    # measure everything, then center the whole price+badge group in the
+    # safe zone so nothing can be clipped by the 3:4 grid crop
+    price_w = max(draw.textlength(was_text, font=was_font), draw.textlength(now_text, font=now_font))
+    badge_bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
+    badge_w, badge_h = badge_bbox[2] - badge_bbox[0], badge_bbox[3] - badge_bbox[1]
+    badge_pad = 24
+    badge_total_w = badge_w + badge_pad * 2
+    gap = 56
+    group_w = price_w + gap + badge_total_w
+    group_x = max(SAFE_X0, (SOCIAL_SIZE - int(group_w)) // 2)
+
+    text_x = group_x
     was_y = banner_top + 36
     draw.text((text_x, was_y), was_text, font=was_font, fill=MUTED)
     was_bbox = draw.textbbox((text_x, was_y), was_text, font=was_font)
     strike_y = (was_bbox[1] + was_bbox[3]) // 2
     draw.line([(was_bbox[0] - 4, strike_y), (was_bbox[2] + 4, strike_y)], fill=MUTED, width=4)
 
-    now_text = f"${deal['price']:.2f}"
     now_y = was_bbox[3] + 6
     draw.text((text_x, now_y), now_text, font=now_font, fill=GOLD)
 
-    badge_text = f"{deal['percent_off']}% OFF"
-    badge_bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
-    badge_w, badge_h = badge_bbox[2] - badge_bbox[0], badge_bbox[3] - badge_bbox[1]
-    badge_pad = 24
-    badge_x2 = SOCIAL_SIZE - 40
-    badge_x1 = badge_x2 - badge_w - badge_pad * 2
+    badge_x1 = group_x + int(price_w) + gap
+    badge_x2 = badge_x1 + badge_total_w
     badge_y1 = banner_top + (BANNER_HEIGHT - badge_h - badge_pad * 2) // 2
     badge_y2 = badge_y1 + badge_h + badge_pad * 2
     draw.rounded_rectangle([badge_x1, badge_y1, badge_x2, badge_y2], radius=16, fill=RED)
