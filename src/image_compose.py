@@ -70,15 +70,15 @@ def compose_images(deal: dict[str, Any]) -> tuple[str | None, str | None]:
         return None, None
 
     try:
-        branded = _replace_white_background(product_img, BRAND_PANEL)
+        mask_bg = _background_mask(product_img)
     except Exception:
-        logger.exception("Background replacement failed for %s, using original photo", deal.get("asin"))
-        branded = product_img
+        logger.exception("Background masking failed for %s, keeping full photo", deal.get("asin"))
+        mask_bg = Image.new("L", product_img.size, 0)  # nothing masked out
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     return (
-        _save_social_image(branded, deal),
-        _save_site_thumbnail(branded, deal),
+        _save_social_image(product_img, mask_bg, deal),
+        _save_site_thumbnail(product_img, mask_bg, deal),
     )
 
 
@@ -94,18 +94,76 @@ def _load_product_image(deal: dict[str, Any]) -> Image.Image | None:
         return None
 
 
-def _replace_white_background(img: Image.Image, bg_color: tuple[int, int, int]) -> Image.Image:
-    r, g, b = img.split()
-    min_channel = ImageChops.darker(ImageChops.darker(r, g), b)
-    mask = min_channel.point(lambda p: 255 if p >= WHITE_THRESHOLD else 0)
-    mask = mask.filter(ImageFilter.GaussianBlur(EDGE_FEATHER_PX))
-    background = Image.new("RGB", img.size, bg_color)
-    return Image.composite(background, img, mask)
+def _background_mask(img: Image.Image) -> Image.Image:
+    """L mask, 255 = studio background. Flood-fills from the borders so ONLY
+    the connected outer background is selected -- white components INSIDE the
+    product (cards, dice, box art) are preserved, unlike a global whiteness
+    threshold which erased them."""
+    work = img.copy()
+    w, h = work.size
+    px = work.load()
+    marker = (255, 0, 255)  # never occurs in product photography
+
+    # tight thresh: white game components (cards, dice) often touch the studio
+    # background seamlessly, and a loose fill leaks into them (verified on
+    # That's Not a Hat -- thresh 40 ate half a card, 22 preserved it)
+    step = max(6, w // 60)
+    seeds = [(x, y) for x in range(0, w, step) for y in (0, h - 1)]
+    seeds += [(x, y) for y in range(0, h, step) for x in (0, w - 1)]
+    for sx, sy in seeds:
+        pixel = px[sx, sy]
+        if pixel == marker:
+            continue  # already filled by an earlier seed
+        if min(pixel[:3]) >= WHITE_THRESHOLD - 10:
+            ImageDraw.floodfill(work, (sx, sy), marker, thresh=22)
+
+    target = Image.new("RGB", work.size, marker)
+    diff = ImageChops.difference(work, target).convert("L")
+    mask = diff.point(lambda p: 255 if p == 0 else 0)
+    return mask.filter(ImageFilter.GaussianBlur(EDGE_FEATHER_PX))
 
 
-def _save_social_image(branded: Image.Image, deal: dict[str, Any]) -> str | None:
+def _branded_canvas(w: int, h: int, glow_center: tuple[int, int] | None = None) -> Image.Image:
+    """Brand background: panel base, faint diagonal pinstripes (the site
+    header texture), a soft gold glow behind the subject, darker corners."""
+    canvas = Image.new("RGB", (w, h), BRAND_PANEL)
+
+    stripes = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(stripes)
+    for x in range(-h, w + h, 26):
+        sd.line([(x, h), (x + h, 0)], fill=(232, 185, 35, 8), width=1)
+    canvas = Image.alpha_composite(canvas.convert("RGBA"), stripes)
+
+    cx, cy = glow_center or (w // 2, h // 2)
+    glow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    r = int(min(w, h) * 0.46)
+    gd.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(232, 185, 35, 34))
+    canvas = Image.alpha_composite(canvas, glow.filter(ImageFilter.GaussianBlur(min(w, h) * 0.10)))
+
+    vignette = Image.new("L", (w, h), 0)
+    vd = ImageDraw.Draw(vignette)
+    vd.ellipse([-w * 0.3, -h * 0.3, w * 1.3, h * 1.3], fill=36)
+    vd.ellipse([w * 0.04, h * 0.04, w * 0.96, h * 0.96], fill=0)
+    dark = Image.new("RGBA", (w, h), (10, 9, 8, 255))
+    canvas = Image.composite(dark, canvas, vignette.filter(ImageFilter.GaussianBlur(min(w, h) * 0.05)))
+
+    return canvas.convert("RGB")
+
+
+def _paste_subject(canvas: Image.Image, product: Image.Image, mask_bg: Image.Image,
+                   box: tuple[int, int, int, int]) -> None:
+    """Pastes the product's SUBJECT pixels (background masked out) into
+    canvas at box, resizing product and mask together."""
+    x, y, tw, th = box
+    resized = product.resize((tw, th), Image.Resampling.LANCZOS)
+    subject_alpha = ImageChops.invert(mask_bg).resize((tw, th), Image.Resampling.LANCZOS)
+    canvas.paste(resized, (x, y), subject_alpha)
+
+
+def _save_social_image(product: Image.Image, mask_bg: Image.Image, deal: dict[str, Any]) -> str | None:
     try:
-        canvas = _build_social_canvas(branded, deal)
+        canvas = _build_social_canvas(product, mask_bg, deal)
         out_path = OUTPUT_DIR / f"{deal['asin']}.jpg"
         canvas.save(out_path, "JPEG", quality=88)
         return f"images/{deal['asin']}.jpg"
@@ -114,9 +172,9 @@ def _save_social_image(branded: Image.Image, deal: dict[str, Any]) -> str | None
         return None
 
 
-def _save_site_thumbnail(branded: Image.Image, deal: dict[str, Any]) -> str | None:
+def _save_site_thumbnail(product: Image.Image, mask_bg: Image.Image, deal: dict[str, Any]) -> str | None:
     try:
-        canvas = _build_thumbnail_canvas(branded)
+        canvas = _build_thumbnail_canvas(product, mask_bg)
         out_path = OUTPUT_DIR / f"site_{deal['asin']}.jpg"
         canvas.save(out_path, "JPEG", quality=88)
         return f"images/site_{deal['asin']}.jpg"
@@ -125,27 +183,26 @@ def _save_site_thumbnail(branded: Image.Image, deal: dict[str, Any]) -> str | No
         return None
 
 
-def _fit(img: Image.Image, max_w: int, max_h: int) -> Image.Image:
+def _fit_box(img: Image.Image, max_w: int, max_h: int) -> tuple[int, int]:
     scale = min(max_w / img.width, max_h / img.height)
-    new_size = (max(1, int(img.width * scale)), max(1, int(img.height * scale)))
-    return img.resize(new_size, Image.Resampling.LANCZOS)
+    return max(1, int(img.width * scale)), max(1, int(img.height * scale))
 
 
-def _build_thumbnail_canvas(product_img: Image.Image) -> Image.Image:
-    canvas = Image.new("RGB", (THUMB_SIZE, THUMB_SIZE), BRAND_PANEL)
-    resized = _fit(product_img, THUMB_SIZE, THUMB_SIZE)
-    canvas.paste(resized, ((THUMB_SIZE - resized.width) // 2, (THUMB_SIZE - resized.height) // 2))
+def _build_thumbnail_canvas(product: Image.Image, mask_bg: Image.Image) -> Image.Image:
+    canvas = _branded_canvas(THUMB_SIZE, THUMB_SIZE)
+    tw, th = _fit_box(product, THUMB_SIZE, THUMB_SIZE)
+    _paste_subject(canvas, product, mask_bg, ((THUMB_SIZE - tw) // 2, (THUMB_SIZE - th) // 2, tw, th))
     return canvas
 
 
-def _build_social_canvas(product_img: Image.Image, deal: dict[str, Any]) -> Image.Image:
-    canvas = Image.new("RGB", (SOCIAL_SIZE, SOCIAL_SIZE), BRAND_PANEL)
-
+def _build_social_canvas(product: Image.Image, mask_bg: Image.Image, deal: dict[str, Any]) -> Image.Image:
     available_height = SOCIAL_SIZE - BANNER_HEIGHT
-    resized = _fit(product_img, SAFE_W, available_height)
-    paste_x = (SOCIAL_SIZE - resized.width) // 2
-    paste_y = (available_height - resized.height) // 2
-    canvas.paste(resized, (paste_x, paste_y))
+    canvas = _branded_canvas(SOCIAL_SIZE, SOCIAL_SIZE, glow_center=(SOCIAL_SIZE // 2, available_height // 2))
+
+    tw, th = _fit_box(product, SAFE_W, available_height)
+    paste_x = (SOCIAL_SIZE - tw) // 2
+    paste_y = (available_height - th) // 2
+    _paste_subject(canvas, product, mask_bg, (paste_x, paste_y, tw, th))
 
     draw = ImageDraw.Draw(canvas, "RGBA")
     banner_top = SOCIAL_SIZE - BANNER_HEIGHT

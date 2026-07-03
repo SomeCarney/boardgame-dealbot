@@ -122,6 +122,8 @@ def verify_site_fresh(pushed: bool) -> None:
     if not pushed:
         return
     posted = json.loads(POSTED_LOG.read_text(encoding="utf-8"))
+    # expired deals are deliberately absent from the site -- never probe for one
+    posted = [d for d in posted if not d.get("expired_at")]
     if not posted:
         return
     newest = max(posted, key=lambda d: d.get("posted_at") or "")
