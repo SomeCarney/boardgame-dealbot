@@ -2,9 +2,17 @@
   var header = document.querySelector('.site-header');
   var toTop = document.querySelector('.to-top');
 
+  // Hysteresis: shrink at 48px, expand only back at 8px. A single threshold
+  // makes the header's own height change re-cross the threshold and the page
+  // visibly vibrates when resting near the top.
+  var shrunk = false;
   function onScroll() {
-    if (header) header.classList.toggle('scrolled', window.scrollY > 8);
-    if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+    var y = window.scrollY;
+    if (header) {
+      if (!shrunk && y > 48) { shrunk = true; header.classList.add('scrolled'); }
+      else if (shrunk && y < 8) { shrunk = false; header.classList.remove('scrolled'); }
+    }
+    if (toTop) toTop.classList.toggle('show', y > 600);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

@@ -1386,9 +1386,17 @@ SITE_JS = """
   var header = document.querySelector('.site-header');
   var toTop = document.querySelector('.to-top');
 
+  // Hysteresis: shrink at 48px, expand only back at 8px. A single threshold
+  // makes the header's own height change re-cross the threshold and the page
+  // visibly vibrates when resting near the top.
+  var shrunk = false;
   function onScroll() {
-    if (header) header.classList.toggle('scrolled', window.scrollY > 8);
-    if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+    var y = window.scrollY;
+    if (header) {
+      if (!shrunk && y > 48) { shrunk = true; header.classList.add('scrolled'); }
+      else if (shrunk && y < 8) { shrunk = false; header.classList.remove('scrolled'); }
+    }
+    if (toTop) toTop.classList.toggle('show', y > 600);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -1468,6 +1476,8 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     (SITE_DIR / "style.css").write_text(STYLE_CSS.strip() + "\n", encoding="utf-8")
     (SITE_DIR / "site.js").write_text(SITE_JS.strip() + "\n", encoding="utf-8")
 
+    # a deal card without box art looks broken -- skip imageless deals entirely
+    deals = [d for d in deals if d.get("site_image_url") or d.get("image")]
     deals = deals[:max_listed]
     stats = None
     if deals:
@@ -1651,9 +1661,18 @@ def _render_rankings_section(updated: str) -> None:
     # Hub page: one collage card per list, top games' box art stacked
     hub_sections = [
         ("All Time", ["all-time"]),
-        ("Player Count", ["solo", "2p", "3p", "4p-plus"]),
+        ("Player Count", ["solo", "2p", "3p", "4p", "5p", "6p-plus"]),
         ("By Genre", ["strategy", "coop", "social-deduction", "party", "family", "gateway"]),
     ]
+
+    # Cross-list frequency: staples like Catan appear in many lists, so
+    # collages prefer each list's DISTINCTIVE games (fewest appearances)
+    # to keep the hub visually varied. List order itself is unchanged.
+    freq: dict[str, int] = {}
+    for lst in lists.values():
+        for g in lst.get("games", []):
+            freq[g["asin"]] = freq.get(g["asin"], 0) + 1
+
     hub_items_html = ""
     for section_label, keys in hub_sections:
         cards_html = ""
@@ -1667,8 +1686,11 @@ def _render_rankings_section(updated: str) -> None:
             games = lst.get("games", [])
             featured = key == "all-time"
             n_thumbs = 5 if featured else 3
-            # first N games that actually have box art
-            thumb_imgs = [g for g in games if g.get("image_id")][:n_thumbs]
+            # rarest-first, rank as tiebreaker, only games with box art
+            thumb_imgs = sorted(
+                (g for g in games if g.get("image_id")),
+                key=lambda g, _games=games: (freq.get(g["asin"], 0), _games.index(g)),
+            )[:n_thumbs]
             thumbs = "".join(
                 f'<img src="https://m.media-amazon.com/images/I/{g["image_id"]}" alt="" loading="lazy">'
                 for g in thumb_imgs

@@ -143,8 +143,10 @@ def compute_ranked_list(
     else:
         rows.sort(key=lambda r: -r["score"])
 
-    # Only keep games that have at least image OR title (skip empty stubs)
-    rows = [r for r in rows if r["title"] and r["asin"]]
+    # Box art is required: a ranked entry with a placeholder die looks broken.
+    # (Missing images are backstopped from the previous cache in main() first,
+    # so only games Keepa has never had art for get dropped.)
+    rows = [r for r in rows if r["title"] and r["asin"] and r["image_id"]]
     return rows[:count]
 
 

@@ -638,11 +638,11 @@ games:
 lists:
   all-time:
     slug: best-all-time
-    title: "Hottest Board Games of All Time"
+    title: "Hottest Board Games"
     description: >
-      Ranked by a combination of critical acclaim, sustained community consensus, Amazon buyer
-      ratings, and commercial staying power. Games on this list have proven their value across
-      years of play, not just launch hype.
+      The definitive list — the games worth owning, period. Ranked by a combination of
+      critical acclaim, community consensus, Amazon buyer ratings, and commercial staying
+      power.
     count: 30
     ranking: editorial
     asins:
@@ -773,36 +773,112 @@ lists:
       - B0GKBFFRBW
       - B0CHD8RCSJ
 
-  4p-plus:
-    slug: best-4-plus-player
-    title: "Hottest 4+ Player Board Games"
+  4p:
+    slug: best-4-player
+    title: "Hottest 4-Player Board Games"
     description: >
-      Games that actually get better with more people — designed for the full table, not
-      just tolerating a crowd. Every game here rewards the interaction that comes from
-      having four, five, or more players.
+      Four players is the sweet spot for most modern board games — full interaction, real
+      competition, and no dead seats. Every game here genuinely shines with exactly four
+      at the table.
     count: 20
     ranking: formula
     asins:
-      - B0FJMQB63N
-      - B07T446163
-      - B0F692PJDW
-      - B09KWZMXLX
-      - B01F46RPS4
-      - B010HEZHII
-      - B08R2BPLSN
-      - B09BSP7B7V
-      - B013TJ5P80
-      - B08F65MX4L
-      - B00M07OQ1U
-      - B07MJ62HJK
-      - B09S3ZJJRM
-      - B007MHIYFM
-      - B07GML2NHN
-      - B01AYL6OPE
-      - B009SAAV0C
-      - B07GRXS5HD
-      - B0DYK1ZH2D
-      - B0BPMKCSHW
+      - B08F65MX4L   # 7 Wonders
+      - B077MZ2MPW   # Azul
+      - B09KWZMXLX   # Camel Up
+      - B08WJHV6H8   # Carcassonne Hunters & Gatherers
+      - B093H8RGXX   # Cascadia
+      - B0DYK1ZH2D   # Catan
+      - B007MHIYFM   # Chronology
+      - B0FJMQB63N   # Codenames
+      - B010HEZHII   # Coup
+      - B019FPQZNG   # Deception: Murder in Hong Kong
+      - B07DLGD9K6   # Disney Villainous
+      - B09BSP7B7V   # Dixit
+      - B010TQY7A8   # Exploding Kittens
+      - B01LZXVN4P   # Gloomhaven
+      - B01F46RPS4   # King of Tokyo
+      - B00M07OQ1U   # Monikers
+      - B013TJ5P80   # Mysterium
+      - B00A2HD40E   # Pandemic
+      - B01M0J3HM7   # Scythe
+      - B08R2BPLSN   # Skull
+      - B0F692PJDW   # Telestrations
+      - B01GSYA4K2   # Terraforming Mars
+      - B0BPMKCSHW   # That's Not a Hat
+      - B09S3ZJJRM   # The Chameleon
+      - B0F8PKN4B7   # Ticket to Ride
+      - B0GKBFFRBW   # Ticket to Ride Europe
+      - B07H185K6H   # Trekking the National Parks
+      - B08WHMTZ61   # Ultimate Werewolf Extreme
+      - B07T446163   # Wavelength
+      - B07YQ641NQ   # Wingspan
+
+  5p:
+    slug: best-5-player
+    title: "Hottest 5-Player Board Games"
+    description: >
+      Five players breaks a lot of games — odd team counts, long downtime, stretched
+      components. These are the games that handle five gracefully and stay fun doing it.
+    count: 18
+    ranking: formula
+    asins:
+      - B08F65MX4L   # 7 Wonders
+      - B09KWZMXLX   # Camel Up
+      - B08WJHV6H8   # Carcassonne Hunters & Gatherers
+      - B007MHIYFM   # Chronology
+      - B0FJMQB63N   # Codenames
+      - B010HEZHII   # Coup
+      - B019FPQZNG   # Deception: Murder in Hong Kong
+      - B07DLGD9K6   # Disney Villainous
+      - B09BSP7B7V   # Dixit
+      - B010TQY7A8   # Exploding Kittens
+      - B01F46RPS4   # King of Tokyo
+      - B07D97V536   # Mafia: The Party Game
+      - B00M07OQ1U   # Monikers
+      - B013TJ5P80   # Mysterium
+      - B009SAAV0C   # The Resistance: Avalon
+      - B01M0J3HM7   # Scythe
+      - B08R2BPLSN   # Skull
+      - B0F692PJDW   # Telestrations
+      - B01GSYA4K2   # Terraforming Mars
+      - B0BPMKCSHW   # That's Not a Hat
+      - B09S3ZJJRM   # The Chameleon
+      - B0F8PKN4B7   # Ticket to Ride
+      - B0GKBFFRBW   # Ticket to Ride Europe
+      - B07H185K6H   # Trekking the National Parks
+      - B08WHMTZ61   # Ultimate Werewolf Extreme
+      - B07T446163   # Wavelength
+      - B07YQ641NQ   # Wingspan
+
+  6p-plus:
+    slug: best-6-plus-player
+    title: "Hottest 6+ Player Board Games"
+    description: >
+      Games built to survive a full table — six or more players without collapsing into
+      chaos or hour-long waits between turns. The bigger the group, the better these get.
+    count: 15
+    ranking: formula
+    asins:
+      - B08F65MX4L   # 7 Wonders (7)
+      - B09KWZMXLX   # Camel Up (8)
+      - B007MHIYFM   # Chronology (8)
+      - B0FJMQB63N   # Codenames (8+)
+      - B010HEZHII   # Coup (6)
+      - B019FPQZNG   # Deception: Murder in Hong Kong (12)
+      - B07DLGD9K6   # Disney Villainous (6)
+      - B09BSP7B7V   # Dixit (6)
+      - B01F46RPS4   # King of Tokyo (6)
+      - B07D97V536   # Mafia: The Party Game (20)
+      - B00M07OQ1U   # Monikers (16)
+      - B013TJ5P80   # Mysterium (7)
+      - B009SAAV0C   # The Resistance: Avalon (10)
+      - B08R2BPLSN   # Skull (6)
+      - B0F692PJDW   # Telestrations (8)
+      - B0BPMKCSHW   # That's Not a Hat (8)
+      - B09S3ZJJRM   # The Chameleon (8)
+      - B08WHMTZ61   # Ultimate Werewolf Extreme (25)
+      - B07T446163   # Wavelength (12)
 
   strategy:
     slug: best-strategy
