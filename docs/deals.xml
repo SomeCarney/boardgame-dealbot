@@ -4,7 +4,14 @@
   <title>Board Game Black Market — Deal Feed</title>
   <link>https://somecarney.github.io/boardgame-dealbot</link>
   <description>Genuine board game price drops, checked against 90-day Amazon price history.</description>
-  <lastBuildDate>Thu, 02 Jul 2026 22:54:14 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 03 Jul 2026 00:00:06 +0000</lastBuildDate>
+  <item>
+    <title>Monopoly Flip Edition: Marvel — $17.97 (27% off)</title>
+    <link>https://www.amazon.com/dp/B0C3DQ2ZBG?tag=carnivalgam06-20</link>
+    <guid isPermaLink="false">B0C3DQ2ZBG-17.97</guid>
+    <pubDate>Fri, 03 Jul 2026 00:00:05 +0000</pubDate>
+    <description>$17.97, was $24.47 — 27% off. 4.4/5 stars (68 reviews).</description>
+  </item>
   <item>
     <title>That's Not A Hat — $10.99 (27% off)</title>
     <link>https://www.amazon.com/dp/B0BPMKCSHW?tag=carnivalgam06-20</link>
@@ -172,13 +179,6 @@
     <guid isPermaLink="false">1640785531-37.99</guid>
     <pubDate>Mon, 29 Jun 2026 22:07:28 +0000</pubDate>
     <description>$37.99, was $47.46 — 20% off. 4.7/5 stars (392 reviews).</description>
-  </item>
-  <item>
-    <title>Sequence — $31.34 (20% off)</title>
-    <link>https://www.amazon.com/dp/B08NLKHQ3Q?tag=carnivalgam06-20</link>
-    <guid isPermaLink="false">B08NLKHQ3Q-31.34</guid>
-    <pubDate>Mon, 29 Jun 2026 22:07:28 +0000</pubDate>
-    <description>$31.34, was $39.35 — 20% off. 4.8/5 stars (3230 reviews).</description>
   </item>
 </channel>
 </rss>
