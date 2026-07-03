@@ -714,7 +714,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Sessions are fast, social, and easy to jump into without much setup. Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CP2GNPGZ.jpg",
     "site_image_url": "images/site_B0CP2GNPGZ.jpg",
-    "short_title": "Battleship Royale Edition Game for"
+    "short_title": "Battleship Royale Edition Game for",
+    "expired_at": "2026-07-03T20:00:05.133769+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 19.99
   },
   {
     "asin": "B0BW3C1QYT",
