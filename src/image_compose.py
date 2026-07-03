@@ -148,7 +148,28 @@ def _background_mask(img: Image.Image) -> Image.Image:
 
     target = Image.new("RGB", work.size, marker)
     diff = ImageChops.difference(work, target).convert("L")
-    mask = diff.point(lambda p: 255 if p == 0 else 0)
+    core = diff.point(lambda p: 255 if p == 0 else 0)
+
+    # Soft product-photo drop shadows survive the tight fill (their grey is
+    # too far from the white seed) and read as white smears on the dark
+    # backdrop. Fade out shadow-toned pixels (grey 195..236) in a band around
+    # the background boundary; brighter pixels (real white components) and
+    # anything far from the background stay fully protected.
+    r = max(24, min(w, h) // 12)
+    small = core.resize((max(1, w // 8), max(1, h // 8)), Image.Resampling.BILINEAR)
+    small = small.filter(ImageFilter.MaxFilter(2 * max(1, r // 16) + 1))
+    dilated = small.resize((w, h), Image.Resampling.BILINEAR)
+    ring = ImageChops.subtract(dilated, core)
+
+    rch, gch, bch = img.split()
+    min_channel = ImageChops.darker(ImageChops.darker(rch, gch), bch)
+    LO, HI = 185, 236
+    shadow_ramp = min_channel.point(
+        lambda v: int((v - LO) * 255 / (HI - LO)) if LO <= v <= HI else 0
+    )
+    shadow = ImageChops.multiply(ring, shadow_ramp)
+
+    mask = ImageChops.lighter(core, shadow)
     return mask.filter(ImageFilter.GaussianBlur(EDGE_FEATHER_PX))
 
 
