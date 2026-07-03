@@ -96,7 +96,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Sessions are fast, social, and easy to jump into without much setup. Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "short_title": "Exploding Kittens",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0F9HS5FK5.jpg",
-    "site_image_url": "images/site_B0F9HS5FK5.jpg"
+    "site_image_url": "images/site_B0F9HS5FK5.jpg",
+    "expired_at": "2026-07-03T08:00:07.925377+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 19.99
   },
   {
     "asin": "B07R5ZH6FQ",
