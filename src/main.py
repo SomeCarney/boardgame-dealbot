@@ -12,7 +12,7 @@ import logging
 import os
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -117,9 +117,27 @@ def main() -> None:
         except Exception:
             logger.exception("Deal refresh failed -- continuing with all listed deals")
 
-    # Expired entries don't block re-posting: if the same game genuinely goes
-    # on sale again later, it qualifies as a fresh deal (new log entry).
-    already_posted = {entry["asin"] for entry in log if not entry.get("expired_at")}
+    # A game whose deal expired may genuinely go on sale again later -- but
+    # only after a cooldown. Without it, products whose Amazon offer flickers
+    # in and out of stock bounce between expired and "new deal" every few
+    # hours and spam the site/socials with reposts (seen live with Dominion
+    # Prosperity on 2026-07-03).
+    REPOST_COOLDOWN_DAYS = 7
+    cooldown_cutoff = datetime.now(timezone.utc) - timedelta(days=REPOST_COOLDOWN_DAYS)
+    already_posted: set[str] = set()
+    for entry in log:
+        expired_at = entry.get("expired_at")
+        if not expired_at:
+            already_posted.add(entry["asin"])
+            continue
+        try:
+            expired = datetime.fromisoformat(expired_at)
+            if expired.tzinfo is None:
+                expired = expired.replace(tzinfo=timezone.utc)
+            if expired >= cooldown_cutoff:
+                already_posted.add(entry["asin"])
+        except ValueError:
+            already_posted.add(entry["asin"])  # unparseable: err on not reposting
 
     candidates = fetch_deals.fetch_deals(config)
     logger.info("Fetched %d candidate deals", len(candidates))
