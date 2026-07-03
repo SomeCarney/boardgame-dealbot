@@ -634,8 +634,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .ranked-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 4px;
+  object-fit: cover;
 }
 .ranked-img-wrap.no-image {
   display: flex;
@@ -778,9 +777,8 @@ html.js .reveal.in { opacity: 1; transform: none; }
   height: 58px;
   border-radius: 12px;
   border: 2px solid var(--panel-border);
-  background: #fff;
-  object-fit: contain;
-  padding: 4px;
+  background: var(--bg2);
+  object-fit: cover;
   margin-left: -16px;
   box-shadow: 0 4px 12px rgba(0,0,0,.45);
   transition: transform .25s var(--ease);

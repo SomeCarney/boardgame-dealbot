@@ -922,8 +922,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .ranked-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 4px;
+  object-fit: cover;
 }
 .ranked-img-wrap.no-image {
   display: flex;
@@ -1066,9 +1065,8 @@ html.js .reveal.in { opacity: 1; transform: none; }
   height: 58px;
   border-radius: 12px;
   border: 2px solid var(--panel-border);
-  background: #fff;
-  object-fit: contain;
-  padding: 4px;
+  background: var(--bg2);
+  object-fit: cover;
   margin-left: -16px;
   box-shadow: 0 4px 12px rgba(0,0,0,.45);
   transition: transform .25s var(--ease);
@@ -1652,6 +1650,20 @@ def _write_seo_files(deals: list[dict[str, Any]], updated: str) -> None:
     (SITE_DIR / "deals.xml").write_text(rss, encoding="utf-8")
 
 
+def _ranked_thumb_src(game: dict[str, Any]) -> str | None:
+    """Branded thumbnail URL for a ranked game; falls back to the raw Amazon
+    image if compositing isn't possible."""
+    image_id = game.get("image_id")
+    if not image_id:
+        return None
+    try:
+        import image_compose
+        rel = image_compose.compose_ranked_thumb(game["asin"], image_id)
+    except Exception:
+        rel = None
+    return rel or f"https://m.media-amazon.com/images/I/{image_id}"
+
+
 def _render_rankings_section(updated: str) -> None:
     """Generate all Best Board Games pages from the rankings cache."""
     if not RANKINGS_CACHE.exists():
@@ -1693,7 +1705,7 @@ def _render_rankings_section(updated: str) -> None:
                 key=lambda g, _games=games: (freq.get(g["asin"], 0), _games.index(g)),
             )[:n_thumbs]
             thumbs = "".join(
-                f'<img src="https://m.media-amazon.com/images/I/{g["image_id"]}" alt="" loading="lazy">'
+                f'<img src="{_ranked_thumb_src(g)}" alt="" loading="lazy">'
                 for g in thumb_imgs
             )
             feat_cls = " featured" if featured else ""
@@ -1735,9 +1747,9 @@ def _render_rankings_section(updated: str) -> None:
         items_html = ""
         for i, game in enumerate(reversed(games)):
             rank_num = total - i
-            img_id = game.get("image_id")
-            if img_id:
-                img_html = f'<img src="https://m.media-amazon.com/images/I/{img_id}" alt="{game["title"]}" loading="lazy">'
+            thumb_src = _ranked_thumb_src(game)
+            if thumb_src:
+                img_html = f'<img src="{thumb_src}" alt="{game["title"]}" loading="lazy">'
                 img_wrap = f'<div class="ranked-img-wrap">{img_html}</div>'
             else:
                 img_wrap = '<div class="ranked-img-wrap no-image">🎲</div>'

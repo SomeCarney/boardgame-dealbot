@@ -82,6 +82,35 @@ def compose_images(deal: dict[str, Any]) -> tuple[str | None, str | None]:
     )
 
 
+def compose_ranked_thumb(asin: str, image_id: str, force: bool = False) -> str | None:
+    """Branded square thumbnail for the Hot Board Games hub/lists: Amazon box
+    art with the studio background flood-filled away, composited onto the
+    brand backdrop (glow, pinstripes, vignette). Cached on disk -- each game
+    is downloaded and processed once, then reused by every render."""
+    out_path = OUTPUT_DIR / f"ranked_{asin}.jpg"
+    rel = f"images/ranked_{asin}.jpg"
+    if out_path.exists() and not force:
+        return rel
+    try:
+        resp = requests.get(f"https://m.media-amazon.com/images/I/{image_id}", timeout=20)
+        resp.raise_for_status()
+        product = Image.open(io.BytesIO(resp.content)).convert("RGB")
+        try:
+            mask_bg = _background_mask(product)
+        except Exception:
+            mask_bg = Image.new("L", product.size, 0)
+        size = 600
+        canvas = _branded_canvas(size, size)
+        tw, th = _fit_box(product, int(size * 0.86), int(size * 0.86))
+        _paste_subject(canvas, product, mask_bg, ((size - tw) // 2, (size - th) // 2, tw, th))
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+        canvas.save(out_path, "JPEG", quality=86)
+        return rel
+    except Exception:
+        logger.exception("Ranked thumbnail failed for %s (%s)", asin, image_id)
+        return None
+
+
 def _load_product_image(deal: dict[str, Any]) -> Image.Image | None:
     if not deal.get("image"):
         return None
