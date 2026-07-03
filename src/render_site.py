@@ -1673,7 +1673,7 @@ def _render_rankings_section(updated: str) -> None:
 
     # Hub page: one collage card per list, top games' box art stacked
     hub_sections = [
-        ("All Time", ["all-time"]),
+        ("Hot Right Now", ["all-time"]),
         ("Player Count", ["solo", "2p", "3p", "4p", "5p", "6p-plus"]),
         ("By Genre", ["strategy", "coop", "social-deduction", "party", "family", "gateway"]),
     ]
@@ -1732,7 +1732,7 @@ def _render_rankings_section(updated: str) -> None:
 
     def _list_label(list_title: str) -> str:
         label = list_title.replace("Hottest ", "").replace(" Board Games", "").strip()
-        return "All Time" if label in ("", "of All Time") else label
+        return "Hot Right Now" if label in ("", "of All Time") else label
 
     # Individual ranked list pages
     for key, lst in lists.items():
