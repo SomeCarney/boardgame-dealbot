@@ -46,7 +46,7 @@ sys.path.insert(0, str(ROOT / "src"))
 logging.basicConfig(level=logging.INFO, format="%(levelname)s health_check: %(message)s")
 logger = logging.getLogger("health_check")
 
-BASE_URL = "https://somecarney.github.io/boardgame-dealbot"
+BASE_URL = "https://boardgameblackmarket.com"
 LOG_PATH = ROOT / "logs" / "run_local.log"
 FAILURES_PATH = ROOT / "logs" / "social_failures.json"
 AUTOFIX_STATE_PATH = ROOT / "logs" / "autofix_state.json"

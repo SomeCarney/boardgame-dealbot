@@ -122,7 +122,7 @@ and the automation gets built.
 - **Google Search Console** (free — the site is pre-wired for it, ~3 min of your part):
   1. Go to https://search.google.com/search-console and sign in with your Google account.
   2. Click "Add property" → choose **URL prefix** (NOT Domain) → enter
-     `https://somecarney.github.io/boardgame-dealbot/`
+     `https://boardgameblackmarket.com/`
   3. On the verification screen pick **HTML tag** and copy the long `content="..."` value
      from the meta tag it shows you.
   4. Paste that value to Claude (or into `GOOGLE_SITE_VERIFICATION` in

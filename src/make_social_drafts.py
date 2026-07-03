@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LOG_PATH = ROOT / "posted_log.json"
 OUT_PATH = ROOT / "social_drafts.md"
-SITE_URL = "https://somecarney.github.io/boardgame-dealbot/"
+SITE_URL = "https://boardgameblackmarket.com/"
 
 MAX_DRAFTS = 3
 FRESH_WINDOW_HOURS = 26  # a bit over the 24h cadence so nothing slips through

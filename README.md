@@ -45,7 +45,8 @@ on Facebook/Instagram, which is why this is the only image source used.
 ## Status
 
 - [x] Repo + Pages: https://github.com/SomeCarney/boardgame-dealbot ,
-      https://somecarney.github.io/boardgame-dealbot/
+      https://boardgameblackmarket.com/ (GitHub Pages with custom domain;
+      somecarney.github.io/boardgame-dealbot redirects here)
 - [x] Keepa API subscription active (21 tokens/min)
 - [x] Amazon Associates approved, tag `carnivalgam06-20` wired in
 - [x] Windows Scheduled Task `BoardGameDealBot` registered, running every 4h

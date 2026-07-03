@@ -20,8 +20,8 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 SITEMAP = ROOT / "docs" / "sitemap.xml"
 
-HOST = "somecarney.github.io"
-BASE_URL = f"https://{HOST}/boardgame-dealbot"
+HOST = "boardgameblackmarket.com"
+BASE_URL = f"https://{HOST}"
 KEY = "a030601df76890afffddfac483957bef"
 KEY_LOCATION = f"{BASE_URL}/{KEY}.txt"
 ENDPOINT = "https://api.indexnow.org/indexnow"

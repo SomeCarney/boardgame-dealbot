@@ -26,7 +26,7 @@ SITE_DIR = ROOT / "docs"
 SITE_NAME = "Board Game Black Market"
 TAGLINE = "Underground deals on board games -- no markup, no nonsense."
 DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
-BASE_URL = "https://somecarney.github.io/boardgame-dealbot"
+BASE_URL = "https://boardgameblackmarket.com"
 FACEBOOK_URL = "https://www.facebook.com/profile.php?id=1225021374020132"
 INSTAGRAM_URL = "https://www.instagram.com/boardgameblackmarket/"
 # Google Search Console ownership proof -- rendered into every page head.
