@@ -324,7 +324,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "short_title": "Gutenberg",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0B52H3VC5.jpg",
-    "site_image_url": "images/site_B0B52H3VC5.jpg"
+    "site_image_url": "images/site_B0B52H3VC5.jpg",
+    "expired_at": "2026-07-04T16:00:05.665353+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 60.31
   },
   {
     "asin": "B07TJCTB88",
