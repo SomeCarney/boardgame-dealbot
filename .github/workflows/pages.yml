@@ -34,5 +34,14 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs
+      # Pages intermittently rejects deployments with a generic "try again
+      # later" (seen twice on day one); one retry after a pause absorbs it.
       - id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Pause before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 45
+      - id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
