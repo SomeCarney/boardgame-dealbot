@@ -208,5 +208,15 @@
     "title": "Sandy Sketches Sand Drawing Guessing",
     "source": "heuristic",
     "ts": "2026-07-04T04:00:09.349391+00:00"
+  },
+  "[SAMPLE FIXTURE DEAL] Wingspan": {
+    "title": "[SAMPLE FIXTURE DEAL] Wingspan",
+    "source": "heuristic",
+    "ts": "2026-07-04T04:44:32.571379+00:00"
+  },
+  "[SAMPLE FIXTURE DEAL] Catan: 5-6 Player Extension": {
+    "title": "[SAMPLE FIXTURE DEAL] Catan",
+    "source": "heuristic",
+    "ts": "2026-07-04T04:44:33.495162+00:00"
   }
 }
