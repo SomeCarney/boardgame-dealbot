@@ -30,6 +30,7 @@ BEST_SELLERS_CACHE_TTL = timedelta(hours=24)  # Keepa's best-seller lists are th
 # keepa.constants.csv_indices -- index into stats["current"] / stats["avg90"]
 IDX_AMAZON_PRICE = 0
 IDX_SALES_RANK = 3
+IDX_LIST_PRICE = 4   # MSRP -- the "was" price Amazon's own "-XX%" is measured against
 IDX_RATING = 16
 IDX_REVIEW_COUNT = 17
 
@@ -212,6 +213,9 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
         # showing as e.g. 2999 for a $29.99 game before this conversion.
         price = _cents_to_dollars(_at(current, IDX_AMAZON_PRICE))
         typical_price = _cents_to_dollars(_at(avg90, IDX_AMAZON_PRICE))
+        list_price = _cents_to_dollars(_at(current, IDX_LIST_PRICE))
+        # minInInterval holds the 90-day low per index as [timestamp, value] pairs
+        low_90d = _cents_to_dollars(_interval_value(stats.get("minInInterval") or [], IDX_AMAZON_PRICE))
         rating = _rating_to_stars(_at(current, IDX_RATING))
         review_count = _at(current, IDX_REVIEW_COUNT)  # plain count, not scaled
         sales_rank = _at(current, IDX_SALES_RANK)  # lower is better-selling; not a price, no cents conversion
@@ -226,6 +230,42 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
         percent_off = round((1 - price / typical_price) * 100)
         if percent_off < filters["min_percent_off"]:
             continue
+
+        # ── deal verification ────────────────────────────────────────────────
+        # Amazon's own headline discount ("-37%, was $34.99") is measured
+        # against the LIST price (MSRP), not the real selling price. Record it
+        # so every deal is cross-checkable against what a shopper sees on the
+        # Amazon page -- and so a "deal" with no genuine markdown is exposed.
+        amazon_percent_off = (
+            round((1 - price / list_price) * 100) if list_price and list_price > price else 0
+        )
+        # A price can clear the 90-day *average* and still be a weak deal: when
+        # an item is frequently discounted, those prior sales drag the average
+        # down, so a mediocre price looks like a drop. Measuring against the
+        # item's own 90-day low catches that -- if it's routinely far cheaper,
+        # this isn't really a deal (Disney Villainous: avg $28 but a 90-day low
+        # of $13.30 -- a $22 "deal" that history says is nothing special).
+        percent_above_low = (
+            round((price / low_90d - 1) * 100) if low_90d and low_90d > 0 else None
+        )
+        max_above_low = filters.get("max_percent_above_90d_low")
+        if (max_above_low is not None and percent_above_low is not None
+                and percent_above_low > max_above_low):
+            logger.info(
+                "Rejected %s: $%.2f is %d%% above its 90-day low $%.2f (weak; limit %d%%). "
+                "Amazon shows %d%% off list, we'd have shown %d%% off 90-day avg.",
+                p.get("asin"), price, percent_above_low, low_90d, max_above_low,
+                amazon_percent_off, percent_off,
+            )
+            continue
+
+        logger.info(
+            "Verified %s: $%.2f = %d%% off 90-day avg $%.2f | Amazon %d%% off list %s | %s above 90-day low %s",
+            p.get("asin"), price, percent_off, typical_price, amazon_percent_off,
+            f"${list_price:.2f}" if list_price else "n/a",
+            f"{percent_above_low}%" if percent_above_low is not None else "n/a",
+            f"${low_90d:.2f}" if low_90d else "n/a",
+        )
 
         # NOTE: "imagesCSV" (used in earlier versions of this code) doesn't
         # exist on this keepa package version's product object -- confirmed
@@ -244,6 +284,10 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
             "price": price,
             "typical_price": typical_price,
             "percent_off": percent_off,
+            "list_price": list_price,
+            "amazon_percent_off": amazon_percent_off,
+            "low_90d": low_90d,
+            "percent_above_low": percent_above_low,
             "rating": rating,
             "review_count": review_count,
             "sales_rank": sales_rank,
@@ -275,6 +319,18 @@ def _at(arr: list, idx: int) -> Any:
     if idx >= len(arr):
         return None
     value = arr[idx]
+    return None if value is None or value < 0 else value
+
+
+def _interval_value(entries: list, idx: int) -> Any:
+    """Pulls the value from Keepa's min/maxInInterval arrays, whose entries are
+    [timestamp, value] pairs (or None / [-1, -1] for "no data in this window")."""
+    if idx >= len(entries):
+        return None
+    entry = entries[idx]
+    if not entry or not isinstance(entry, (list, tuple)) or len(entry) < 2:
+        return None
+    value = entry[1]
     return None if value is None or value < 0 else value
 
 

@@ -16,6 +16,12 @@ deal_filters:
   min_review_count: 25   # filters out listings with too little signal
   require_in_stock: true
   date_range: 1           # Keepa "how far back to look" enum; 1 = recent
+  # A deal must also sit within this % of its OWN 90-day low, or it's a weak
+  # "deal" -- one that only clears the 90-day average because the item is
+  # frequently discounted (prior sales drag the average down, so a mediocre
+  # price looks like a drop). Amazon's "-37% off list" ignores this; we don't.
+  # e.g. 50 = reject anything priced >50% above its 90-day low. null disables.
+  max_percent_above_90d_low: 50
 
 posting:
   max_posts_per_run: 8        # cap so one run can't flood the channel/site
