@@ -91,16 +91,22 @@ def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
         return
 
     logger.info("Facebook/Instagram configured -- pushing images early so their APIs can fetch them")
-    subprocess.run(["git", "add", "docs/images"], cwd=ROOT, check=True)
-    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
-        subprocess.run(
-            ["git", "-c", "user.name=boardgame-dealbot", "-c", "user.email=actions@users.noreply.github.com",
-             "commit", "-q", "-m", "Add deal images for social posting"],
-            cwd=ROOT, check=True,
-        )
-        subprocess.run(["git", "push"], cwd=ROOT, check=True)
-    else:
-        logger.info("No new images to push")
+    try:
+        subprocess.run(["git", "add", "docs/images"], cwd=ROOT, check=True)
+        if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
+            subprocess.run(
+                ["git", "-c", "user.name=boardgame-dealbot", "-c", "user.email=actions@users.noreply.github.com",
+                 "commit", "-q", "-m", "Add deal images for social posting"],
+                cwd=ROOT, check=True,
+            )
+            subprocess.run(["git", "push"], cwd=ROOT, check=True)
+        else:
+            logger.info("No new images to push")
+    except subprocess.CalledProcessError:
+        # A transient git/network failure must not kill the run: the social
+        # posts for these deals will fail image-fetch, get recorded, and be
+        # retried by the health check once the end-of-run push lands.
+        logger.exception("Early image push failed -- continuing; social posts will self-heal")
 
 
 def main() -> None:
@@ -156,6 +162,13 @@ def main() -> None:
         _enrich(deal, site_base_url)
 
     updated_log = new_deals + log  # newest first
+
+    # Persist BEFORE rendering/posting: if anything downstream crashes, the
+    # deals are already recorded and the next run cannot re-post them as new
+    # (a crash after posting but before saving would duplicate every post).
+    if not dry_run:
+        save_log(updated_log)
+
     max_listed = config["posting"]["site_max_listed_deals"]
     render_site.render_site(updated_log, max_listed=max_listed)
 
@@ -187,8 +200,6 @@ def main() -> None:
 
     if dry_run:
         logger.info("DRY_RUN=1 -- not writing posted_log.json (site/ was still rebuilt for inspection)")
-    else:
-        save_log(updated_log)
 
     logger.info("Done. %d total logged deals, site rebuilt at %s", len(updated_log), render_site.SITE_DIR)
 

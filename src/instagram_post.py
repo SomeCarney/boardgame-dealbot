@@ -152,4 +152,11 @@ def _build_caption(deal: dict[str, Any]) -> str:
         "#boardgames #boardgamedeals #tabletopgames #boardgamegeek #gamenight "
         "#familygamenight #boardgamer #tabletopgaming #boardgamesofinstagram #boardgameaddict"
     )
-    return "\n".join(lines)
+    caption = "\n".join(lines)
+    # Instagram rejects captions over 2,200 chars. Degrade gracefully: drop
+    # the verbose Amazon listing title first, never the link or disclosure.
+    if len(caption) > 2200:
+        caption = "\n".join(line for line in lines if line != deal["title"])
+    if len(caption) > 2200:
+        caption = caption[:2197] + "..."
+    return caption

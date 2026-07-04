@@ -7,6 +7,10 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
+# Redirected Python streams default to cp1252 on Windows; a single exotic
+# character in an Amazon product title would crash logging mid-run.
+$env:PYTHONIOENCODING = "utf-8"
+
 $logDir = Join-Path $repoRoot "logs"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logFile = Join-Path $logDir "run_local.log"
@@ -74,7 +78,13 @@ if ($LASTEXITCODE -ne 0) {
     git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
     git push
     $didPush = 1
-    Add-Content -Path $logFile -Value "Committed and pushed updated deals."
+    if ($LASTEXITCODE -ne 0) {
+        # committed but not delivered -- health check's freshness probe will
+        # attempt a re-push; make the failure visible in the log either way
+        Add-Content -Path $logFile -Value "WARNING: git push failed (exit $LASTEXITCODE) -- deals committed locally only."
+    } else {
+        Add-Content -Path $logFile -Value "Committed and pushed updated deals."
+    }
 
     # Tell IndexNow-capable search engines (Bing/DuckDuckGo/Yandex) the
     # homepage changed. Best-effort: never fail the run over it.
