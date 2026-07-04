@@ -1,32 +1,50 @@
 # Fires Mon/Wed/Fri at 6:30 PM via the "BoardGameSocialReminder" scheduled
-# task. Regenerates social_drafts.md so the drafts are current, then sends
-# a toast + phone push telling Devon exactly which 5-minute task is due.
-# See marketing/GROWTH_PLAYBOOK.md for the full routine.
+# task. Picks today's best un-shared deal and sends a reminder that is already
+# the whole task: the phone push has an "Open Reddit" button that opens the
+# submit page pre-filled, and includes the exact comment to paste. On the PC,
+# the "Post Today's Deal" desktop shortcut does it in one click (opens Reddit
+# pre-filled + copies the comment to the clipboard). See marketing/GROWTH_PLAYBOOK.md.
 
 $ErrorActionPreference = "Continue"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
+$env:PYTHONIOENCODING = "utf-8"
 
-# Fresh drafts so the reminder always points at current deals
+$py = Join-Path $repoRoot ".venv\Scripts\python.exe"
+
+# Fresh drafts so social_drafts.md is current, then compute today's one action.
+try { & $py "src\make_social_drafts.py" | Out-Null } catch {}
+
+$action = $null
 try {
-    Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "src\make_social_drafts.py" `
-        -WorkingDirectory $repoRoot -NoNewWindow -Wait | Out-Null
-} catch {}
-
-$day = (Get-Date).DayOfWeek
-switch ($day) {
-    "Monday" {
-        $msg = "5-min task: open social_drafts.md in C:\Claude\boardgame-dealbot and post the best deal to r/boardgamedeals (clean link, title format is pre-written)."
-    }
-    "Wednesday" {
-        $msg = "5-min task: post a deal from social_drafts.md to r/boardgamedeals. Bonus 10 min: answer 2-3 questions in the r/boardgames daily discussion thread."
-    }
-    "Friday" {
-        $msg = "5-min task: post a deal from social_drafts.md to r/boardgamedeals. Then Instagram sweep: reply to every comment, follow 10-15 accounts under #boardgamedeals."
-    }
-    default {
-        $msg = "5-min task: open social_drafts.md and post the best deal to r/boardgamedeals."
-    }
+    $raw = & $py "src\daily_action.py" "--json"
+    $action = $raw | ConvertFrom-Json
+} catch {
+    $action = $null
 }
 
-& "$PSScriptRoot\notify.ps1" -Title "Board Game Black Market - weekly routine" -Message $msg -Priority "high"
+if (-not $action -or -not $action.has_deal) {
+    & "$PSScriptRoot\notify.ps1" -Title "Board Game Black Market - no post needed today" `
+        -Message "No fresh, un-shared deal is live right now, so there's nothing to post to r/boardgamedeals today. Skipping is fine -- consistency beats forcing it." `
+        -Priority "default"
+    exit 0
+}
+
+# Phone push: tapping it (or the "Open Reddit" button) opens the pre-filled
+# submit page; the body carries the comment so it can be copied on mobile too.
+$msg = @"
+Post to r/boardgamedeals (tap "Open Reddit" -> the title + link are pre-filled -> Post):
+
+$($action.title)
+
+Then paste this as the top comment:
+$($action.comment)
+
+$($action.bonus)
+
+On your PC: just double-click "Post Today's Deal" on the desktop -- it opens Reddit pre-filled and copies the comment for you.
+"@
+
+& "$PSScriptRoot\notify.ps1" -Title "5-min task: today's board game deal" `
+    -Message $msg -Priority "high" `
+    -ActionUrl $action.submit_url -ActionLabel "Open Reddit"

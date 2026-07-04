@@ -10,7 +10,9 @@
 param(
     [Parameter(Mandatory = $true)][string]$Title,
     [Parameter(Mandatory = $true)][string]$Message,
-    [string]$Priority = "default"   # ntfy priority: min|low|default|high|urgent
+    [string]$Priority = "default",  # ntfy priority: min|low|default|high|urgent
+    [string]$ActionUrl = "",        # optional: URL the phone push opens (tap + button)
+    [string]$ActionLabel = "Open"   # label for the phone push action button
 )
 
 $NTFY_TOPIC = "bgbm-devon-alerts-7q4xk2m9"
@@ -48,9 +50,16 @@ try {
 
 # ── ntfy phone push ────────────────────────────────────────────
 try {
+    $headers = @{ Title = $Title; Priority = $Priority; Tags = "game_die" }
+    if ($ActionUrl) {
+        # Tapping the notification opens the URL; the button does too. ntfy's
+        # Actions header is comma-delimited, so keep the label comma-free.
+        $safeLabel = ($ActionLabel -replace ',', ' ')
+        $headers["Click"] = $ActionUrl
+        $headers["Actions"] = "view, $safeLabel, $ActionUrl, clear=true"
+    }
     Invoke-RestMethod -Uri "https://ntfy.sh/$NTFY_TOPIC" -Method Post -Body $Message `
-        -Headers @{ Title = $Title; Priority = $Priority; Tags = "game_die" } `
-        -TimeoutSec 15 | Out-Null
+        -Headers $headers -TimeoutSec 15 | Out-Null
     Write-Output "ntfy: sent"
 } catch {
     Write-Output "ntfy: failed ($_)"
