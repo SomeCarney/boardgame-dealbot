@@ -68,7 +68,7 @@ if ($proc.ExitCode -ne 0) {
 }
 
 $didPush = 0
-git add docs/ posted_log.json config/category_cache.json
+git add docs/ posted_log.json config/category_cache.json config/game_title_cache.json
 git diff --cached --quiet
 if ($LASTEXITCODE -ne 0) {
     git -c user.name="boardgame-dealbot" -c user.email="actions@users.noreply.github.com" commit -q -m "Update deals $timestamp"
