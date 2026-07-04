@@ -1557,31 +1557,25 @@ def _related_guides_html(current: str, guides: list[tuple[str, str, str]]) -> st
 
 
 def _index_jsonld(deals: list[dict[str, Any]]) -> str:
-    """WebSite + Organization + ItemList structured data for the homepage."""
+    """WebSite + Organization + ItemList structured data for the homepage.
+
+    Deliberately NOT Product/Offer markup: that classifies the page as a
+    merchant listing and Google then demands merchant-only fields (return
+    policy, shipping, GTINs) that only Amazon -- the actual merchant -- can
+    provide. Search Console flagged exactly that (2026-07-04). A plain
+    ItemList, like the ranked-list pages use, carries no such obligations."""
     items = []
     for i, d in enumerate(deals[:20], start=1):
-        product: dict[str, Any] = {
-            "@type": "Product",
+        entry: dict[str, Any] = {
+            "@type": "ListItem",
+            "position": i,
             "name": d.get("short_title") or d.get("title", ""),
             "url": d.get("link", ""),
-            "offers": {
-                "@type": "Offer",
-                "price": f"{d.get('price', 0):.2f}",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock",
-                "url": d.get("link", ""),
-            },
         }
         img = d.get("site_image_url") or d.get("image")
         if img:
-            product["image"] = img
-        if d.get("rating") and d.get("review_count"):
-            product["aggregateRating"] = {
-                "@type": "AggregateRating",
-                "ratingValue": d["rating"],
-                "reviewCount": d["review_count"],
-            }
-        items.append({"@type": "ListItem", "position": i, "item": product})
+            entry["image"] = f"{BASE_URL}/{img}" if not str(img).startswith("http") else img
+        items.append(entry)
 
     graph = {
         "@context": "https://schema.org",
