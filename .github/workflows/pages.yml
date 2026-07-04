@@ -1,0 +1,38 @@
+# Deploys docs/ to GitHub Pages via the Actions pipeline.
+#
+# Replaces the legacy "deploy from branch" Jekyll build, whose shared queue
+# was taking 30+ minutes per commit (the site is pre-rendered static HTML;
+# there is nothing for Jekyll to do). This uploads docs/ as-is and deploys
+# in under a minute, with visible logs when something fails.
+name: Deploy site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# The bot commits twice per run (images mid-run, everything at the end).
+# Newest content wins; a superseded queued deploy is just cancelled.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
