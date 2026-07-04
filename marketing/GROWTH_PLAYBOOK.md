@@ -54,18 +54,29 @@ That's it. Consistency beats volume — one clean post 3x/week outperforms a bur
 
 - **r/boardgamedeals** — the core target. Deal posts are the entire point of the sub.
   - NO affiliate links. Ever. Post the clean Amazon URL (drafts file already strips the tag).
-  - Title format: `[Amazon] Game Name - $XX.XX (XX% off)`.
-  - After posting, add the comment from the drafts file (the "real price history" angle is
-    our differentiator — no other poster verifies against 90-day history).
-  - Put the site URL in your Reddit **profile bio**, not in posts. People who like your
-    deal posts click through on their own.
+  - **The angle (this is the whole account):** the u/90-Day-Average persona. The "% off"
+    a retailer shows is measured against an inflated list price you can't trust; the real
+    signal is how far BELOW the 90-day average the price is. Every post makes that case.
+  - Title format: `[Amazon] Game Name - $XX.XX (XX% below 90-day avg)`, with
+    "— lowest in 90 days" appended when true. (If AutoMod ever rejects the title for not
+    matching a `(XX% off)` pattern, fall back to `(XX% off)` and keep the angle in the
+    comment — tell Claude and it's a one-line change.)
+  - After posting, add the comment from the drafts file / desktop shortcut. Lead with the
+    numbers, let the username carry the attitude — no one else verifies against 90-day
+    history, and the data-first tone avoids the arguments a "retailers lie!" rant invites.
+  - Put the site URL in your Reddit **profile bio**, not in posts (suggested: "I check
+    board game deals against 90-day Amazon price history — no inflated 'list prices.'
+    Full list: boardgameblackmarket.com"). People who trust your posts click through.
 - **r/boardgames** — huge (millions of members), strict 10:1 self-promotion rule.
   - Participate in discussion threads as a hobbyist. Guides/lists only as answers to
     direct questions, at most 1 link per week.
 - **r/soloboardgaming** — our "Hottest Solo Board Games" list is a genuinely good answer
   to their most-asked question. Same value-first rules.
-- **Account hygiene:** use a personal-feeling account, build a little comment karma in the
-  first two weeks before the first link. New accounts posting links on day one get filtered.
+- **Account hygiene:** the account is u/90-Day-Average (a branded persona is fine here —
+  a consistent, honest deal-poster becomes a trusted fixture). Still build a little comment
+  karma before hammering links: new accounts posting links on day one get auto-filtered.
+  Spend the first week genuinely answering "is this a good price?" questions with price
+  history — that IS the brand, and it seasons the account before the first deal post.
 
 ### BoardGameGeek
 
