@@ -116,21 +116,50 @@ def pick_deal() -> dict | None:
 def build_action(deal: dict) -> dict:
     title_name = deal.get("short_title") or deal.get("title", "")
     price = deal.get("price", 0) or 0
-    was = deal.get("typical_price", 0) or 0
-    off = deal.get("percent_off", 0) or 0
+    was = deal.get("typical_price", 0) or 0          # 90-day average -- the number we stand on
+    off = deal.get("percent_off", 0) or 0            # % BELOW the 90-day average
     rating = deal.get("rating")
     reviews = deal.get("review_count")
     clean = _clean_link(deal.get("link", ""))
 
-    # Playbook title format: [Amazon] Game Name - $XX.XX (XX% off)
-    post_title = f"[Amazon] {title_name} - ${price:.2f} ({off}% off)"
+    # Verification data (present on deals posted after the deal-verification
+    # change; absent on older log entries -- fall back gracefully).
+    has_amazon = "amazon_percent_off" in deal and deal.get("list_price")
+    amazon_off = deal.get("amazon_percent_off")
+    list_price = deal.get("list_price")
+    low_90d = deal.get("low_90d")
+    above_low = deal.get("percent_above_low")
+    at_90d_low = above_low == 0
 
-    rating_line = f" It's {rating}/5 from {reviews:,} ratings." if rating and reviews else ""
-    comment = (
-        f"Price checked against the 90-day Amazon price history, so the ~${was:.2f} "
-        f'"usual" is real, not an inflated list price -- this is a genuine {off}% drop.'
-        f"{rating_line}"
-    )
+    # Title carries the brand's whole thesis: the discount is measured against
+    # the real 90-day average, not a sticker. "Lowest in 90 days" is a genuine,
+    # widely-respected deal-hunter signal (only claimed when it's actually true).
+    low_tag = " — lowest in 90 days" if at_90d_low else ""
+    post_title = f"[Amazon] {title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
+
+    # Comment: the "90 Day Average" voice -- data first, confident, not preachy.
+    core = f"Against the real 90-day average of ${was:.2f}, this is {off}% below."
+    if has_amazon and amazon_off and amazon_off > off + 3:
+        body = (
+            f"That \"{amazon_off}% off\" badge is theater -- it's measured against a "
+            f"${list_price:.2f} list price this game basically never sells at. {core}"
+        )
+    elif has_amazon and not amazon_off:
+        body = (
+            f"Amazon isn't even flagging this as a sale, but {core[0].lower()}{core[1:]} "
+            "The kind of quiet drop a sticker price will never show you."
+        )
+    else:
+        body = f"You can't trust the sticker \"% off\" online. {core}"
+
+    extras = []
+    if at_90d_low:
+        extras.append("It's also the lowest it's been in the last 90 days.")
+    elif low_90d:
+        extras.append(f"(90-day low was ${low_90d:.2f} — full transparency.)")
+    if rating and reviews:
+        extras.append(f"{rating}/5 from {reviews:,} ratings.")
+    comment = " ".join([body, *extras])
 
     submit_url = f"{SUBMIT_BASE}?url={quote(clean, safe='')}&title={quote(post_title, safe='')}"
     day = datetime.now().strftime("%A")

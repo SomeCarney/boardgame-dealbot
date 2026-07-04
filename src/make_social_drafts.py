@@ -66,13 +66,13 @@ def _draft_for(deal: dict) -> str:
 
 **Reddit r/boardgamedeals** (submit as LINK post to the clean Amazon URL; no affiliate links allowed there)
 
-> Title: `[Amazon] {title} - ${price:.2f} ({off}% off, usually ~${was:.2f})`
+> Title: `[Amazon] {title} - ${price:.2f} ({off}% below 90-day avg)`
 > Link:  `{clean}`
-> Comment to add after posting: `Price is checked against 90-day price history, so the "was" price is real, not an inflated list price.{rating_line}`
+> Comment to add after posting: `You can't trust the sticker "% off" online -- it's measured against an inflated list price. Against the real 90-day average of ${was:.2f}, this is {off}% below.{rating_line}`
 
 **BoardGameGeek — Bargains forum** (clean link only)
 
-> {title} is ${price:.2f} on Amazon right now, down from a 90-day typical of ${was:.2f} ({off}% off).{rating_line}
+> {title} is ${price:.2f} on Amazon right now -- {off}% below its real 90-day average of ${was:.2f} (ignore the "list price" sticker; this is the number that matters).{rating_line}
 > {clean}
 
 **Facebook group / Discord** (casual, site mention okay where group rules allow)
