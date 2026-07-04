@@ -19,6 +19,8 @@ from typing import Any
 
 import requests
 
+from safewrite import atomic_write_text
+
 logger = logging.getLogger(__name__)
 
 GRAPH_API_VERSION = "v21.0"
@@ -41,16 +43,19 @@ def select_for_posting(deals: list[dict[str, Any]], max_per_day: int) -> list[di
     today = datetime.now(timezone.utc).date().isoformat()
     state = {"date": today, "count": 0}
     if STATE_PATH.exists():
-        saved = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-        if saved.get("date") == today:
-            state = saved
+        try:
+            saved = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+            if saved.get("date") == today:
+                state = saved
+        except json.JSONDecodeError:
+            logger.warning("daily post-quota state corrupt -- resetting")
 
     remaining = max(0, max_per_day - state["count"])
     selected = deals[:remaining]
 
     state["count"] += len(selected)
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    atomic_write_text(STATE_PATH, json.dumps(state, indent=2))
     return selected
 
 

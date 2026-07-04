@@ -55,7 +55,8 @@ def load_log() -> list[dict[str, Any]]:
 
 
 def save_log(entries: list[dict[str, Any]]) -> None:
-    LOG_PATH.write_text(json.dumps(entries, indent=2), encoding="utf-8")
+    from safewrite import atomic_write_text
+    atomic_write_text(LOG_PATH, json.dumps(entries, indent=2))
 
 
 def _enrich(deal: dict[str, Any], site_base_url: str) -> None:

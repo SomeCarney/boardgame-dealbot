@@ -37,6 +37,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+
+from safewrite import atomic_write_text
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -56,7 +58,9 @@ NOTIFY_PS1 = ROOT / "scripts" / "notify.ps1"
 MAX_HC_RETRIES = 2          # health-check retries per failed post before alerting
 SITE_POLL_ATTEMPTS = 8      # x 30s = up to 4 min for GitHub Pages to deploy
 AUTOFIX_COOLDOWN_HOURS = 24 # never re-attempt the same failure signature sooner
-CLAUDE_TIMEOUT_SECONDS = 1500
+# The scheduled task hard-kills the whole run at 30 minutes; the auto-fix
+# budget must leave room for the failed attempts + health checks before it.
+CLAUDE_TIMEOUT_SECONDS = 900
 
 
 def notify(title: str, message: str, priority: str = "high") -> None:
@@ -112,7 +116,7 @@ def retry_social_failures() -> None:
             else:
                 remaining.append(entry)
 
-    FAILURES_PATH.write_text(json.dumps(remaining, indent=2), encoding="utf-8")
+    atomic_write_text(FAILURES_PATH, json.dumps(remaining, indent=2))
     if gave_up:
         lines = ", ".join(f"{e['asin']} ({e['platform']})" for e in gave_up)
         notify("Deal bot: social posts need attention",
@@ -232,7 +236,7 @@ def autofix(exit_code: int) -> None:
                        "C:\\Claude\\boardgame-dealbot and say 'the bot is failing, fix it'.",
                        priority="urgent")
                 state["alerted"] = True
-                AUTOFIX_STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
+                atomic_write_text(AUTOFIX_STATE_PATH, json.dumps(state, indent=2))
             return
 
     claude = _find_claude()
@@ -244,7 +248,7 @@ def autofix(exit_code: int) -> None:
         return
 
     AUTOFIX_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    AUTOFIX_STATE_PATH.write_text(json.dumps({
+    atomic_write_text(AUTOFIX_STATE_PATH, json.dumps({
         "signature": sig,
         "attempted_at": datetime.now(timezone.utc).isoformat(),
         "alerted": False,
@@ -283,29 +287,15 @@ def autofix(exit_code: int) -> None:
         notify("Deal bot: auto-fix errored", f"Auto-fix could not run: {str(exc)[:200]}", priority="urgent")
         return
 
-    # Re-run the pipeline once to recover this run's deals
-    logger.info("re-running pipeline after auto-fix")
-    rerun = subprocess.run(
-        [str(ROOT / ".venv" / "Scripts" / "python.exe"), "src/main.py"],
-        cwd=ROOT, capture_output=True, text=True, timeout=1800,
-    )
-    if rerun.returncode == 0:
-        notify("Deal bot: self-healed", "The pipeline crashed, was automatically diagnosed and "
-               "fixed, and the recovery run succeeded. Details in the git log and logs/run_local.log.",
-               priority="default")
-        # push whatever the recovery run produced
-        subprocess.run(["git", "add", "docs/", "posted_log.json", "config/category_cache.json"], cwd=ROOT, capture_output=True)
-        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT)
-        if diff.returncode != 0:
-            subprocess.run(["git", "-c", "user.name=boardgame-dealbot",
-                            "-c", "user.email=actions@users.noreply.github.com",
-                            "commit", "-q", "-m", "Recovery run after auto-fix"], cwd=ROOT, capture_output=True)
-            subprocess.run(["git", "push"], cwd=ROOT, capture_output=True)
-    else:
-        notify("Deal bot: auto-fix did not stick",
-               "A fix was attempted but the recovery run still failed. Open Claude Code in "
-               "C:\\Claude\\boardgame-dealbot and say 'the bot is failing, fix it'.",
-               priority="urgent")
+    # Deliberately NO same-run pipeline re-run: the scheduled task kills the
+    # whole process tree at its 30-minute execution limit, and a fix + rerun
+    # doesn't fit. The next scheduled run (<=4h) is the recovery run; if the
+    # fix didn't work, its failure re-alerts via the signature guard.
+    notify("Deal bot: auto-fix applied",
+           "The pipeline crashed; Claude diagnosed it and pushed a fix (see the git log). "
+           "The next scheduled run will verify it. If it fails again with the same error, "
+           "you'll get an urgent alert.",
+           priority="default")
 
 
 def main() -> None:

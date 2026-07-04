@@ -14,7 +14,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment, select_autoescape
+import html as html_lib
+
+from jinja2 import Environment
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
@@ -48,7 +50,11 @@ EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
 
 GUIDE_SLUGS = {f for f in EVERGREEN_PAGES if f[0].startswith("guide-")}
 
-env = Environment(autoescape=select_autoescape(["html"]))
+# autoescape=True (not select_autoescape): from_string templates have no
+# filename, so select_autoescape silently left escaping OFF and untrusted
+# Amazon titles flowed raw into the HTML. Raw-HTML injection points all use
+# the |safe filter explicitly.
+env = Environment(autoescape=True)
 
 BASE_TEMPLATE = env.from_string("""<!doctype html>
 <html lang="en" class="no-js">
@@ -266,19 +272,22 @@ GUIDES_INDEX_TEMPLATE = env.from_string("""
 
 def _crumbs(*parts: tuple[str, str | None]) -> str:
     items = [
-        f'<a href="{href}">{label}</a>' if href else f'<span class="crumb-here">{label}</span>'
+        f'<a href="{href}">{html_lib.escape(label)}</a>' if href
+        else f'<span class="crumb-here">{html_lib.escape(label)}</span>'
         for label, href in parts
     ]
     return '<nav class="crumbs">' + '<span class="crumb-sep">/</span>'.join(items) + "</nav>"
 
 
 def _page_hero(kicker: str, title: str, sub: str = "", crumbs: str = "", note: str = "") -> str:
-    sub_html = f'<p class="page-sub">{sub}</p>' if sub else ""
+    # kicker/note are our own strings and may carry entities (&middot;);
+    # title/sub can contain arbitrary text -> escape those
+    sub_html = f'<p class="page-sub">{html_lib.escape(sub)}</p>' if sub else ""
     note_html = f'<p class="page-note">{note}</p>' if note else ""
     return (
         f'<div class="page-hero">{crumbs}'
         f'<p class="hero-kicker">{kicker}</p>'
-        f"<h1>{title}</h1>{sub_html}{note_html}</div>"
+        f"<h1>{html_lib.escape(title)}</h1>{sub_html}{note_html}</div>"
     )
 
 
@@ -1540,8 +1549,8 @@ def _related_guides_html(current: str, guides: list[tuple[str, str, str]]) -> st
     idx = next((i for i, g in enumerate(guides) if g[0] == current), 0)
     picks = [others[(idx + i) % len(others)] for i in range(min(3, len(others)))]
     cards = "".join(
-        f'<a class="related-card reveal" href="{href}"><h4>{title}</h4><p>{desc}</p>'
-        f'<span class="bbg-cta">Read</span></a>'
+        f'<a class="related-card reveal" href="{href}"><h4>{html_lib.escape(title)}</h4>'
+        f'<p>{html_lib.escape(desc)}</p><span class="bbg-cta">Read</span></a>'
         for href, title, desc in picks
     )
     return f'<div class="more-block"><p class="more-title">More from the field manual</p><div class="related-grid">{cards}</div></div>'
@@ -1714,7 +1723,7 @@ def _render_rankings_section(updated: str) -> None:
                 f'<div class="bbg-card-imgs">{thumbs}</div>'
                 f'<div class="bbg-card-body">'
                 f'<span class="bbg-count">{len(games)} games ranked</span>'
-                f"<h3>{title}</h3><p>{desc}</p>"
+                f"<h3>{html_lib.escape(title)}</h3><p>{html_lib.escape(desc)}</p>"
                 f'<span class="bbg-cta">See the countdown</span>'
                 f"</div></a>"
             )
@@ -1747,9 +1756,10 @@ def _render_rankings_section(updated: str) -> None:
         items_html = ""
         for i, game in enumerate(reversed(games)):
             rank_num = total - i
+            safe_title = html_lib.escape(game["title"])
             thumb_src = _ranked_thumb_src(game)
             if thumb_src:
-                img_html = f'<img src="{thumb_src}" alt="{game["title"]}" loading="lazy">'
+                img_html = f'<img src="{thumb_src}" alt="{safe_title}" loading="lazy">'
                 img_wrap = f'<div class="ranked-img-wrap">{img_html}</div>'
             else:
                 img_wrap = '<div class="ranked-img-wrap no-image">🎲</div>'
@@ -1777,14 +1787,14 @@ def _render_rankings_section(updated: str) -> None:
             meta_html = "\n".join(meta_parts)
 
             blurb = game.get("blurb", "").strip()
-            blurb_html = f'<p class="ranked-blurb">{blurb}</p>' if blurb else ""
+            blurb_html = f'<p class="ranked-blurb">{html_lib.escape(blurb)}</p>' if blurb else ""
             link = game.get("link", f'https://www.amazon.com/dp/{game["asin"]}?tag=carnivalgam06-20')
 
             items_html += f"""<li class="ranked-item reveal">
   <span class="ranked-num">#{rank_num}</span>
   <a href="{link}" rel="nofollow sponsored noopener" target="_blank">{img_wrap}</a>
   <div class="ranked-body">
-    <h2 class="ranked-title"><a href="{link}" rel="nofollow sponsored noopener" target="_blank">{game["title"]}</a></h2>
+    <h2 class="ranked-title"><a href="{link}" rel="nofollow sponsored noopener" target="_blank">{safe_title}</a></h2>
     <div class="ranked-meta">{meta_html}</div>
     {blurb_html}
     <a class="ranked-buy" href="{link}" rel="nofollow sponsored noopener" target="_blank">View on Amazon &rarr;</a>

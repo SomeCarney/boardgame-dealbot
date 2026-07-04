@@ -18,6 +18,8 @@ from typing import Any
 
 import keepa
 
+from safewrite import atomic_write_text
+
 logger = logging.getLogger(__name__)
 
 CONFIG_DIR = Path(__file__).resolve().parent.parent / "config"
@@ -138,7 +140,11 @@ def _fetch_best_seller_asins(api: "keepa.Keepa", category_id: int, domain: str) 
     cache_key = f"{domain}:{category_id}"
     cache: dict[str, Any] = {}
     if BEST_SELLERS_CACHE_PATH.exists():
-        cache = json.loads(BEST_SELLERS_CACHE_PATH.read_text(encoding="utf-8"))
+        try:
+            cache = json.loads(BEST_SELLERS_CACHE_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            logger.warning("best-sellers cache corrupt -- rebuilding it")
+            cache = {}
 
     entry = cache.get(cache_key)
     if entry:
@@ -154,7 +160,7 @@ def _fetch_best_seller_asins(api: "keepa.Keepa", category_id: int, domain: str) 
 
     cache[cache_key] = {"asins": asins, "fetched_at": datetime.now(timezone.utc).isoformat()}
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-    BEST_SELLERS_CACHE_PATH.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    atomic_write_text(BEST_SELLERS_CACHE_PATH, json.dumps(cache, indent=2))
     logger.info("Refreshed best-sellers list for category %s: %d ASINs", category_id, len(asins))
     return set(asins)
 
@@ -164,7 +170,11 @@ def _resolve_category_id(api: "keepa.Keepa", search_term: str, domain: str) -> t
     it on disk so future runs don't spend tokens re-resolving it."""
     cache: dict[str, Any] = {}
     if CATEGORY_CACHE_PATH.exists():
-        cache = json.loads(CATEGORY_CACHE_PATH.read_text(encoding="utf-8"))
+        try:
+            cache = json.loads(CATEGORY_CACHE_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            logger.warning("category cache corrupt -- re-resolving")
+            cache = {}
 
     cache_key = f"{domain}:{search_term.lower()}"
     if cache_key in cache:
@@ -182,7 +192,7 @@ def _resolve_category_id(api: "keepa.Keepa", search_term: str, domain: str) -> t
 
     cache[cache_key] = {"id": int(best_id), "name": name}
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-    CATEGORY_CACHE_PATH.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    atomic_write_text(CATEGORY_CACHE_PATH, json.dumps(cache, indent=2))
     logger.info("Resolved category %r -> id=%s name=%r (verify this looks right on first run)", search_term, best_id, name)
     return int(best_id), name
 

@@ -21,6 +21,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+from safewrite import atomic_write_text
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -214,7 +216,7 @@ def main(dry_run: bool = False) -> None:
                 print(f"  #{len(ranked)-i:2d}  {g['asin']}  {g['rating']}/5  {g['title'][:60]}")
 
     if not dry_run:
-        CACHE_PATH.write_text(json.dumps(cache, indent=2, ensure_ascii=False), encoding="utf-8")
+        atomic_write_text(CACHE_PATH, json.dumps(cache, indent=2, ensure_ascii=False))
         logger.info("Wrote %s", CACHE_PATH)
     else:
         logger.info("Dry run — not writing cache.")

@@ -24,6 +24,8 @@ import logging
 import os
 import re
 import subprocess
+
+from safewrite import atomic_write_text
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -246,7 +248,7 @@ def _load_cache() -> dict:
 
 def _save_cache(cache: dict) -> None:
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CACHE_PATH.write_text(json.dumps(cache, indent=2, ensure_ascii=False), encoding="utf-8")
+    atomic_write_text(CACHE_PATH, json.dumps(cache, indent=2, ensure_ascii=False))
 
 
 def _cache_fresh(entry: dict) -> bool:
