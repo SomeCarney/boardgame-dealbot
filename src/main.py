@@ -200,7 +200,7 @@ def main() -> None:
         logger.info("DRY_RUN=1 -- skipping all social posting for %d deal(s)", len(new_deals))
 
     if dry_run:
-        logger.info("DRY_RUN=1 -- not writing posted_log.json (site/ was still rebuilt for inspection)")
+        logger.info("DRY_RUN=1 -- not writing posted_log.json (preview site rebuilt at %s for inspection)", render_site.SITE_DIR)
 
     logger.info("Done. %d total logged deals, site rebuilt at %s", len(updated_log), render_site.SITE_DIR)
 

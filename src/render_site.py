@@ -9,6 +9,7 @@ content) without ever touching the hand-written pages.
 from __future__ import annotations
 
 import json
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,7 +24,10 @@ CONTENT_DIR = ROOT / "content"
 RANKINGS_CACHE = ROOT / "config" / "rankings_cache.json"
 # GitHub Pages "deploy from a branch" only accepts / or /docs as the served
 # path -- docs/ it is, even though "site" would have been a clearer name.
-SITE_DIR = ROOT / "docs"
+# DRY_RUN renders into docs_preview/ (gitignored) instead: a test run must never
+# overwrite -- or leak fixture deals into -- the real, committed site, because
+# the scheduler blindly `git add docs/` and would push whatever it finds there.
+SITE_DIR = ROOT / ("docs_preview" if os.environ.get("DRY_RUN") == "1" else "docs")
 
 SITE_NAME = "Board Game Black Market"
 TAGLINE = "Underground deals on board games -- no markup, no nonsense."

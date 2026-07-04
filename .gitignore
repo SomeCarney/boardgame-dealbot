@@ -20,3 +20,11 @@ config/facebook_post_state.json
 config/instagram_post_state.json
 
 social_drafts.md
+
+# Generated each reminder run: today's single ready-to-post Reddit action.
+# Local convenience copy, like social_drafts.md -- no reason to version it.
+daily_action.md
+
+# DRY_RUN=1 renders a throwaway copy of the site here for inspection -- it is
+# never part of the deployed site (see render_site.SITE_DIR).
+docs_preview/

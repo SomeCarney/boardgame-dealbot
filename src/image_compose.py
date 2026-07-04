@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import io
 import logging
+import os
 from pathlib import Path
 from typing import Any
 
@@ -56,7 +57,9 @@ FONT_IMPACT = "C:/Windows/Fonts/impact.ttf"
 FONT_BOLD = "C:/Windows/Fonts/arialbd.ttf"
 
 ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_DIR = ROOT / "docs" / "images"
+# Mirror render_site: a DRY_RUN writes composited images under docs_preview/ so
+# a test run never drops files into the real, committed docs/images tree.
+OUTPUT_DIR = ROOT / ("docs_preview" if os.environ.get("DRY_RUN") == "1" else "docs") / "images"
 
 
 def compose_images(deal: dict[str, Any]) -> tuple[str | None, str | None]:
