@@ -39,3 +39,13 @@ site:
   # used to build public URLs for composited images (Facebook/Instagram's
   # APIs fetch images by URL server-side, so they need to be live on Pages
   # before the post call is made -- main.py commits+pushes before posting)
+
+alerts:
+  # "Banger" alert: the moment a newly-found deal clears ALL of these, fire an
+  # immediate high-priority phone push so it can be posted to r/boardgamedeals
+  # while it's fresh -- being first to a hot deal is the biggest upvote/traffic
+  # multiplier. Tuned to fire ~once a week (deals median ~28% off; 50%+ is rare).
+  # If it fires too often or too rarely, nudge banger_min_percent_off.
+  banger_min_percent_off: 50        # >= this % below the real 90-day average
+  banger_max_percent_above_low: 10  # AND within this % of its own 90-day low (a true floor, not a fake drop)
+  banger_min_reviews: 150           # AND a wanted game: this many reviews, OR a category best-seller

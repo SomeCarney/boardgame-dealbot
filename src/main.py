@@ -110,6 +110,63 @@ def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
         logger.exception("Early image push failed -- continuing; social posts will self-heal")
 
 
+def _alert_bangers(new_deals: list[dict[str, Any]], config: dict[str, Any]) -> None:
+    """Fire an immediate high-priority push the moment a newly-found deal is
+    exceptional -- so it can hit r/boardgamedeals while it's still fresh (being
+    first to a hot deal is the biggest upvote/traffic multiplier). Deliberately
+    rare (~once a week): an 'urgent' alert only keeps its meaning if it isn't
+    routine. Thresholds live in config['alerts'] so they're easy to tune."""
+    cfg = config.get("alerts", {})
+    min_off = cfg.get("banger_min_percent_off", 50)
+    max_above_low = cfg.get("banger_max_percent_above_low", 10)
+    min_reviews = cfg.get("banger_min_reviews", 150)
+
+    def is_banger(d: dict[str, Any]) -> bool:
+        off = d.get("percent_off") or 0
+        above_low = d.get("percent_above_low")
+        near_low = above_low is None or above_low <= max_above_low  # missing = don't block
+        wanted = bool(d.get("is_best_seller")) or (d.get("review_count") or 0) >= min_reviews
+        return off >= min_off and near_low and wanted
+
+    bangers = [d for d in new_deals if is_banger(d)]
+    if not bangers:
+        return
+    best = max(bangers, key=lambda d: d.get("percent_off") or 0)  # deepest discount wins
+
+    try:
+        import daily_action
+        action = daily_action.build_action(best)
+    except Exception:
+        logger.exception("could not build banger post; skipping alert")
+        return
+
+    title = f"HOT DEAL — post now: {action['title']}"
+    message = (
+        f"{action['comment']}\n\n"
+        "Tap “Open Reddit” to post it (title + link pre-filled), then paste the "
+        "comment above as the top reply. Being first to this one = the most upvotes."
+    )
+    notify_ps1 = ROOT / "scripts" / "notify.ps1"
+    try:
+        subprocess.run(
+            ["powershell.exe", "-NoProfile", "-File", str(notify_ps1),
+             "-Title", title, "-Message", message, "-Priority", "urgent",
+             "-ActionUrl", action["submit_url"], "-ActionLabel", "Open Reddit"],
+            timeout=60, capture_output=True,
+        )
+        logger.info("Banger alert sent for %s (%d%% off avg)", best.get("asin"), best.get("percent_off"))
+    except Exception:
+        logger.exception("banger alert notification failed")
+
+    # Mark it offered so the routine Mon/Wed/Fri reminder doesn't re-suggest the
+    # same deal -- the banger alert IS the call to post it.
+    try:
+        import daily_action
+        daily_action.mark_offered(best.get("asin", ""))
+    except Exception:
+        logger.exception("could not mark banger as offered")
+
+
 def main() -> None:
     dry_run = os.environ.get("DRY_RUN") == "1"
     config = load_config()
@@ -174,6 +231,7 @@ def main() -> None:
     render_site.render_site(updated_log, max_listed=max_listed)
 
     if new_deals and not dry_run:
+        _alert_bangers(new_deals, config)  # fire the "post this now" push first, before slower social posting
         _push_images_if_needed(new_deals)
         telegram_post.post_deals(
             new_deals,
