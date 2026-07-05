@@ -7,6 +7,17 @@
 # To add a game: add its ASIN here and to the relevant list(s).
 
 games:
+  B06WP2G52Z:
+    title: "Exit: The Abandoned Cabin"
+    players: "1-4"
+    time: "45-90 min"
+    age: "12+"
+    editorial_rank: 26
+    blurb: >
+      The Kennerspiel-winning escape room in a box. The whole table works through a chain of
+      locks and riddles against the clock -- single-use and unforgettable, the purest
+      cooperative puzzle experience you can buy.
+
   B07YQ641NQ:
     title: "Wingspan"
     players: "1-5"
@@ -381,7 +392,7 @@ games:
       characters permanently retire and the story world evolves from your choices. It held #1 on
       BoardGameGeek for years. Nothing else at this scope exists in the hobby.
 
-  B00RKT2AIK:
+  B00TQ5SEAI:
     title: "Pandemic Legacy: Season 1"
     players: "2-4"
     time: "60 min"
@@ -392,7 +403,7 @@ games:
       cities get stickers, characters get scars, rules change mid-game. The most acclaimed
       legacy game ever made and the one that made the legacy format mainstream.
 
-  B077Y9C5MK:
+  B01MUHP51S:
     title: "Spirit Island"
     players: "1-4"
     time: "90-120 min"
@@ -414,7 +425,7 @@ games:
       in a game where combat is a threat more often than a reality. Stunning production values
       and a strategic depth that rewards patient, long-horizon play.
 
-  B07MJ62HJK:
+  B07F454YF3:
     title: "Root"
     players: "2-4"
     time: "60-90 min"
@@ -436,7 +447,7 @@ games:
       estates; buy kingdom cards; shuffle; repeat until your deck becomes a machine. Still
       the cleanest, most replayable implementation of the mechanic it created.
 
-  B07GRXS5HD:
+  B00HS7GG5G:
     title: "One Night Ultimate Werewolf"
     players: "3-10"
     time: "10 min"
@@ -459,7 +470,7 @@ games:
       who Merlin is and assassinate them at the end. The best social deduction game for
       five or more players.
 
-  B00SGYYK0S:
+  B018GRSLK4:
     title: "Viticulture Essential Edition"
     players: "1-6"
     time: "45-90 min"
@@ -525,7 +536,7 @@ games:
       own board — while rivals play hero cards into your realm to slow you down. The asymmetry
       is real and the theme is executed beautifully.
 
-  B004MRZGM8:
+  B09H23M384:
     title: "Betrayal at House on the Hill"
     players: "3-6"
     time: "60 min"
@@ -536,7 +547,7 @@ games:
       player becomes the traitor. Fifty different haunts mean radically different scenarios
       each game. Uneven but memorable in a way few games match.
 
-  B07GML2NHN:
+  B0088ALY0O:
     title: "Wits & Wagers Party"
     players: "3-18"
     time: "25 min"
@@ -547,7 +558,7 @@ games:
       Scales to enormous groups, plays in 25 minutes, and rewards reading the room over
       obscure knowledge. The best party trivia game format yet invented.
 
-  B08D6KLTGJ:
+  B00001NTXN:
     title: "Quoridor"
     players: "2-4"
     time: "15 min"
@@ -558,7 +569,7 @@ games:
       can never fully seal them off. A pure spatial abstract that's approachable in minutes
       and studied seriously by players who pursue it.
 
-  B07ZTMQS89:
+  B07SVNZXY4:
     title: "Parks"
     players: "1-5"
     time: "40-70 min"
@@ -569,7 +580,7 @@ games:
       parks before the seasons change. One of the most beautiful games on the market, with
       enough strategic decision-making to keep experienced players engaged.
 
-  B00RCCAOSI:
+  B084Z8L6KZ:
     title: "Patchwork"
     players: "2 only"
     time: "15-30 min"
@@ -580,7 +591,7 @@ games:
       empty spaces. A 30-minute puzzle game that's genuinely deep — every placement has
       downstream consequences you only see after the fact.
 
-  B0856MGJTM:
+  B082831SS4:
     title: "Hanabi"
     players: "2-5"
     time: "25 min"
@@ -591,7 +602,7 @@ games:
       hints to help the group play fireworks in the right order. A cooperative memory game
       that's harder than it looks and deeply satisfying when it clicks.
 
-  B08C3P7TZF:
+  B01MTG2QY2:
     title: "Sagrada"
     players: "1-4"
     time: "30-45 min"
@@ -647,12 +658,12 @@ lists:
     ranking: editorial
     asins:
       - B01LZXVN4P
-      - B00RKT2AIK
-      - B077Y9C5MK
+      - B00TQ5SEAI
+      - B01MUHP51S
       - B01GSYA4K2
       - B07YQ641NQ
       - B01IPUGYK6
-      - B07MJ62HJK
+      - B07F454YF3
       - B077MZ2MPW
       - B014DMSTXK
       - B08WJHV6H8
@@ -687,18 +698,18 @@ lists:
     count: 20
     ranking: formula
     asins:
-      - B077Y9C5MK
+      - B01MUHP51S
       - B01GSYA4K2
       - B07YQ641NQ
       - B093H8RGXX
       - B00A2HD40E
       - B01IPUGYK6
       - B01MSQ8WD6
-      - B00SGYYK0S
-      - B07ZTMQS89
+      - B018GRSLK4
+      - B07SVNZXY4
       - B0D9KSDVDZ
-      - B08C3P7TZF
-      - B07MJ62HJK
+      - B01MTG2QY2
+      - B07F454YF3
       - B08F65MX4L
       - B01LZXVN4P
       - B0FJMNPGXM
@@ -706,7 +717,7 @@ lists:
       - B0F8PKN4B7
       - B08WJHV6H8
       - B0CHD8RCSJ
-      - B004MRZGM8
+      - B09H23M384
 
   2p:
     slug: best-2-player
@@ -734,11 +745,11 @@ lists:
       - B09KWZMXLX
       - B010HEZHII
       - B08WJHV6H8
-      - B00RCCAOSI
+      - B084Z8L6KZ
       - B01GSYA4K2
-      - B08D6KLTGJ
-      - B0856MGJTM
-      - B08C3P7TZF
+      - B00001NTXN
+      - B082831SS4
+      - B01MTG2QY2
       - B013TJ5P80
       - B0GKBFFRBW
       - B09S3ZJJRM
@@ -765,7 +776,7 @@ lists:
       - B010HEZHII
       - B08R2BPLSN
       - B01F46RPS4
-      - B07MJ62HJK
+      - B07F454YF3
       - B09KWZMXLX
       - B0FJMQB63N
       - B07KLWPHFF
@@ -907,7 +918,7 @@ lists:
       - B0GKBFFRBW
       - B01MXWTYLF
       - B01IPUGYK6
-      - B07MJ62HJK
+      - B07F454YF3
       - B013TJ5P80
       - B09BSP7B7V
 
@@ -921,25 +932,20 @@ lists:
     count: 20
     ranking: formula
     asins:
-      - B00A2HD40E
-      - B01LZXVN4P
-      - B077Y9C5MK
-      - B00RKT2AIK
-      - B0CHD8RCSJ
-      - B0FJMNPGXM
-      - B013TJ5P80
-      - B07YQ641NQ
-      - B004MRZGM8
-      - B01GSYA4K2
-      - B093H8RGXX
-      - B07ZTMQS89
-      - B00SGYYK0S
-      - B0D9KSDVDZ
-      - B07MJ62HJK
-      - B06WP2G52Z
-      - B0856MGJTM
-      - B08C3P7TZF
-      - B0F8PKN4B7
+      # Genuinely cooperative only -- everyone wins/loses together, no traitor,
+      # no competitive scoring. (Removed Wingspan, Terraforming Mars, Cascadia,
+      # Parks, Viticulture, Root, Sagrada, Ticket to Ride -- all competitive;
+      # and Betrayal -- it has a traitor, which this list explicitly excludes.)
+      - B00A2HD40E   # Pandemic
+      - B01LZXVN4P   # Gloomhaven
+      - B01MUHP51S   # Spirit Island
+      - B00TQ5SEAI   # Pandemic Legacy: Season 1
+      - B0CHD8RCSJ   # Sky Team
+      - B0FJMNPGXM   # Codenames Duet
+      - B013TJ5P80   # Mysterium
+      - B0D9KSDVDZ   # Everdell Duo
+      - B06WP2G52Z   # Exit: The Abandoned Cabin
+      - B082831SS4   # Hanabi
 
   social-deduction:
     slug: best-social-deduction
@@ -951,10 +957,10 @@ lists:
     ranking: formula
     asins:
       - B010HEZHII
-      - B07GRXS5HD
+      - B00HS7GG5G
       - B009SAAV0C
       - B09S3ZJJRM
-      - B004MRZGM8
+      - B09H23M384
       - B019FPQZNG
       - B08WHMTZ61
       - B07D97V536
@@ -976,19 +982,17 @@ lists:
       - B010HEZHII
       - B08R2BPLSN
       - B09BSP7B7V
-      - B07GRXS5HD
+      - B00HS7GG5G
       - B00M07OQ1U
       - B009SAAV0C
       - B09S3ZJJRM
       - B007MHIYFM
       - B01AYL6OPE
-      - B07GML2NHN
+      - B0088ALY0O
       - B0BPMKCSHW
       - B01F46RPS4
       - B013TJ5P80
-      - B08F65MX4L
-      - B0DYK1ZH2D
-      - B0F8PKN4B7
+      # Removed 7 Wonders, Catan, Ticket to Ride -- gateway/strategy games, not party games.
 
   family:
     slug: best-family
