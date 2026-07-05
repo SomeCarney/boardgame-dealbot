@@ -913,7 +913,10 @@
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
     "short_title": "Tic Tac No",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/0735379459.jpg",
-    "site_image_url": "images/site_0735379459.jpg"
+    "site_image_url": "images/site_0735379459.jpg",
+    "expired_at": "2026-07-05T16:00:05.210212+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 15.95
   },
   {
     "asin": "B0BMSKLLY1",
@@ -1311,7 +1314,10 @@
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
     "image_url": null,
     "site_image_url": null,
-    "short_title": "Mage Wars Forged in Fire"
+    "short_title": "Mage Wars Forged in Fire",
+    "expired_at": "2026-07-05T16:00:05.210212+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 21.71
   },
   {
     "asin": "B078KCBP1Q",
