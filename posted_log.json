@@ -1,5 +1,41 @@
 [
   {
+    "asin": "B094JS83YF",
+    "title": "Goliath Fireball Island Board Game - Unique Game Board and Components, 2-4 Players Ages 7 and Up",
+    "brand": "Goliath",
+    "description": "Fireball Island is, once again, teeming with adventure, treasure, and - you guessed it - fireballs! Make your way up the mountain to grab Vul-Kar's Heart, then get off the island before the other adventurers can steal it from you. Along the way, you'll cross bridges, collect treasure, cause earthquakes, rain down fire, and more in this classic game remake. For 2-4 players, ages 7 and up.",
+    "features": [
+      "Vul-Kar returns in this new twist on an old favorite!",
+      "Traverse paths, cross bridges, and climb a mountain in this game of adventure and luck",
+      "Players move across the island to collect treasure and obtain the heart of Vul-Kar himself - watch out for all the fireballs!",
+      "Unique game board and components add to the adventure!",
+      "For 2-4 players, ages 7 and up"
+    ],
+    "price": 28.49,
+    "typical_price": 38.11,
+    "percent_off": 25,
+    "list_price": 32.55,
+    "amazon_percent_off": 12,
+    "low_90d": 28.49,
+    "percent_above_low": 0,
+    "rating": 4.1,
+    "review_count": 476,
+    "sales_rank": 85751,
+    "is_best_seller": true,
+    "image": "https://m.media-amazon.com/images/I/81WaQykrtTS.jpg",
+    "link": "https://www.amazon.com/dp/B094JS83YF?tag=carnivalgam06-20",
+    "posted_at": "2026-07-05T00:00:06.049915+00:00",
+    "summary_lines": [
+      "\ud83c\udfc6 Category Best Seller",
+      "Players: 2-4",
+      "Best for: general tabletop game fans"
+    ],
+    "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
+    "short_title": "Fireball Island",
+    "image_url": "https://boardgameblackmarket.com/images/B094JS83YF.jpg",
+    "site_image_url": "images/site_B094JS83YF.jpg"
+  },
+  {
     "asin": "B084BMRYBQ",
     "title": "Spin Master Sandy Sketches Sand Drawing Guessing Board Game, Family Game for Ages 8 and up",
     "brand": "Spin Master Games",
@@ -62,7 +98,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "short_title": "Disney Villainous",
     "image_url": "https://boardgameblackmarket.com/images/B0D3FCWT7F.jpg",
-    "site_image_url": "images/site_B0D3FCWT7F.jpg"
+    "site_image_url": "images/site_B0D3FCWT7F.jpg",
+    "expired_at": "2026-07-05T00:00:03.480504+00:00",
+    "expired_reason": "weak_vs_history",
+    "last_checked_price": 22.13
   },
   {
     "asin": "B0B5B2BP7D",
@@ -358,7 +397,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Detailed physical components are a big part of the experience here.",
     "short_title": "A Song of Ice and Fire Tabletop Miniatures Game Bolton Blackguards Unit Box",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B07TJCTB88.jpg",
-    "site_image_url": "images/site_B07TJCTB88.jpg"
+    "site_image_url": "images/site_B07TJCTB88.jpg",
+    "expired_at": "2026-07-05T00:00:03.480504+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 28.85
   },
   {
     "asin": "B07C24HXWD",
@@ -480,7 +522,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Sessions are fast, social, and easy to jump into without much setup. Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "short_title": "Monopoly Boise",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0CGFX55KX.jpg",
-    "site_image_url": "images/site_B0CGFX55KX.jpg"
+    "site_image_url": "images/site_B0CGFX55KX.jpg",
+    "expired_at": "2026-07-05T00:00:03.480504+00:00",
+    "expired_reason": "weak_vs_history",
+    "last_checked_price": 19.93
   },
   {
     "asin": "B08GQD25Z9",
@@ -1156,7 +1201,10 @@
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
     "image_url": null,
     "site_image_url": null,
-    "short_title": "Hunt A Killer: The Final Act"
+    "short_title": "Hunt A Killer: The Final Act",
+    "expired_at": "2026-07-05T00:00:03.480504+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 23.44
   },
   {
     "asin": "B01IC9RUQM",
