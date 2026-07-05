@@ -15,6 +15,7 @@ import json
 import logging
 import math
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -34,6 +35,29 @@ logger = logging.getLogger("update_rankings")
 CONFIG_PATH = ROOT / "config" / "rankings_config.yaml"
 CACHE_PATH  = ROOT / "config" / "rankings_cache.json"
 ASSOCIATE_TAG = os.environ.get("AMAZON_ASSOCIATE_TAG", "carnivalgam06-20")
+
+
+_TITLE_STOPWORDS = {"the", "of", "a", "an", "and", "game", "games", "board",
+                    "edition", "by", "for", "card", "dice"}
+
+
+def _title_tokens(s: str) -> set[str]:
+    return {t for t in re.findall(r"[a-z0-9]+", (s or "").lower())
+            if t not in _TITLE_STOPWORDS and len(t) > 1}
+
+
+def _asin_matches_game(cfg_title: str, fetched_title: str) -> bool:
+    """Guards against wrong/hallucinated ASINs in rankings_config.yaml pointing
+    at unrelated products (the live bug: a "Scythe" entry whose ASIN was
+    actually cordless phone batteries). Returns False only when Keepa returned
+    a real title that shares no significant word with the configured game name
+    -- an empty fetched title means "no data", not "wrong product", so it never
+    triggers a drop on that basis alone."""
+    fetched = _title_tokens(fetched_title)
+    cfg = _title_tokens(cfg_title)
+    if not fetched or not cfg:
+        return True
+    return bool(cfg & fetched)
 
 
 def _score(rating: float | None, reviews: int | None, sales_rank: int | None) -> float:
@@ -115,6 +139,16 @@ def compute_ranked_list(
     for asin in asins:
         kd = keepa_data.get(asin, {})
         gd = game_defs.get(asin, {})
+        if not _asin_matches_game(gd.get("title", ""), kd.get("fetched_title", "")):
+            # Wrong ASIN: the Amazon product isn't this game. Drop it rather than
+            # render a mismatched card (e.g. a Scythe entry showing phone
+            # batteries). Fix the ASIN in rankings_config.yaml to restore it.
+            logger.error(
+                "ASIN %s for %r resolves to a different product on Amazon (%r) -- "
+                "dropping it; fix the ASIN in rankings_config.yaml",
+                asin, gd.get("title", "?"), (kd.get("fetched_title") or "")[:60],
+            )
+            continue
         if not kd.get("image_id"):
             # No image data — include with no photo rather than silently dropping
             logger.warning("No Keepa image data for %s (%s)", asin, gd.get("title", "?"))
