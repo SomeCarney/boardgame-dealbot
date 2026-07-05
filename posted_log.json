@@ -68,7 +68,10 @@
     "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups. It's a card-driven game, easy to bring along and quick to set up.",
     "short_title": "Cardinal Classics Chess Teacher",
     "image_url": "https://boardgameblackmarket.com/images/B09NNZW1YW.jpg",
-    "site_image_url": "images/site_B09NNZW1YW.jpg"
+    "site_image_url": "images/site_B09NNZW1YW.jpg",
+    "expired_at": "2026-07-05T12:00:04.864448+00:00",
+    "expired_reason": "unavailable",
+    "last_checked_price": null
   },
   {
     "asin": "B08LNBW99Y",
@@ -939,7 +942,10 @@
     "detailed_description": "A tabletop game with its own rules and pacing -- check the listing for full details.",
     "image_url": "https://somecarney.github.io/boardgame-dealbot/images/B0BMSKLLY1.jpg",
     "site_image_url": "images/site_B0BMSKLLY1.jpg",
-    "short_title": "Hunt A Killer: Dead Below Deck"
+    "short_title": "Hunt A Killer: Dead Below Deck",
+    "expired_at": "2026-07-05T12:00:04.864448+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 29.96
   },
   {
     "asin": "B0CP2GNPGZ",
