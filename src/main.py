@@ -110,61 +110,103 @@ def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
         logger.exception("Early image push failed -- continuing; social posts will self-heal")
 
 
-def _alert_bangers(new_deals: list[dict[str, Any]], config: dict[str, Any]) -> None:
-    """Fire an immediate high-priority push the moment a newly-found deal is
-    exceptional -- so it can hit r/boardgamedeals while it's still fresh (being
-    first to a hot deal is the biggest upvote/traffic multiplier). Deliberately
-    rare (~once a week): an 'urgent' alert only keeps its meaning if it isn't
-    routine. Thresholds live in config['alerts'] so they're easy to tune."""
-    cfg = config.get("alerts", {})
-    min_off = cfg.get("banger_min_percent_off", 50)
-    max_above_low = cfg.get("banger_max_percent_above_low", 10)
-    min_reviews = cfg.get("banger_min_reviews", 150)
+DEAL_ALERT_STATE = ROOT / "logs" / "deal_alert_state.json"
 
-    def is_banger(d: dict[str, Any]) -> bool:
+
+def _maybe_alert_deal(new_deals: list[dict[str, Any]], config: dict[str, Any]) -> None:
+    """Deal posting is event-driven: whenever a genuinely good deal is found,
+    push a ready-to-post alert (title + link pre-filled, comment attached).
+
+    Two tiers: an exceptional 'banger' alerts immediately (urgent); a merely-good
+    deal alerts too, but is spaced out so we never nudge more than every
+    ~min_hours_between_deal_alerts -- Reddit penalizes frequent self-posting, and
+    consistency (a few great posts a week) beats volume. Solo-only games get
+    routed to r/soloboardgaming by daily_action.build_action."""
+    cfg = config.get("alerts", {})
+
+    def qualifies(d: dict[str, Any], min_off: float, max_above_low: float, min_reviews: int) -> bool:
         off = d.get("percent_off") or 0
         above_low = d.get("percent_above_low")
         near_low = above_low is None or above_low <= max_above_low  # missing = don't block
         wanted = bool(d.get("is_best_seller")) or (d.get("review_count") or 0) >= min_reviews
         return off >= min_off and near_low and wanted
 
-    bangers = [d for d in new_deals if is_banger(d)]
-    if not bangers:
+    good = [d for d in new_deals if qualifies(
+        d, cfg.get("good_min_percent_off", 38), cfg.get("good_max_percent_above_low", 12),
+        cfg.get("good_min_reviews", 80))]
+    if not good:
         return
-    best = max(bangers, key=lambda d: d.get("percent_off") or 0)  # deepest discount wins
+    best = max(good, key=lambda d: d.get("percent_off") or 0)  # deepest discount wins
+    is_banger = qualifies(
+        best, cfg.get("banger_min_percent_off", 50), cfg.get("banger_max_percent_above_low", 10),
+        cfg.get("banger_min_reviews", 150))
+
+    now = datetime.now(timezone.utc)
+    state: dict[str, Any] = {}
+    if DEAL_ALERT_STATE.exists():
+        try:
+            state = json.loads(DEAL_ALERT_STATE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            state = {}
+
+    # a merely-good deal waits for the spacing window; a banger never waits
+    if not is_banger and state.get("last_alert"):
+        try:
+            last_dt = datetime.fromisoformat(state["last_alert"])
+            if last_dt.tzinfo is None:
+                last_dt = last_dt.replace(tzinfo=timezone.utc)
+            if now - last_dt < timedelta(hours=cfg.get("min_hours_between_deal_alerts", 40)):
+                logger.info("Good deal %s found but inside the alert spacing window -- not pushing", best.get("asin"))
+                return
+        except ValueError:
+            pass
 
     try:
         import daily_action
         action = daily_action.build_action(best)
     except Exception:
-        logger.exception("could not build banger post; skipping alert")
+        logger.exception("could not build deal post; skipping alert")
         return
 
-    title = f"HOT DEAL — post now: {action['title']}"
+    sub = "r/" + action.get("subreddit", "boardgamedeals")
+    if is_banger:
+        title = f"HOT DEAL — post now: {action['title']}"
+        lead = f"Post this to {sub} now — being first = the most upvotes."
+        priority = "urgent"
+    else:
+        title = f"Good deal to post: {action['title']}"
+        lead = f"When you get a minute, post this to {sub}."
+        priority = "default"
     message = (
-        f"{action['comment']}\n\n"
-        "Tap “Open Reddit” to post it (title + link pre-filled), then paste the "
-        "comment above as the top reply. Being first to this one = the most upvotes."
+        f"{lead}\n\n{action['comment']}\n\n"
+        "Tap “Open Reddit” — the title + link are pre-filled — then Post and paste "
+        "the comment above as the top reply."
     )
     notify_ps1 = ROOT / "scripts" / "notify.ps1"
     try:
         subprocess.run(
             ["powershell.exe", "-NoProfile", "-File", str(notify_ps1),
-             "-Title", title, "-Message", message, "-Priority", "urgent",
+             "-Title", title, "-Message", message, "-Priority", priority,
              "-ActionUrl", action["submit_url"], "-ActionLabel", "Open Reddit"],
             timeout=60, capture_output=True,
         )
-        logger.info("Banger alert sent for %s (%d%% off avg)", best.get("asin"), best.get("percent_off"))
+        logger.info("Deal alert sent (%s) for %s -> %s (%d%% off avg)", priority, best.get("asin"), sub, best.get("percent_off"))
     except Exception:
-        logger.exception("banger alert notification failed")
+        logger.exception("deal alert notification failed")
+        return
 
-    # Mark it offered so the routine Mon/Wed/Fri reminder doesn't re-suggest the
-    # same deal -- the banger alert IS the call to post it.
+    # dedupe (so the Wed reminder / next runs don't repeat it) + record the time
     try:
         import daily_action
         daily_action.mark_offered(best.get("asin", ""))
     except Exception:
-        logger.exception("could not mark banger as offered")
+        logger.exception("could not mark deal as offered")
+    try:
+        from safewrite import atomic_write_text
+        DEAL_ALERT_STATE.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(DEAL_ALERT_STATE, json.dumps({"last_alert": now.isoformat()}, indent=2))
+    except Exception:
+        logger.exception("could not write deal alert state")
 
 
 def main() -> None:
@@ -231,7 +273,7 @@ def main() -> None:
     render_site.render_site(updated_log, max_listed=max_listed)
 
     if new_deals and not dry_run:
-        _alert_bangers(new_deals, config)  # fire the "post this now" push first, before slower social posting
+        _maybe_alert_deal(new_deals, config)  # event-driven "post this" push, before slower social posting
         _push_images_if_needed(new_deals)
         telegram_post.post_deals(
             new_deals,

@@ -41,11 +41,18 @@ site:
   # before the post call is made -- main.py commits+pushes before posting)
 
 alerts:
-  # "Banger" alert: the moment a newly-found deal clears ALL of these, fire an
-  # immediate high-priority phone push so it can be posted to r/boardgamedeals
-  # while it's fresh -- being first to a hot deal is the biggest upvote/traffic
-  # multiplier. Tuned to fire ~once a week (deals median ~28% off; 50%+ is rare).
-  # If it fires too often or too rarely, nudge banger_min_percent_off.
-  banger_min_percent_off: 50        # >= this % below the real 90-day average
-  banger_max_percent_above_low: 10  # AND within this % of its own 90-day low (a true floor, not a fake drop)
-  banger_min_reviews: 150           # AND a wanted game: this many reviews, OR a category best-seller
+  # Deal posting is EVENT-DRIVEN, not tied to Mon/Wed/Fri: whenever the bot
+  # finds a good deal it pushes you to post it, whenever it comes up. Two tiers:
+  #   * good deal -> normal push, but SPACED OUT (min_hours_between_deal_alerts)
+  #                  so you never post to Reddit more than ~every other day
+  #                  (Reddit penalizes frequent self-posting). ~3-4/week.
+  #   * banger    -> exceptional; URGENT push that ignores the spacing. ~1/week.
+  # Solo-only games route to r/soloboardgaming automatically. Nudge the
+  # percent_off numbers if alerts come too often or too rarely.
+  good_min_percent_off: 38          # >= this % below the real 90-day average
+  good_max_percent_above_low: 12    # AND within this % of its own 90-day low (a true floor)
+  good_min_reviews: 80              # AND a wanted game: this many reviews, OR a category best-seller
+  min_hours_between_deal_alerts: 40 # spacing for the normal tier (keeps posting to ~3-4/week)
+  banger_min_percent_off: 50        # the exceptional tier -> urgent, ignores the spacing
+  banger_max_percent_above_low: 10
+  banger_min_reviews: 150

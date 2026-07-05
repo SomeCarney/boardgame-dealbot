@@ -30,21 +30,28 @@ Give them 2-3 months to index and climb.
 
 ---
 
-## The weekly 30-minute routine
+## The weekly routine (now driven by your phone)
 
-**Mon / Wed / Fri (5 min each):** open `social_drafts.md`, pick the best deal, post it to
-r/boardgamedeals (link post, clean URL). If it's a genuinely great deal (40%+ off a well-known
-game), also drop it in the BGG Bargains forum.
+**Deal posts — event-driven, no fixed days.** You no longer post on a schedule. The bot
+watches every run and, whenever a genuinely good deal comes up, pushes your phone with the
+post ready to go: tap **Open Reddit** (title + link pre-filled), hit Post, paste the comment.
+Two kinds of push:
+- **"Good deal to post"** (normal) — a solid deal; spaced to ~3-4/week so you're never
+  posting to Reddit more than every other day (Reddit penalizes frequent self-posts).
+- **"HOT DEAL — post now"** (urgent) — an exceptional deal (~once/week). Post it fast;
+  being first is the biggest upvote multiplier.
+- **Solo-only games** (designed for 1 player, not just "supports solo") route automatically
+  to **r/soloboardgaming** instead — a more targeted, less deal-saturated home.
 
-**Any one day (10 min):** answer 2-3 questions in r/boardgames "Daily Discussion" or the
-weekly recommendation thread. Answer genuinely first; link one of our guides or ranked lists
-ONLY when it directly answers the question (e.g. someone asks "best games for 2 players?" →
-answer with 3 titles in text, then "I keep a fuller ranked list here if useful: [link]").
+**Wednesday (auto-reminder, ~10 min):** your phone buzzes with a link to r/boardgames' daily
+discussion. Answer 2-3 questions genuinely; link one of our guides/ranked lists ONLY when it
+directly answers the question (e.g. "best games for 2 players?" → 3 titles in text, then
+"fuller ranked list here if useful: [link]").
 
-**Any one day (5 min):** open Instagram, reply to every comment, follow 10-15 accounts that
-posted under #boardgamedeals or #boardgamenight recently. A meaningful share of them follow back.
+**Friday (auto-reminder, ~5 min):** your phone buzzes with a link to Instagram. Reply to every
+comment, follow 10-15 accounts that recently posted under #boardgamedeals or #boardgamenight.
 
-That's it. Consistency beats volume — one clean post 3x/week outperforms a burst of ten.
+That's it. Consistency beats volume — a few great posts a week outperforms a burst of ten.
 
 ---
 

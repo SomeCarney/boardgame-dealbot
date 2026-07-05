@@ -1,50 +1,33 @@
-# Fires Mon/Wed/Fri at 6:30 PM via the "BoardGameSocialReminder" scheduled
-# task. Picks today's best un-shared deal and sends a reminder that is already
-# the whole task: the phone push has an "Open Reddit" button that opens the
-# submit page pre-filled, and includes the exact comment to paste. On the PC,
-# the "Post Today's Deal" desktop shortcut does it in one click (opens Reddit
-# pre-filled + copies the comment to the clipboard). See marketing/GROWTH_PLAYBOOK.md.
+# Fires Wed/Fri evening via the "BoardGameSocialReminder" scheduled task.
+#
+# Deal POSTING is now event-driven -- main.py pushes you the moment a good deal
+# is found (whenever it comes up), so it's no longer tied to specific days. This
+# reminder handles only the NON-deal weekly habits, each with a tap-to-go link
+# so you can act straight from your phone:
+#   Wednesday -> answer a few questions in r/boardgames' daily discussion thread
+#   Friday    -> Instagram sweep (reply to comments, follow a few niche accounts)
+# See marketing/GROWTH_PLAYBOOK.md.
 
 $ErrorActionPreference = "Continue"
-$repoRoot = Split-Path -Parent $PSScriptRoot
-Set-Location $repoRoot
-$env:PYTHONIOENCODING = "utf-8"
 
-$py = Join-Path $repoRoot ".venv\Scripts\python.exe"
-
-# Fresh drafts so social_drafts.md is current, then compute today's one action.
-try { & $py "src\make_social_drafts.py" | Out-Null } catch {}
-
-$action = $null
-try {
-    $raw = & $py "src\daily_action.py" "--json"
-    $action = $raw | ConvertFrom-Json
-} catch {
-    $action = $null
+$day = (Get-Date).DayOfWeek
+switch ($day) {
+    "Wednesday" {
+        $title = "Wednesday: answer a few questions"
+        $msg   = "~10 min in r/boardgames' daily discussion: answer 2-3 questions genuinely. Only link one of our guides/lists when it DIRECTLY answers the question (e.g. someone asks 'best 2-player games?'). Tap below to open the latest thread."
+        $url   = "https://www.reddit.com/r/boardgames/search/?q=%22Daily%20Discussion%22&restrict_sr=1&sort=new"
+        $label = "Open discussion"
+    }
+    "Friday" {
+        $title = "Friday: Instagram sweep"
+        $msg   = "~5 min: reply to every comment on recent posts, then follow 10-15 accounts that recently posted under #boardgamedeals or #boardgamenight. Tap below to open Instagram."
+        $url   = "https://www.instagram.com/boardgameblackmarket/"
+        $label = "Open Instagram"
+    }
+    default {
+        # Deals are event-driven now; no scheduled task on other days.
+        exit 0
+    }
 }
 
-if (-not $action -or -not $action.has_deal) {
-    & "$PSScriptRoot\notify.ps1" -Title "Board Game Black Market - no post needed today" `
-        -Message "No fresh, un-shared deal is live right now, so there's nothing to post to r/boardgamedeals today. Skipping is fine -- consistency beats forcing it." `
-        -Priority "default"
-    exit 0
-}
-
-# Phone push: tapping it (or the "Open Reddit" button) opens the pre-filled
-# submit page; the body carries the comment so it can be copied on mobile too.
-$msg = @"
-Post to r/boardgamedeals (tap "Open Reddit" -> the title + link are pre-filled -> Post):
-
-$($action.title)
-
-Then paste this as the top comment:
-$($action.comment)
-
-$($action.bonus)
-
-On your PC: just double-click "Post Today's Deal" on the desktop -- it opens Reddit pre-filled and copies the comment for you.
-"@
-
-& "$PSScriptRoot\notify.ps1" -Title "5-min task: today's board game deal" `
-    -Message $msg -Priority "high" `
-    -ActionUrl $action.submit_url -ActionLabel "Open Reddit"
+& "$PSScriptRoot\notify.ps1" -Title $title -Message $msg -Priority "high" -ActionUrl $url -ActionLabel $label

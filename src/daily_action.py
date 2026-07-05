@@ -131,11 +131,26 @@ def build_action(deal: dict) -> dict:
     above_low = deal.get("percent_above_low")
     at_90d_low = above_low == 0
 
+    # Route genuinely solo-DESIGNED games (max 1 player -- not just games that
+    # happen to "support solo") to r/soloboardgaming instead: a far more
+    # targeted, less deal-saturated home. Everything else -> r/boardgamedeals.
+    try:
+        from describe import extract_facts
+        solo_only = extract_facts(deal).get("max_players") == 1
+    except Exception:
+        solo_only = False
+    subreddit = "soloboardgaming" if solo_only else "boardgamedeals"
+
     # Title carries the brand's whole thesis: the discount is measured against
     # the real 90-day average, not a sticker. "Lowest in 90 days" is a genuine,
     # widely-respected deal-hunter signal (only claimed when it's actually true).
     low_tag = " — lowest in 90 days" if at_90d_low else ""
-    post_title = f"[Amazon] {title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
+    if solo_only:
+        # r/soloboardgaming has no "[Retailer]" title convention and isn't
+        # deal-first, so frame it plainly rather than as a deal blast.
+        post_title = f"{title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
+    else:
+        post_title = f"[Amazon] {title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
 
     # Comment: the "90 Day Average" voice -- data first, confident, not preachy.
     core = f"Against the real 90-day average of ${was:.2f}, this is {off}% below."
@@ -160,8 +175,11 @@ def build_action(deal: dict) -> dict:
     if rating and reviews:
         extras.append(f"{rating}/5 from {reviews:,} ratings.")
     comment = " ".join([body, *extras])
+    if solo_only:
+        comment = "Fellow solo gamers — " + comment
 
-    submit_url = f"{SUBMIT_BASE}?url={quote(clean, safe='')}&title={quote(post_title, safe='')}"
+    submit_base = f"https://www.reddit.com/r/{subreddit}/submit"
+    submit_url = f"{submit_base}?url={quote(clean, safe='')}&title={quote(post_title, safe='')}"
     day = datetime.now().strftime("%A")
     return {
         "has_deal": True,
@@ -170,6 +188,7 @@ def build_action(deal: dict) -> dict:
         "clean_link": clean,
         "comment": comment,
         "submit_url": submit_url,
+        "subreddit": subreddit,
         "bonus": BONUS_BY_DAY.get(day, DEFAULT_BONUS),
         "day": day,
     }
