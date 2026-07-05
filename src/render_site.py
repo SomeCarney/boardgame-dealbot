@@ -681,6 +681,8 @@ html.js .reveal.in { opacity: 1; transform: none; }
 }
 
 .deal {
+  position: relative;      /* anchors the whole-card stretched link below */
+  cursor: pointer;         /* the entire card is clickable -> Amazon */
   background: var(--panel);
   border: 1px solid var(--panel-border);
   border-radius: var(--radius);
@@ -690,6 +692,12 @@ html.js .reveal.in { opacity: 1; transform: none; }
   flex-direction: column;
   box-shadow: var(--shadow);
 }
+/* Whole-card click: the deal title's link stretches an invisible layer across
+   the entire card, so a click anywhere on the card follows it to Amazon (with
+   the same rel="nofollow sponsored" affiliate link). The "View on Amazon"
+   button sits above it so it still works as its own target. */
+.deal-title a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.deal .buy { position: relative; z-index: 2; }
 .deal:hover {
   border-color: var(--gold-dim);
   box-shadow: var(--shadow-lg);
