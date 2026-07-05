@@ -40,8 +40,13 @@ Two kinds of push:
   posting to Reddit more than every other day (Reddit penalizes frequent self-posts).
 - **"HOT DEAL — post now"** (urgent) — an exceptional deal (~once/week). Post it fast;
   being first is the biggest upvote multiplier.
-- **Solo-only games** (designed for 1 player, not just "supports solo") route automatically
-  to **r/soloboardgaming** instead — a more targeted, less deal-saturated home.
+- **Best-fit subreddit, automatically.** Each alert points you to the single best home for
+  that game (instead of always r/boardgamedeals): **solo-only** games (designed for 1 player)
+  → **r/soloboardgaming**; **2-player-only** games → **r/twoplayerboardgames**; everything
+  else → **r/boardgamedeals**. The list is small on purpose — only subs that welcome deal
+  posts. (Niche subs may want a "Sale"/"Deal" flair; pick it when you post.) To add another,
+  first confirm the sub's rules allow price posts, then add it to `_SUB_PRESENTATION` /
+  `choose_subreddit` in `src/daily_action.py`.
 
 **Wednesday (auto-reminder, ~10 min):** your phone buzzes with a link to r/boardgames' daily
 discussion. Answer 2-3 questions genuinely; link one of our guides/ranked lists ONLY when it

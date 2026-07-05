@@ -113,6 +113,37 @@ def pick_deal() -> dict | None:
     return active[0]
 
 
+# ── subreddit routing ────────────────────────────────────────────────────────
+# A deal goes to ONE best-fit subreddit (instead of, not in addition to,
+# r/boardgamedeals). This list is deliberately small: it only contains subs that
+# actually WELCOME deal posts. Posting a deal to a sub that bans self-promo gets
+# the account filtered/banned (see GROWTH_PLAYBOOK.md) -- so extend with care,
+# only after checking a sub's rules allow price/deal posts. Each entry maps a
+# subreddit to (comment_prefix, use_retailer_title_prefix).
+_SUB_PRESENTATION = {
+    "boardgamedeals":      ("", True),                          # catch-all; deals are the whole point
+    "soloboardgaming":     ("Fellow solo gamers — ", False),    # 1-player-only games
+    "twoplayerboardgames": ("For the 2-player shelf — ", False),  # 2-player-only games
+}
+
+
+def choose_subreddit(deal: dict) -> str:
+    """Pick the single best-fit deal-friendly subreddit for a game, from its
+    extracted player count. Only niche subs known to welcome deals are used;
+    everything else falls back to r/boardgamedeals."""
+    try:
+        from describe import extract_facts
+        facts = extract_facts(deal)
+    except Exception:
+        return "boardgamedeals"
+    maxp = facts.get("max_players")
+    if maxp == 1:
+        return "soloboardgaming"        # designed for one player, not just "supports solo"
+    if maxp == 2:
+        return "twoplayerboardgames"    # strictly two-player (duels, 2p-only games)
+    return "boardgamedeals"
+
+
 def build_action(deal: dict) -> dict:
     title_name = deal.get("short_title") or deal.get("title", "")
     price = deal.get("price", 0) or 0
@@ -131,26 +162,20 @@ def build_action(deal: dict) -> dict:
     above_low = deal.get("percent_above_low")
     at_90d_low = above_low == 0
 
-    # Route genuinely solo-DESIGNED games (max 1 player -- not just games that
-    # happen to "support solo") to r/soloboardgaming instead: a far more
-    # targeted, less deal-saturated home. Everything else -> r/boardgamedeals.
-    try:
-        from describe import extract_facts
-        solo_only = extract_facts(deal).get("max_players") == 1
-    except Exception:
-        solo_only = False
-    subreddit = "soloboardgaming" if solo_only else "boardgamedeals"
+    # Send the deal to the single best-fit deal-friendly subreddit (see
+    # choose_subreddit). Niche subs (solo, 2-player) aren't deal-first and have
+    # no "[Retailer]" title convention, so they get a plainer title.
+    subreddit = choose_subreddit(deal)
+    comment_prefix, use_retailer_prefix = _SUB_PRESENTATION.get(subreddit, ("", True))
 
     # Title carries the brand's whole thesis: the discount is measured against
     # the real 90-day average, not a sticker. "Lowest in 90 days" is a genuine,
     # widely-respected deal-hunter signal (only claimed when it's actually true).
     low_tag = " — lowest in 90 days" if at_90d_low else ""
-    if solo_only:
-        # r/soloboardgaming has no "[Retailer]" title convention and isn't
-        # deal-first, so frame it plainly rather than as a deal blast.
-        post_title = f"{title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
-    else:
+    if use_retailer_prefix:
         post_title = f"[Amazon] {title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
+    else:
+        post_title = f"{title_name} - ${price:.2f} ({off}% below 90-day avg{low_tag})"
 
     # Comment: the "90 Day Average" voice -- data first, confident, not preachy.
     core = f"Against the real 90-day average of ${was:.2f}, this is {off}% below."
@@ -175,8 +200,8 @@ def build_action(deal: dict) -> dict:
     if rating and reviews:
         extras.append(f"{rating}/5 from {reviews:,} ratings.")
     comment = " ".join([body, *extras])
-    if solo_only:
-        comment = "Fellow solo gamers — " + comment
+    if comment_prefix:
+        comment = comment_prefix + comment
 
     submit_base = f"https://www.reddit.com/r/{subreddit}/submit"
     submit_url = f"{submit_base}?url={quote(clean, safe='')}&title={quote(post_title, safe='')}"
@@ -209,7 +234,7 @@ def _write_markdown(action: dict) -> None:
             "consistency matters more than forcing a post. Check back after the next bot run.\n"
         )
     else:
-        body = f"""# Today's Reddit post — r/{SUBREDDIT}
+        body = f"""# Today's Reddit post — r/{action.get('subreddit', SUBREDDIT)}
 
 **1. Post this as a LINK post** (the desktop shortcut / phone button opens it pre-filled):
 
