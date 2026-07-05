@@ -446,6 +446,31 @@ html.js .reveal.in { opacity: 1; transform: none; }
   align-self: center;
 }
 
+/* trust/urgency line under the price: clarifies the struck price is the
+   90-day AVERAGE (our honest metric, not an inflated list price), flags a
+   90-day low, and shows how fresh the deal is */
+.price-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .5rem;
+  margin: -.15rem 0 .6rem;
+  font-size: .72rem;
+  color: var(--text-faint);
+  line-height: 1.3;
+}
+.price-note .low-badge {
+  color: var(--gold-bright);
+  border: 1px solid var(--gold-dim);
+  background: rgba(232,185,35,.08);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-size: .66rem;
+  padding: .12rem .5rem;
+  border-radius: 4px;
+}
+
 .deal .rating, .game-rating {
   display: flex;
   align-items: center;

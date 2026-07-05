@@ -187,6 +187,10 @@ DEAL_CARD_TEMPLATE = env.from_string("""
       <span class="was">${{ "%.2f"|format(deal.typical_price) }}</span>
       <span class="off">{{ deal.percent_off }}% OFF</span>
     </p>
+    <p class="price-note">
+      {% if at_low %}<span class="low-badge">&#128293; Lowest in 90 days</span>{% endif %}
+      <span class="ctx">vs 90-day average{% if fresh %} &middot; found {{ fresh }}{% endif %}{% if deal.low_90d and not at_low %} &middot; 90-day low ${{ "%.2f"|format(deal.low_90d) }}{% endif %}</span>
+    </p>
     {% if deal.rating %}
     <p class="rating">
       <span class="stars" aria-label="{{ deal.rating }} out of 5 stars">
@@ -297,6 +301,24 @@ def _page_hero(kicker: str, title: str, sub: str = "", crumbs: str = "", note: s
 
 def _strip_leading_h1(page_html: str) -> str:
     return re.sub(r"<h1[^>]*>.*?</h1>\s*", "", page_html, count=1, flags=re.DOTALL)
+
+
+def _deal_freshness(posted_at: str | None) -> str | None:
+    """Human 'found Xh/Xd ago' for a deal card -- a small urgency + freshness cue."""
+    if not posted_at:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(posted_at).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    hours = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+    if hours < 1:
+        return "just now"
+    if hours < 24:
+        return f"{int(hours)}h ago"
+    return f"{int(hours // 24)}d ago"
 
 STYLE_CSS = """
 :root {
@@ -745,6 +767,31 @@ html.js .reveal.in { opacity: 1; transform: none; }
   padding: .2rem .55rem;
   border-radius: 4px;
   align-self: center;
+}
+
+/* trust/urgency line under the price: clarifies the struck price is the
+   90-day AVERAGE (our honest metric, not an inflated list price), flags a
+   90-day low, and shows how fresh the deal is */
+.price-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .5rem;
+  margin: -.15rem 0 .6rem;
+  font-size: .72rem;
+  color: var(--text-faint);
+  line-height: 1.3;
+}
+.price-note .low-badge {
+  color: var(--gold-bright);
+  border: 1px solid var(--gold-dim);
+  background: rgba(232,185,35,.08);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-size: .66rem;
+  padding: .12rem .5rem;
+  border-radius: 4px;
 }
 
 .deal .rating, .game-rating {
@@ -1507,7 +1554,14 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
             "avg_off": round(sum(offs) / len(offs)),
             "max_off": max(offs),
         }
-    cards = "\n".join(DEAL_CARD_TEMPLATE.render(deal=d) for d in deals)
+    cards = "\n".join(
+        DEAL_CARD_TEMPLATE.render(
+            deal=d,
+            fresh=_deal_freshness(d.get("posted_at")),
+            at_low=d.get("percent_above_low") == 0,
+        )
+        for d in deals
+    )
     index_content = INDEX_CONTENT_TEMPLATE.render(tagline=TAGLINE, deals_html=cards, stats=stats)
     _write_page(
         "index.html", "Board Game Deals", "Automatically tracked board game price drops on Amazon, updated every few hours.",
