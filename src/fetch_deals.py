@@ -88,7 +88,10 @@ def fetch_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
-    api = keepa.Keepa(os.environ["KEEPA_API_KEY"])
+    # timeout=60 (not the library's 10s default): large batch queries with
+    # stats+buybox legitimately take longer than 10s and were timing out,
+    # failing whole runs. 60s gives ample margin; run_local.ps1 still retries.
+    api = keepa.Keepa(os.environ["KEEPA_API_KEY"], timeout=60)
     niche = config["niche"]
     filters = config["deal_filters"]
     domain = niche.get("domain", "US")

@@ -36,7 +36,7 @@ def mark_expired(log: list[dict[str, Any]], config: dict[str, Any]) -> int:
         return 0
 
     import keepa
-    api = keepa.Keepa(os.environ["KEEPA_API_KEY"])
+    api = keepa.Keepa(os.environ["KEEPA_API_KEY"], timeout=60)  # 10s default times out on big stats+buybox queries
     try:
         products = api.query(
             [d["asin"] for d in listed],

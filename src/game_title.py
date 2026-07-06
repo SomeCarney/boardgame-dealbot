@@ -67,7 +67,8 @@ PUBLISHERS = {
     "ridley's", "ridleys", "professor puzzle", "melissa & doug",
     "melissa and doug", "orchard toys", "haba", "educational insights",
     "learning resources", "spinmaster", "late for the sky", "brass monkey",
-    "hygge games", "relatable",
+    "hygge games", "relatable", "games workshop", "modiphius",
+    "modiphius entertainment", "hand2mind", "brio", "goliath",
 }
 
 # Candidates that are pure marketing residue, never a game name.
@@ -170,6 +171,14 @@ def heuristic_title(listing_title: str, brand: str | None = None) -> str:
     result = _strip_junk(seg0)
     # de-market mid-string leftovers: "Monopoly Board Game Boise" -> "Monopoly Boise"
     result = re.sub(r"\s+(board|card)\s+game\b", "", result, flags=re.IGNORECASE)
+    # strip an all-caps marketing "NEW" prefix ("NEW Cranium" -> "Cranium"); case-
+    # sensitive so real names like "New York Zoo" are untouched
+    result = re.sub(r"^NEW\s+(?=\w)", "", result)
+    # strip a leading SKU / model number the brand-strip left behind
+    # ("34080 Trickshot" -> "Trickshot", "65803 Bananagrams" -> "Bananagrams")
+    stripped_sku = re.sub(r"^\d{3,}[A-Za-z]?\s+(?=\D)", "", result)
+    if len(stripped_sku) >= 3:
+        result = stripped_sku
     result = re.sub(r"\s+", " ", result).strip(" ,;:-|")
     if _normalize(result) in JUNK_PHRASES or len(result) < 3:
         result = seg0.strip()

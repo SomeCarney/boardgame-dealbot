@@ -75,7 +75,7 @@ def _score(rating: float | None, reviews: int | None, sales_rank: int | None) ->
 def fetch_keepa_data(asins: list[str]) -> dict[str, dict[str, Any]]:
     """Batch-fetch product data from Keepa for all ASINs. Returns dict keyed by ASIN."""
     import keepa
-    api = keepa.Keepa(os.environ["KEEPA_API_KEY"])
+    api = keepa.Keepa(os.environ["KEEPA_API_KEY"], timeout=60)  # 10s default times out on big batch queries
     results: dict[str, dict[str, Any]] = {}
 
     # Query in batches of 100 to avoid token exhaustion in a single call
