@@ -372,6 +372,9 @@ html.js .reveal.in { opacity: 1; transform: none; }
 /* ── DEAL GRID ──────────────────────────── */
 .deals-header { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1.1rem; scroll-margin-top: 90px; }
 .deals-freshness { font-size: .82rem; color: var(--text-faint); display: inline-flex; align-items: center; }
+.section-links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 0 0 1.4rem; }
+.section-links a { font-family: var(--heading-font); font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); }
+.section-links a:hover { color: var(--gold-bright); text-decoration: none; }
 
 .deal-grid {
   display: grid;
@@ -470,6 +473,49 @@ html.js .reveal.in { opacity: 1; transform: none; }
   padding: .12rem .5rem;
   border-radius: 4px;
 }
+
+/* 90-day price-range bar: shows where the current price (gold dot) and the
+   90-day average (tick) sit between the 90-day low and high -- visual proof
+   the price is near its floor */
+.price-bar { margin: 0 0 .7rem; }
+.pb-track {
+  position: relative;
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(232,185,35,.10), var(--panel-border));
+}
+.pb-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+}
+.pb-now {
+  position: absolute;
+  top: 50%;
+  width: 12px; height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.pb-avg {
+  position: absolute;
+  top: -2px; bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--text-muted);
+}
+.pb-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .3rem;
+  font-size: .64rem;
+  color: var(--text-faint);
+}
+.pb-ends .pb-mid { color: var(--text-faint); letter-spacing: .04em; text-transform: uppercase; }
 
 .deal .rating, .game-rating {
   display: flex;

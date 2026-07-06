@@ -214,8 +214,9 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
         price = _cents_to_dollars(_at(current, IDX_AMAZON_PRICE))
         typical_price = _cents_to_dollars(_at(avg90, IDX_AMAZON_PRICE))
         list_price = _cents_to_dollars(_at(current, IDX_LIST_PRICE))
-        # minInInterval holds the 90-day low per index as [timestamp, value] pairs
+        # min/maxInInterval hold the 90-day low/high per index as [ts, value] pairs
         low_90d = _cents_to_dollars(_interval_value(stats.get("minInInterval") or [], IDX_AMAZON_PRICE))
+        high_90d = _cents_to_dollars(_interval_value(stats.get("maxInInterval") or [], IDX_AMAZON_PRICE))
         rating = _rating_to_stars(_at(current, IDX_RATING))
         review_count = _at(current, IDX_REVIEW_COUNT)  # plain count, not scaled
         sales_rank = _at(current, IDX_SALES_RANK)  # lower is better-selling; not a price, no cents conversion
@@ -287,6 +288,7 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
             "list_price": list_price,
             "amazon_percent_off": amazon_percent_off,
             "low_90d": low_90d,
+            "high_90d": high_90d,
             "percent_above_low": percent_above_low,
             "rating": rating,
             "review_count": review_count,

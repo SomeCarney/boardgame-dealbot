@@ -116,6 +116,7 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
       <a href="index.html"{% if active == 'deals' %} class="active" aria-current="page"{% endif %}>Deals</a>
       <a href="best-board-games.html"{% if active == 'hot' %} class="active" aria-current="page"{% endif %}>Hot Board Games</a>
       <a href="guides.html"{% if active == 'guides' %} class="active" aria-current="page"{% endif %}>Guides</a>
+      <a href="gift-guide.html"{% if active == 'gifts' %} class="active" aria-current="page"{% endif %}>Gift Guide</a>
       <a href="about.html"{% if active == 'about' %} class="active" aria-current="page"{% endif %}>About</a>
       <span class="nav-social">
         <a href="{{ facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
@@ -145,6 +146,8 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
       <div class="footer-col">
         <p class="footer-heading">Browse</p>
         <a href="index.html">Current deals</a>
+        <a href="biggest-drops.html">Biggest drops this week</a>
+        <a href="gift-guide.html">Gift guide</a>
         <a href="best-board-games.html">Hot board games</a>
         <a href="guides.html">Buying guides</a>
         <a href="about.html">About</a>
@@ -191,6 +194,16 @@ DEAL_CARD_TEMPLATE = env.from_string("""
       {% if at_low %}<span class="low-badge">&#128293; Lowest in 90 days</span>{% endif %}
       <span class="ctx">vs 90-day average{% if fresh %} &middot; found {{ fresh }}{% endif %}{% if deal.low_90d and not at_low %} &middot; 90-day low ${{ "%.2f"|format(deal.low_90d) }}{% endif %}</span>
     </p>
+    {% if bar %}
+    <div class="price-bar" aria-hidden="true">
+      <span class="pb-track">
+        <span class="pb-fill" style="width: {{ bar.now_pct }}%"></span>
+        <span class="pb-avg" style="left: {{ bar.avg_pct }}%"></span>
+        <span class="pb-now" style="left: {{ bar.now_pct }}%"></span>
+      </span>
+      <span class="pb-ends"><span>${{ "%.0f"|format(bar.low) }}</span><span class="pb-mid">90-day range</span><span>${{ "%.0f"|format(bar.high) }}</span></span>
+    </div>
+    {% endif %}
     {% if deal.rating %}
     <p class="rating">
       <span class="stars" aria-label="{{ deal.rating }} out of 5 stars">
@@ -246,6 +259,7 @@ INDEX_CONTENT_TEMPLATE = env.from_string("""
   <h2 class="section-heading">Current Deals</h2>
   <span class="deals-freshness"><span class="pulse-dot" aria-hidden="true"></span>Re-checked every 4 hours</span>
 </div>
+<p class="section-links"><a href="biggest-drops.html">This week's biggest drops &rarr;</a><a href="gift-guide.html">Gift guide &rarr;</a></p>
 {% if deals_html %}
 <div class="filter-bar" role="group" aria-label="Filter deals">
   <button class="chip is-active" data-filter="all">All deals</button>
@@ -319,6 +333,28 @@ def _deal_freshness(posted_at: str | None) -> str | None:
     if hours < 24:
         return f"{int(hours)}h ago"
     return f"{int(hours // 24)}d ago"
+
+
+def _price_bar(deal: dict[str, Any]) -> dict[str, Any] | None:
+    """Geometry for a small 90-day price-range bar: where the current price and
+    the 90-day average sit between the 90-day low and high. Visual proof of the
+    'below the 90-day average' promise. None when we lack the low to anchor it."""
+    low = deal.get("low_90d")
+    price = deal.get("price")
+    avg = deal.get("typical_price")
+    if not low or not price or not avg or low <= 0:
+        return None
+    high = deal.get("high_90d") or deal.get("list_price") or avg
+    high = max(high, avg, price)
+    span = high - low
+    if span <= 0:
+        return None
+    return {
+        "low": low,
+        "high": high,
+        "now_pct": round(max(0, min(100, (price - low) / span * 100)), 1),
+        "avg_pct": round(max(0, min(100, (avg - low) / span * 100)), 1),
+    }
 
 STYLE_CSS = """
 :root {
@@ -695,6 +731,9 @@ html.js .reveal.in { opacity: 1; transform: none; }
 /* ── DEAL GRID ──────────────────────────── */
 .deals-header { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1.1rem; scroll-margin-top: 90px; }
 .deals-freshness { font-size: .82rem; color: var(--text-faint); display: inline-flex; align-items: center; }
+.section-links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 0 0 1.4rem; }
+.section-links a { font-family: var(--heading-font); font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); }
+.section-links a:hover { color: var(--gold-bright); text-decoration: none; }
 
 .deal-grid {
   display: grid;
@@ -793,6 +832,49 @@ html.js .reveal.in { opacity: 1; transform: none; }
   padding: .12rem .5rem;
   border-radius: 4px;
 }
+
+/* 90-day price-range bar: shows where the current price (gold dot) and the
+   90-day average (tick) sit between the 90-day low and high -- visual proof
+   the price is near its floor */
+.price-bar { margin: 0 0 .7rem; }
+.pb-track {
+  position: relative;
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(232,185,35,.10), var(--panel-border));
+}
+.pb-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+}
+.pb-now {
+  position: absolute;
+  top: 50%;
+  width: 12px; height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.pb-avg {
+  position: absolute;
+  top: -2px; bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--text-muted);
+}
+.pb-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .3rem;
+  font-size: .64rem;
+  color: var(--text-faint);
+}
+.pb-ends .pb-mid { color: var(--text-faint); letter-spacing: .04em; text-transform: uppercase; }
 
 .deal .rating, .game-rating {
   display: flex;
@@ -1559,6 +1641,7 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
             deal=d,
             fresh=_deal_freshness(d.get("posted_at")),
             at_low=d.get("percent_above_low") == 0,
+            bar=_price_bar(d),
         )
         for d in deals
     )
@@ -1604,6 +1687,8 @@ def render_site(deals: list[dict[str, Any]], max_listed: int = 60) -> None:
     _write_page("guides.html", "Guides", "Practical board-game buying guides.", guides_content, updated, active="guides")
 
     _render_rankings_section(updated)
+    _render_biggest_drops(deals, updated)
+    _render_gift_guide(deals, updated)
     _write_seo_files(deals, updated)
 
 
@@ -1896,6 +1981,96 @@ def _render_rankings_section(updated: str) -> None:
         }, ensure_ascii=False)
 
         _write_page(f"{slug}.html", title, description, page_content, updated, active="hot", jsonld=jsonld)
+
+
+def _render_deal_cards(deal_list: list[dict[str, Any]]) -> str:
+    return "\n".join(
+        DEAL_CARD_TEMPLATE.render(
+            deal=d, fresh=_deal_freshness(d.get("posted_at")),
+            at_low=d.get("percent_above_low") == 0, bar=_price_bar(d),
+        )
+        for d in deal_list
+    )
+
+
+def _render_biggest_drops(deals: list[dict[str, Any]], updated: str) -> None:
+    """A standalone, shareable page of the deepest current discounts -- ranked by
+    how far below the 90-day average each has fallen. Targets 'biggest board game
+    deals' searches and gives Reddit/social a single link worth sharing."""
+    top = sorted((d for d in deals if d.get("percent_off")),
+                 key=lambda d: -(d.get("percent_off") or 0))[:24]
+    if not top:
+        return
+    hero = _page_hero(
+        "Refreshed every few hours",
+        "This Week's Biggest Board Game Price Drops",
+        "The deepest verified discounts on the board right now, ranked by how far "
+        "below their real 90-day average they've dropped — not off an inflated list price.",
+        _crumbs(("Home", "index.html"), ("Biggest drops", None)),
+    )
+    content = f'{hero}\n<div class="deal-grid">{_render_deal_cards(top)}</div>'
+    _write_page(
+        "biggest-drops.html", "This Week's Biggest Board Game Price Drops",
+        "The biggest verified board game discounts right now, ranked by how far below their 90-day average price they've fallen.",
+        content, updated, active="deals", jsonld=_index_jsonld(top),
+    )
+
+
+# gift-guide framing: (rankings-list key, gift heading, blurb)
+GIFT_SECTIONS = [
+    ("family", "For families & mixed ages", "Crowd-pleasers that teach in minutes and pull in everyone from 8 to 80."),
+    ("2p", "For couples & two players", "Games built for exactly two — date-night staples and head-to-head duels."),
+    ("gateway", "For total beginners", "The best first 'real' board games: easy to learn, impossible to put down."),
+    ("strategy", "For strategy lovers", "Meaty, decision-rich games for the person who takes game night seriously."),
+    ("party", "For party crowds", "Loud, fast, and easy — games that work with a house full of people."),
+    ("solo", "For solo players", "Genuinely great one-player games, not afterthought solo modes."),
+]
+
+
+def _render_gift_guide(deals: list[dict[str, Any]], updated: str) -> None:
+    """Evergreen gift-guide landing page (spikes hard at the holidays): the right
+    game for each kind of recipient, linking into the ranked lists, plus a few
+    live deals as gift ideas. Every pick carries the 90-day-history promise."""
+    if not RANKINGS_CACHE.exists():
+        return
+    lists = json.loads(RANKINGS_CACHE.read_text(encoding="utf-8")).get("lists", {})
+    hero = _page_hero(
+        "Gift guide",
+        "Board Game Gift Guide",
+        "The right board game for anyone on your list — every pick checked against 90 "
+        "days of real Amazon price history, so a 'deal' is actually a deal.",
+        _crumbs(("Home", "index.html"), ("Gift guide", None)),
+    )
+    cards = ""
+    for key, heading, blurb in GIFT_SECTIONS:
+        lst = lists.get(key)
+        if not lst:
+            continue
+        thumbs = "".join(
+            f'<img src="{_ranked_thumb_src(g)}" alt="" loading="lazy">'
+            for g in lst.get("games", [])[:3] if g.get("image_id")
+        )
+        cards += (
+            f'<a class="bbg-card reveal" href="{lst["slug"]}.html">'
+            f'<div class="bbg-card-imgs">{thumbs}</div>'
+            f'<div class="bbg-card-body"><span class="bbg-count">Gift pick</span>'
+            f"<h3>{html_lib.escape(heading)}</h3><p>{html_lib.escape(blurb)}</p>"
+            f'<span class="bbg-cta">See the picks</span></div></a>'
+        )
+    grid = f'<div class="bbg-section"><div class="bbg-grid">{cards}</div></div>' if cards else ""
+
+    on_sale = sorted((d for d in deals if d.get("percent_off")),
+                     key=lambda d: -(d.get("percent_off") or 0))[:6]
+    sale = ""
+    if on_sale:
+        sale = ('<h2 class="section-heading" style="margin-top:2.5rem">On sale right now</h2>'
+                f'<div class="deal-grid">{_render_deal_cards(on_sale)}</div>')
+    content = f'{hero}\n<div class="bbg-hub">{grid}</div>\n{sale}'
+    _write_page(
+        "gift-guide.html", "Board Game Gift Guide",
+        "The best board games to gift by recipient — families, couples, strategy fans, party crowds, and solo players — with prices verified against 90-day history.",
+        content, updated, active="gifts",
+    )
 
 
 def _write_page(
