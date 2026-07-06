@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-05T00:19:51.702102+00:00",
+  "updated_at": "2026-07-06T03:20:14.549798+00:00",
   "lists": {
     "all-time": {
       "slug": "best-all-time",
@@ -17,9 +17,9 @@
           "image_id": "71k-+e3xYyL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 6750,
-          "sales_rank": 58568,
-          "score": 18.50533629448948,
+          "reviews": 6745,
+          "sales_rank": 63299,
+          "score": 18.37376642537143,
           "link": "https://www.amazon.com/dp/B01LZXVN4P?tag=carnivalgam06-20"
         },
         {
@@ -33,9 +33,9 @@
           "image_id": "81lqq9OZwPL.jpg",
           "price": 79.99,
           "rating": 4.8,
-          "reviews": 1733,
-          "sales_rank": 32214,
-          "score": 16.553056725597088,
+          "reviews": 1734,
+          "sales_rank": 32289,
+          "score": 16.550629302377814,
           "link": "https://www.amazon.com/dp/B00TQ5SEAI?tag=carnivalgam06-20"
         },
         {
@@ -50,8 +50,8 @@
           "price": 57.32,
           "rating": 4.8,
           "reviews": 2813,
-          "sales_rank": 9747,
-          "score": 19.922647612612277,
+          "sales_rank": 8650,
+          "score": 20.18505092687037,
           "link": "https://www.amazon.com/dp/B01MUHP51S?tag=carnivalgam06-20"
         },
         {
@@ -65,9 +65,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -81,9 +81,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -98,8 +98,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 5388,
-          "sales_rank": 40112,
-          "score": 18.676291198932745,
+          "sales_rank": 40359,
+          "score": 18.66548070471174,
           "link": "https://www.amazon.com/dp/B01IPUGYK6?tag=carnivalgam06-20"
         },
         {
@@ -114,8 +114,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 4143,
-          "sales_rank": 11090,
-          "score": 20.604288382219103,
+          "sales_rank": 7928,
+          "score": 21.374567401233193,
           "link": "https://www.amazon.com/dp/B07F454YF3?tag=carnivalgam06-20"
         },
         {
@@ -130,8 +130,8 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
         },
         {
@@ -145,9 +145,9 @@
           "image_id": "81YwMWy3ttS.jpg",
           "price": 29.59,
           "rating": 4.8,
-          "reviews": 9690,
-          "sales_rank": 9254,
-          "score": 23.15614472656282,
+          "reviews": 9691,
+          "sales_rank": 8936,
+          "score": 23.245407385684043,
           "link": "https://www.amazon.com/dp/B014DMSTXK?tag=carnivalgam06-20"
         },
         {
@@ -162,8 +162,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -177,9 +177,9 @@
           "image_id": "71Kp7sgYcjL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
           "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
@@ -194,8 +194,8 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
         },
         {
@@ -207,11 +207,11 @@
           "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
           "editorial_rank": 13,
           "image_id": "71BoYDhi4XL.jpg",
-          "price": 32.99,
+          "price": 32.68,
           "rating": 4.8,
-          "reviews": 907,
-          "sales_rank": 7517,
-          "score": 17.58062143262468,
+          "reviews": 908,
+          "sales_rank": 7627,
+          "score": 17.554891285556224,
           "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         },
         {
@@ -226,8 +226,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
@@ -242,8 +242,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -257,9 +257,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -274,8 +274,8 @@
           "price": 56.32,
           "rating": 4.8,
           "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
+          "sales_rank": 12082,
+          "score": 19.787244196308468,
           "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
         },
         {
@@ -289,9 +289,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -305,9 +305,9 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
         },
         {
@@ -321,9 +321,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -335,11 +335,11 @@
           "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
           "editorial_rank": 21,
           "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
+          "price": 44.98,
           "rating": 4.8,
           "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
           "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
@@ -353,9 +353,9 @@
           "image_id": "81fVDF-Gb8L.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
           "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
@@ -370,8 +370,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -385,9 +385,9 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
         },
         {
@@ -401,9 +401,9 @@
           "image_id": "81OtpAsMXgL.jpg",
           "price": 16.79,
           "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
           "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
         },
         {
@@ -415,11 +415,11 @@
           "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
           "editorial_rank": 26,
           "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
+          "price": 34.99,
           "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
           "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
@@ -433,9 +433,9 @@
           "image_id": "812RPX-JM-L.jpg",
           "price": 31.99,
           "rating": 4.9,
-          "reviews": 380,
-          "sales_rank": 4286,
-          "score": 17.053886153553893,
+          "reviews": 381,
+          "sales_rank": 3278,
+          "score": 17.62653627317256,
           "link": "https://www.amazon.com/dp/B0F692PJDW?tag=carnivalgam06-20"
         },
         {
@@ -449,9 +449,9 @@
           "image_id": "71gK9wGp0rL.jpg",
           "price": 22.99,
           "rating": 4.8,
-          "reviews": 4843,
-          "sales_rank": 5385,
-          "score": 22.755510987597503,
+          "reviews": 4844,
+          "sales_rank": 4555,
+          "score": 23.208247343902233,
           "link": "https://www.amazon.com/dp/B01MXWTYLF?tag=carnivalgam06-20"
         },
         {
@@ -463,11 +463,11 @@
           "blurb": "No board — the tiles ARE the board, and it expands as you place pieces. A pure abstract strategy game about surrounding the opponent's queen bee, playable on any flat surface, that improves meaningfully with every session.",
           "editorial_rank": 29,
           "image_id": "61Xfir95IcL.jpg",
-          "price": 32.18,
+          "price": 37.99,
           "rating": 4.8,
           "reviews": 5031,
-          "sales_rank": 11295,
-          "score": 21.043303591715578,
+          "sales_rank": 7862,
+          "score": 21.893310775893365,
           "link": "https://www.amazon.com/dp/B0079L0EKY?tag=carnivalgam06-20"
         },
         {
@@ -481,9 +481,9 @@
           "image_id": "815iyYR8BSL.jpg",
           "price": 19.95,
           "rating": 4.8,
-          "reviews": 1939,
-          "sales_rank": 18933,
-          "score": 17.709120112759138,
+          "reviews": 1940,
+          "sales_rank": 16320,
+          "score": 17.98148205457062,
           "link": "https://www.amazon.com/dp/B07KLWPHFF?tag=carnivalgam06-20"
         }
       ]
@@ -491,40 +491,8 @@
     "solo": {
       "slug": "best-solo",
       "title": "Hottest Solo Board Games",
-      "description": "Games with purpose-built solo modes — not afterthoughts, not cooperative games that happen to allow one player. Every game here was designed to be genuinely engaging when you're playing alone.\n",
+      "description": "Games that are genuinely great played alone — dedicated solo modes, automa opponents, or co-ops that shine one-player. Nothing here that can't really be played solo.\n",
       "games": [
-        {
-          "asin": "B0F8PKN4B7",
-          "title": "Ticket to Ride",
-          "players": "2-5",
-          "time": "45-75 min",
-          "age": "8+",
-          "blurb": "Claim railway routes across North America before rivals block the paths you need. Elegant enough to teach anyone in 10 minutes, tense enough that adults play it seriously. The definitive gateway strategy game for families.",
-          "editorial_rank": 19,
-          "image_id": "81be7iLdHiL.jpg",
-          "price": 39.99,
-          "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
-          "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B077MZ2MPW",
-          "title": "Azul",
-          "players": "2-4",
-          "time": "30-45 min",
-          "age": "8+",
-          "blurb": "Tile-drafting so tactically rich that tournament players study it. Drafting what you need while denying your opponent what they need is the entire game — and it works in 30 minutes with anyone from an 8-year-old to a chess grandmaster.",
-          "editorial_rank": 8,
-          "image_id": "91A0nIsV57S.jpg",
-          "price": 31.99,
-          "rating": 4.8,
-          "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
-          "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
-        },
         {
           "asin": "B07YQ641NQ",
           "title": "Wingspan",
@@ -536,26 +504,10 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B08WJHV6H8",
-          "title": "Carcassonne: Hunters & Gatherers",
-          "players": "2-5",
-          "time": "35 min",
-          "age": "8+",
-          "blurb": "The prehistoric reimagining that many players argue is the best version of Carcassonne. Rivers score differently, forests replace cities, and the overall flow feels more cohesive. Teach it in two minutes; play it for years.",
-          "editorial_rank": 10,
-          "image_id": "71Te8WpEJ8L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
-          "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
           "asin": "B00A2HD40E",
@@ -569,8 +521,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -584,9 +536,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -601,8 +553,8 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
         },
         {
@@ -617,8 +569,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 4143,
-          "sales_rank": 11090,
-          "score": 20.604288382219103,
+          "sales_rank": 7928,
+          "score": 21.374567401233193,
           "link": "https://www.amazon.com/dp/B07F454YF3?tag=carnivalgam06-20"
         },
         {
@@ -633,73 +585,9 @@
           "price": 57.32,
           "rating": 4.8,
           "reviews": 2813,
-          "sales_rank": 9747,
-          "score": 19.922647612612277,
+          "sales_rank": 8650,
+          "score": 20.18505092687037,
           "link": "https://www.amazon.com/dp/B01MUHP51S?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B08F65MX4L",
-          "title": "7 Wonders",
-          "players": "2-7",
-          "time": "30 min",
-          "age": "10+",
-          "blurb": "Simultaneous card-drafting lets seven people finish a full civilization game in 30 minutes. Each player pursues their wonder's unique strategy while watching what the neighbors are building. Plays in the same time regardless of player count.",
-          "editorial_rank": 17,
-          "image_id": "81DF9OaRQiL.jpg",
-          "price": 56.32,
-          "rating": 4.8,
-          "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
-          "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B0CHD8RCSJ",
-          "title": "Sky Team",
-          "players": "2 only",
-          "time": "15 min",
-          "age": "14+",
-          "blurb": "Two pilots land a plane without talking during critical phases. Place dice in shared slots, manage speed and flaps in real time, don't crash. Voted Game of the Year 2024 — the most innovative cooperative design in years.",
-          "editorial_rank": 11,
-          "image_id": "71Kp7sgYcjL.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
-          "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B0D9KSDVDZ",
-          "title": "Everdell Duo",
-          "players": "2 only",
-          "time": "30-60 min",
-          "age": "14+",
-          "blurb": "The beloved forest city-builder rebuilt specifically for two, with its own asymmetric storyline and exclusive cards. The charming woodland theme meets real engine-building depth in a purpose-made two-player experience.",
-          "editorial_rank": null,
-          "image_id": "61PuvIwfzBL.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 1639,
-          "sales_rank": 6258,
-          "score": 19.508799225733824,
-          "link": "https://www.amazon.com/dp/B0D9KSDVDZ?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09H23M384",
-          "title": "Betrayal at House on the Hill",
-          "players": "3-6",
-          "time": "60 min",
-          "age": "12+",
-          "blurb": "Explore a haunted house tile by tile until the Haunt triggers — at which point one player becomes the traitor. Fifty different haunts mean radically different scenarios each game. Uneven but memorable in a way few games match.",
-          "editorial_rank": null,
-          "image_id": "61-EP9oCETL.jpg",
-          "price": 49.25,
-          "rating": 4.8,
-          "reviews": 2717,
-          "sales_rank": 13091,
-          "score": 19.2183501503357,
-          "link": "https://www.amazon.com/dp/B09H23M384?tag=carnivalgam06-20"
         },
         {
           "asin": "B01IPUGYK6",
@@ -713,8 +601,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 5388,
-          "sales_rank": 40112,
-          "score": 18.676291198932745,
+          "sales_rank": 40359,
+          "score": 18.66548070471174,
           "link": "https://www.amazon.com/dp/B01IPUGYK6?tag=carnivalgam06-20"
         },
         {
@@ -728,9 +616,9 @@
           "image_id": "71k-+e3xYyL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 6750,
-          "sales_rank": 58568,
-          "score": 18.50533629448948,
+          "reviews": 6745,
+          "sales_rank": 63299,
+          "score": 18.37376642537143,
           "link": "https://www.amazon.com/dp/B01LZXVN4P?tag=carnivalgam06-20"
         },
         {
@@ -745,8 +633,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3486,
-          "sales_rank": 44246,
-          "score": 17.567248409144174,
+          "sales_rank": 42906,
+          "score": 17.61789644386319,
           "link": "https://www.amazon.com/dp/B01MTG2QY2?tag=carnivalgam06-20"
         },
         {
@@ -761,8 +649,8 @@
           "price": null,
           "rating": 4.9,
           "reviews": 2292,
-          "sales_rank": 41837,
-          "score": 17.457036914871026,
+          "sales_rank": 44084,
+          "score": 17.371634699610997,
           "link": "https://www.amazon.com/dp/B018GRSLK4?tag=carnivalgam06-20"
         },
         {
@@ -777,25 +665,9 @@
           "price": null,
           "rating": 4.8,
           "reviews": 1722,
-          "sales_rank": 29704,
-          "score": 16.669190380729567,
+          "sales_rank": 19982,
+          "score": 17.336541034031363,
           "link": "https://www.amazon.com/dp/B07SVNZXY4?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B0FJMNPGXM",
-          "title": "Codenames Duet",
-          "players": "2",
-          "time": "15-30 min",
-          "age": "11+",
-          "blurb": "The cooperative version where both players act as spymaster simultaneously. Your clues must contact your partner's agents and avoid theirs — since you have different information, miscommunication is guaranteed and hilarious.",
-          "editorial_rank": null,
-          "image_id": "81itpAjTbtL.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 98,
-          "sales_rank": 2480,
-          "score": 13.515540387008343,
-          "link": "https://www.amazon.com/dp/B0FJMNPGXM?tag=carnivalgam06-20"
         }
       ]
     },
@@ -815,9 +687,9 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
         },
         {
@@ -831,9 +703,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -848,8 +720,8 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
         },
         {
@@ -863,9 +735,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -880,8 +752,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -896,8 +768,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -911,9 +783,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -928,8 +800,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -943,9 +815,9 @@
           "image_id": "81YwMWy3ttS.jpg",
           "price": 29.59,
           "rating": 4.8,
-          "reviews": 9690,
-          "sales_rank": 9254,
-          "score": 23.15614472656282,
+          "reviews": 9691,
+          "sales_rank": 8936,
+          "score": 23.245407385684043,
           "link": "https://www.amazon.com/dp/B014DMSTXK?tag=carnivalgam06-20"
         },
         {
@@ -959,9 +831,9 @@
           "image_id": "71gK9wGp0rL.jpg",
           "price": 22.99,
           "rating": 4.8,
-          "reviews": 4843,
-          "sales_rank": 5385,
-          "score": 22.755510987597503,
+          "reviews": 4844,
+          "sales_rank": 4555,
+          "score": 23.208247343902233,
           "link": "https://www.amazon.com/dp/B01MXWTYLF?tag=carnivalgam06-20"
         },
         {
@@ -975,9 +847,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -989,11 +861,11 @@
           "blurb": "No board — the tiles ARE the board, and it expands as you place pieces. A pure abstract strategy game about surrounding the opponent's queen bee, playable on any flat surface, that improves meaningfully with every session.",
           "editorial_rank": 29,
           "image_id": "61Xfir95IcL.jpg",
-          "price": 32.18,
+          "price": 37.99,
           "rating": 4.8,
           "reviews": 5031,
-          "sales_rank": 11295,
-          "score": 21.043303591715578,
+          "sales_rank": 7862,
+          "score": 21.893310775893365,
           "link": "https://www.amazon.com/dp/B0079L0EKY?tag=carnivalgam06-20"
         },
         {
@@ -1008,8 +880,8 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
         },
         {
@@ -1023,9 +895,9 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
         },
         {
@@ -1039,9 +911,9 @@
           "image_id": "71Kp7sgYcjL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
           "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
@@ -1056,8 +928,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 1639,
-          "sales_rank": 6258,
-          "score": 19.508799225733824,
+          "sales_rank": 6288,
+          "score": 19.498132083602364,
           "link": "https://www.amazon.com/dp/B0D9KSDVDZ?tag=carnivalgam06-20"
         },
         {
@@ -1072,25 +944,9 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B00001NTXN",
-          "title": "Quoridor",
-          "players": "2-4",
-          "time": "15 min",
-          "age": "6+",
-          "blurb": "Move your pawn to the other side while placing walls to block your opponent — but you can never fully seal them off. A pure spatial abstract that's approachable in minutes and studied seriously by players who pursue it.",
-          "editorial_rank": null,
-          "image_id": "71Z0eL-IArL.jpg",
-          "price": null,
-          "rating": 4.7,
-          "reviews": 3342,
-          "sales_rank": 15009,
-          "score": 18.63954640330393,
-          "link": "https://www.amazon.com/dp/B00001NTXN?tag=carnivalgam06-20"
         },
         {
           "asin": "B07KLWPHFF",
@@ -1103,26 +959,26 @@
           "image_id": "815iyYR8BSL.jpg",
           "price": 19.95,
           "rating": 4.8,
-          "reviews": 1939,
-          "sales_rank": 18933,
-          "score": 17.709120112759138,
+          "reviews": 1940,
+          "sales_rank": 16320,
+          "score": 17.98148205457062,
           "link": "https://www.amazon.com/dp/B07KLWPHFF?tag=carnivalgam06-20"
         },
         {
-          "asin": "B0BF57RNPC",
-          "title": "Splendor Duel",
-          "players": "2 only",
-          "time": "30 min",
-          "age": "10+",
-          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
-          "editorial_rank": 13,
-          "image_id": "71BoYDhi4XL.jpg",
-          "price": 32.99,
-          "rating": 4.8,
-          "reviews": 907,
-          "sales_rank": 7517,
-          "score": 17.58062143262468,
-          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
+          "asin": "B00001NTXN",
+          "title": "Quoridor",
+          "players": "2-4",
+          "time": "15 min",
+          "age": "6+",
+          "blurb": "Move your pawn to the other side while placing walls to block your opponent — but you can never fully seal them off. A pure spatial abstract that's approachable in minutes and studied seriously by players who pursue it.",
+          "editorial_rank": null,
+          "image_id": "71Z0eL-IArL.jpg",
+          "price": null,
+          "rating": 4.7,
+          "reviews": 3343,
+          "sales_rank": 23658,
+          "score": 17.798025520533443,
+          "link": "https://www.amazon.com/dp/B00001NTXN?tag=carnivalgam06-20"
         },
         {
           "asin": "B01MTG2QY2",
@@ -1136,9 +992,25 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3486,
-          "sales_rank": 44246,
-          "score": 17.567248409144174,
+          "sales_rank": 42906,
+          "score": 17.61789644386319,
           "link": "https://www.amazon.com/dp/B01MTG2QY2?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B0BF57RNPC",
+          "title": "Splendor Duel",
+          "players": "2 only",
+          "time": "30 min",
+          "age": "10+",
+          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
+          "editorial_rank": 13,
+          "image_id": "71BoYDhi4XL.jpg",
+          "price": 32.68,
+          "rating": 4.8,
+          "reviews": 908,
+          "sales_rank": 7627,
+          "score": 17.554891285556224,
+          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         },
         {
           "asin": "B0DFF3V1Q7",
@@ -1151,9 +1023,9 @@
           "image_id": "81Sryk6rgHL.jpg",
           "price": 39.98,
           "rating": 4.8,
-          "reviews": 701,
-          "sales_rank": 10965,
-          "score": 16.229010638612912,
+          "reviews": 702,
+          "sales_rank": 9550,
+          "score": 16.47727424848258,
           "link": "https://www.amazon.com/dp/B0DFF3V1Q7?tag=carnivalgam06-20"
         },
         {
@@ -1167,9 +1039,9 @@
           "image_id": "81itpAjTbtL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 98,
-          "sales_rank": 2480,
-          "score": 13.515540387008343,
+          "reviews": 99,
+          "sales_rank": 2188,
+          "score": 13.766102845429463,
           "link": "https://www.amazon.com/dp/B0FJMNPGXM?tag=carnivalgam06-20"
         },
         {
@@ -1184,8 +1056,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 382,
-          "sales_rank": 435048,
-          "score": 10.550740027013406,
+          "sales_rank": 434894,
+          "score": 10.551027749000276,
           "link": "https://www.amazon.com/dp/B084Z8L6KZ?tag=carnivalgam06-20"
         },
         {
@@ -1222,9 +1094,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -1238,9 +1110,9 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
         },
         {
@@ -1254,9 +1126,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -1271,8 +1143,8 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
         },
         {
@@ -1286,9 +1158,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -1303,8 +1175,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -1319,8 +1191,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -1334,9 +1206,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -1351,25 +1223,9 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01F46RPS4",
-          "title": "King of Tokyo",
-          "players": "2-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
-          "editorial_rank": 22,
-          "image_id": "81fVDF-Gb8L.jpg",
-          "price": 39.99,
-          "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
-          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B01GSYA4K2",
@@ -1382,9 +1238,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -1399,9 +1255,25 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01F46RPS4",
+          "title": "King of Tokyo",
+          "players": "2-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
+          "editorial_rank": 22,
+          "image_id": "81fVDF-Gb8L.jpg",
+          "price": 39.99,
+          "rating": 4.8,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
+          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B07F454YF3",
@@ -1415,8 +1287,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 4143,
-          "sales_rank": 11090,
-          "score": 20.604288382219103,
+          "sales_rank": 7928,
+          "score": 21.374567401233193,
           "link": "https://www.amazon.com/dp/B07F454YF3?tag=carnivalgam06-20"
         },
         {
@@ -1430,10 +1302,26 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B0CHD8RCSJ",
+          "title": "Sky Team",
+          "players": "2 only",
+          "time": "15 min",
+          "age": "14+",
+          "blurb": "Two pilots land a plane without talking during critical phases. Place dice in shared slots, manage speed and flaps in real time, don't crash. Voted Game of the Year 2024 — the most innovative cooperative design in years.",
+          "editorial_rank": 11,
+          "image_id": "71Kp7sgYcjL.jpg",
+          "price": null,
+          "rating": 4.8,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
+          "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
           "asin": "B08F65MX4L",
@@ -1447,9 +1335,25 @@
           "price": 56.32,
           "rating": 4.8,
           "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
+          "sales_rank": 12082,
+          "score": 19.787244196308468,
           "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
+          "rating": 4.8,
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B08R2BPLSN",
@@ -1462,42 +1366,10 @@
           "image_id": "81OtpAsMXgL.jpg",
           "price": 16.79,
           "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
           "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B0CHD8RCSJ",
-          "title": "Sky Team",
-          "players": "2 only",
-          "time": "15 min",
-          "age": "14+",
-          "blurb": "Two pilots land a plane without talking during critical phases. Place dice in shared slots, manage speed and flaps in real time, don't crash. Voted Game of the Year 2024 — the most innovative cooperative design in years.",
-          "editorial_rank": 11,
-          "image_id": "71Kp7sgYcjL.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
-          "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
           "asin": "B013TJ5P80",
@@ -1511,8 +1383,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
@@ -1526,9 +1398,9 @@
           "image_id": "815iyYR8BSL.jpg",
           "price": 19.95,
           "rating": 4.8,
-          "reviews": 1939,
-          "sales_rank": 18933,
-          "score": 17.709120112759138,
+          "reviews": 1940,
+          "sales_rank": 16320,
+          "score": 17.98148205457062,
           "link": "https://www.amazon.com/dp/B07KLWPHFF?tag=carnivalgam06-20"
         }
       ]
@@ -1549,9 +1421,9 @@
           "image_id": "71+-Wq2C8zL.jpg",
           "price": 19.82,
           "rating": 4.7,
-          "reviews": 116941,
-          "sales_rank": 258,
-          "score": 46.42165860905145,
+          "reviews": 116947,
+          "sales_rank": 226,
+          "score": 47.55595665717053,
           "link": "https://www.amazon.com/dp/B010TQY7A8?tag=carnivalgam06-20"
         },
         {
@@ -1565,9 +1437,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -1581,10 +1453,26 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B09S3ZJJRM",
@@ -1597,9 +1485,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -1613,9 +1501,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -1630,25 +1518,9 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B07YQ641NQ",
@@ -1661,9 +1533,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -1678,8 +1550,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -1694,8 +1566,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -1709,9 +1581,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -1726,9 +1598,25 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B007MHIYFM",
+          "title": "Chronology",
+          "players": "2-8",
+          "time": "30 min",
+          "age": "14+",
+          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
+          "editorial_rank": null,
+          "image_id": "81IHbdB1wFL.jpg",
+          "price": 17.34,
+          "rating": 4.8,
+          "reviews": 3634,
+          "sales_rank": 3294,
+          "score": 23.319418485792777,
+          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B00M07OQ1U",
@@ -1742,25 +1630,9 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3170,
-          "sales_rank": 3391,
-          "score": 22.848984628299203,
+          "sales_rank": 2883,
+          "score": 23.31445880928839,
           "link": "https://www.amazon.com/dp/B00M07OQ1U?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B007MHIYFM",
-          "title": "Chronology",
-          "players": "2-8",
-          "time": "30 min",
-          "age": "14+",
-          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
-          "editorial_rank": null,
-          "image_id": "81IHbdB1wFL.jpg",
-          "price": 17.31,
-          "rating": 4.8,
-          "reviews": 3633,
-          "sales_rank": 3926,
-          "score": 22.824053764697844,
-          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B0BPMKCSHW",
@@ -1773,42 +1645,10 @@
           "image_id": "81fKDdaySiL.jpg",
           "price": 10.99,
           "rating": 4.8,
-          "reviews": 1691,
-          "sales_rank": 2371,
-          "score": 22.03790729663273,
+          "reviews": 1694,
+          "sales_rank": 1811,
+          "score": 22.834876320168824,
           "link": "https://www.amazon.com/dp/B0BPMKCSHW?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07H185K6H",
-          "title": "Trekking the National Parks",
-          "players": "2-5",
-          "time": "30-60 min",
-          "age": "10+",
-          "blurb": "Race your hikers across a gorgeous map of the US national parks, collecting trail cards and claiming sites before rivals. Accessible to families while offering real strategic decisions about when to race versus when to stockpile.",
-          "editorial_rank": null,
-          "image_id": "91AthmDSizL.jpg",
-          "price": null,
-          "rating": 4.7,
-          "reviews": 9638,
-          "sales_rank": 11644,
-          "score": 21.64389059777953,
-          "link": "https://www.amazon.com/dp/B07H185K6H?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01F46RPS4",
-          "title": "King of Tokyo",
-          "players": "2-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
-          "editorial_rank": 22,
-          "image_id": "81fVDF-Gb8L.jpg",
-          "price": 39.99,
-          "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
-          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B01GSYA4K2",
@@ -1821,9 +1661,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -1838,9 +1678,41 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07H185K6H",
+          "title": "Trekking the National Parks",
+          "players": "2-5",
+          "time": "30-60 min",
+          "age": "10+",
+          "blurb": "Race your hikers across a gorgeous map of the US national parks, collecting trail cards and claiming sites before rivals. Accessible to families while offering real strategic decisions about when to race versus when to stockpile.",
+          "editorial_rank": null,
+          "image_id": "91AthmDSizL.jpg",
+          "price": null,
+          "rating": 4.7,
+          "reviews": 9638,
+          "sales_rank": 11456,
+          "score": 21.681585490580748,
+          "link": "https://www.amazon.com/dp/B07H185K6H?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01F46RPS4",
+          "title": "King of Tokyo",
+          "players": "2-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
+          "editorial_rank": 22,
+          "image_id": "81fVDF-Gb8L.jpg",
+          "price": 39.99,
+          "rating": 4.8,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
+          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B07DLGD9K6",
@@ -1854,8 +1726,8 @@
           "price": 29.99,
           "rating": 4.7,
           "reviews": 8835,
-          "sales_rank": 17918,
-          "score": 20.495125505404907,
+          "sales_rank": 17184,
+          "score": 20.583033068232663,
           "link": "https://www.amazon.com/dp/B07DLGD9K6?tag=carnivalgam06-20"
         }
       ]
@@ -1876,9 +1748,9 @@
           "image_id": "71+-Wq2C8zL.jpg",
           "price": 19.82,
           "rating": 4.7,
-          "reviews": 116941,
-          "sales_rank": 258,
-          "score": 46.42165860905145,
+          "reviews": 116947,
+          "sales_rank": 226,
+          "score": 47.55595665717053,
           "link": "https://www.amazon.com/dp/B010TQY7A8?tag=carnivalgam06-20"
         },
         {
@@ -1892,10 +1764,26 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B09S3ZJJRM",
@@ -1908,9 +1796,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -1924,26 +1812,10 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B07YQ641NQ",
@@ -1956,9 +1828,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -1973,8 +1845,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -1989,8 +1861,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -2004,10 +1876,26 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B007MHIYFM",
+          "title": "Chronology",
+          "players": "2-8",
+          "time": "30 min",
+          "age": "14+",
+          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
+          "editorial_rank": null,
+          "image_id": "81IHbdB1wFL.jpg",
+          "price": 17.34,
+          "rating": 4.8,
+          "reviews": 3634,
+          "sales_rank": 3294,
+          "score": 23.319418485792777,
+          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B00M07OQ1U",
@@ -2021,25 +1909,9 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3170,
-          "sales_rank": 3391,
-          "score": 22.848984628299203,
+          "sales_rank": 2883,
+          "score": 23.31445880928839,
           "link": "https://www.amazon.com/dp/B00M07OQ1U?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B007MHIYFM",
-          "title": "Chronology",
-          "players": "2-8",
-          "time": "30 min",
-          "age": "14+",
-          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
-          "editorial_rank": null,
-          "image_id": "81IHbdB1wFL.jpg",
-          "price": 17.31,
-          "rating": 4.8,
-          "reviews": 3633,
-          "sales_rank": 3926,
-          "score": 22.824053764697844,
-          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B0BPMKCSHW",
@@ -2052,10 +1924,26 @@
           "image_id": "81fKDdaySiL.jpg",
           "price": 10.99,
           "rating": 4.8,
-          "reviews": 1691,
-          "sales_rank": 2371,
-          "score": 22.03790729663273,
+          "reviews": 1694,
+          "sales_rank": 1811,
+          "score": 22.834876320168824,
           "link": "https://www.amazon.com/dp/B0BPMKCSHW?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01GSYA4K2",
+          "title": "Terraforming Mars",
+          "players": "1-5",
+          "time": "120 min",
+          "age": "12+",
+          "blurb": "The flagship engine-building strategy game. Manage oxygen, temperature, and ocean coverage across hundreds of project cards while corporations compete to claim Mars. Long, complex, and deeply satisfying in a way few games match.",
+          "editorial_rank": 4,
+          "image_id": "91x5bb0PyaL.jpg",
+          "price": 76.78,
+          "rating": 4.8,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
+          "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
           "asin": "B07H185K6H",
@@ -2069,8 +1957,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 9638,
-          "sales_rank": 11644,
-          "score": 21.64389059777953,
+          "sales_rank": 11456,
+          "score": 21.681585490580748,
           "link": "https://www.amazon.com/dp/B07H185K6H?tag=carnivalgam06-20"
         },
         {
@@ -2084,26 +1972,10 @@
           "image_id": "81fVDF-Gb8L.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
           "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01GSYA4K2",
-          "title": "Terraforming Mars",
-          "players": "1-5",
-          "time": "120 min",
-          "age": "12+",
-          "blurb": "The flagship engine-building strategy game. Manage oxygen, temperature, and ocean coverage across hundreds of project cards while corporations compete to claim Mars. Long, complex, and deeply satisfying in a way few games match.",
-          "editorial_rank": 4,
-          "image_id": "91x5bb0PyaL.jpg",
-          "price": 76.78,
-          "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
-          "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
           "asin": "B07DLGD9K6",
@@ -2117,8 +1989,8 @@
           "price": 29.99,
           "rating": 4.7,
           "reviews": 8835,
-          "sales_rank": 17918,
-          "score": 20.495125505404907,
+          "sales_rank": 17184,
+          "score": 20.583033068232663,
           "link": "https://www.amazon.com/dp/B07DLGD9K6?tag=carnivalgam06-20"
         },
         {
@@ -2132,9 +2004,9 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
         },
         {
@@ -2149,8 +2021,8 @@
           "price": 56.32,
           "rating": 4.8,
           "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
+          "sales_rank": 12082,
+          "score": 19.787244196308468,
           "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
         }
       ]
@@ -2160,6 +2032,22 @@
       "title": "Hottest 6+ Player Board Games",
       "description": "Games built to survive a full table — six or more players without collapsing into chaos or hour-long waits between turns. The bigger the group, the better these get.\n",
       "games": [
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
+        },
         {
           "asin": "B09S3ZJJRM",
           "title": "The Chameleon",
@@ -2171,9 +2059,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -2187,26 +2075,10 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B010HEZHII",
@@ -2220,9 +2092,25 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B007MHIYFM",
+          "title": "Chronology",
+          "players": "2-8",
+          "time": "30 min",
+          "age": "14+",
+          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
+          "editorial_rank": null,
+          "image_id": "81IHbdB1wFL.jpg",
+          "price": 17.34,
+          "rating": 4.8,
+          "reviews": 3634,
+          "sales_rank": 3294,
+          "score": 23.319418485792777,
+          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B00M07OQ1U",
@@ -2236,25 +2124,9 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3170,
-          "sales_rank": 3391,
-          "score": 22.848984628299203,
+          "sales_rank": 2883,
+          "score": 23.31445880928839,
           "link": "https://www.amazon.com/dp/B00M07OQ1U?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B007MHIYFM",
-          "title": "Chronology",
-          "players": "2-8",
-          "time": "30 min",
-          "age": "14+",
-          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
-          "editorial_rank": null,
-          "image_id": "81IHbdB1wFL.jpg",
-          "price": 17.31,
-          "rating": 4.8,
-          "reviews": 3633,
-          "sales_rank": 3926,
-          "score": 22.824053764697844,
-          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B0BPMKCSHW",
@@ -2267,9 +2139,9 @@
           "image_id": "81fKDdaySiL.jpg",
           "price": 10.99,
           "rating": 4.8,
-          "reviews": 1691,
-          "sales_rank": 2371,
-          "score": 22.03790729663273,
+          "reviews": 1694,
+          "sales_rank": 1811,
+          "score": 22.834876320168824,
           "link": "https://www.amazon.com/dp/B0BPMKCSHW?tag=carnivalgam06-20"
         },
         {
@@ -2283,9 +2155,9 @@
           "image_id": "81fVDF-Gb8L.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
           "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
@@ -2300,8 +2172,8 @@
           "price": 29.99,
           "rating": 4.7,
           "reviews": 8835,
-          "sales_rank": 17918,
-          "score": 20.495125505404907,
+          "sales_rank": 17184,
+          "score": 20.583033068232663,
           "link": "https://www.amazon.com/dp/B07DLGD9K6?tag=carnivalgam06-20"
         },
         {
@@ -2315,9 +2187,9 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
         },
         {
@@ -2332,9 +2204,25 @@
           "price": 56.32,
           "rating": 4.8,
           "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
+          "sales_rank": 12082,
+          "score": 19.787244196308468,
           "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
+          "rating": 4.8,
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B08R2BPLSN",
@@ -2347,26 +2235,10 @@
           "image_id": "81OtpAsMXgL.jpg",
           "price": 16.79,
           "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
           "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B013TJ5P80",
@@ -2380,25 +2252,25 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
-          "asin": "B019FPQZNG",
-          "title": "Deception: Murder in Hong Kong",
-          "players": "4-12",
-          "time": "20 min",
-          "age": "14+",
-          "blurb": "One player is the forensic scientist who knows the murderer and weapon — but can only communicate via scenario cards, not words. The murderer is hiding at the table. One of the most tense and replayable social deduction games for larger groups.",
-          "editorial_rank": null,
-          "image_id": "71oN+tzccaL.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 2576,
-          "sales_rank": 28461,
-          "score": 17.643416926337224,
-          "link": "https://www.amazon.com/dp/B019FPQZNG?tag=carnivalgam06-20"
+          "asin": "B0F692PJDW",
+          "title": "Telestrations",
+          "players": "4-8",
+          "time": "30 min",
+          "age": "12+",
+          "blurb": "Telephone meets Pictionary. Draw a phrase, pass it; the next person writes what they think was drawn; the next draws what was written. By the last player, 'mermaid' has become 'toilet surfboard'. Produces some of the funniest moments in gaming.",
+          "editorial_rank": 27,
+          "image_id": "812RPX-JM-L.jpg",
+          "price": 31.99,
+          "rating": 4.9,
+          "reviews": 381,
+          "sales_rank": 3278,
+          "score": 17.62653627317256,
+          "link": "https://www.amazon.com/dp/B0F692PJDW?tag=carnivalgam06-20"
         }
       ]
     },
@@ -2418,9 +2290,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -2434,9 +2306,9 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
         },
         {
@@ -2450,9 +2322,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -2467,8 +2339,8 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
         },
         {
@@ -2482,9 +2354,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -2498,9 +2370,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -2515,8 +2387,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -2530,9 +2402,9 @@
           "image_id": "81YwMWy3ttS.jpg",
           "price": 29.59,
           "rating": 4.8,
-          "reviews": 9690,
-          "sales_rank": 9254,
-          "score": 23.15614472656282,
+          "reviews": 9691,
+          "sales_rank": 8936,
+          "score": 23.245407385684043,
           "link": "https://www.amazon.com/dp/B014DMSTXK?tag=carnivalgam06-20"
         },
         {
@@ -2546,26 +2418,10 @@
           "image_id": "71gK9wGp0rL.jpg",
           "price": 22.99,
           "rating": 4.8,
-          "reviews": 4843,
-          "sales_rank": 5385,
-          "score": 22.755510987597503,
+          "reviews": 4844,
+          "sales_rank": 4555,
+          "score": 23.208247343902233,
           "link": "https://www.amazon.com/dp/B01MXWTYLF?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01F46RPS4",
-          "title": "King of Tokyo",
-          "players": "2-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
-          "editorial_rank": 22,
-          "image_id": "81fVDF-Gb8L.jpg",
-          "price": 39.99,
-          "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
-          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B01GSYA4K2",
@@ -2578,9 +2434,9 @@
           "image_id": "91x5bb0PyaL.jpg",
           "price": 76.78,
           "rating": 4.8,
-          "reviews": 7225,
-          "sales_rank": 15153,
-          "score": 21.2672296081702,
+          "reviews": 7226,
+          "sales_rank": 10655,
+          "score": 22.075190298273,
           "link": "https://www.amazon.com/dp/B01GSYA4K2?tag=carnivalgam06-20"
         },
         {
@@ -2595,9 +2451,25 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01F46RPS4",
+          "title": "King of Tokyo",
+          "players": "2-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
+          "editorial_rank": 22,
+          "image_id": "81fVDF-Gb8L.jpg",
+          "price": 39.99,
+          "rating": 4.8,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
+          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B07F454YF3",
@@ -2611,8 +2483,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 4143,
-          "sales_rank": 11090,
-          "score": 20.604288382219103,
+          "sales_rank": 7928,
+          "score": 21.374567401233193,
           "link": "https://www.amazon.com/dp/B07F454YF3?tag=carnivalgam06-20"
         },
         {
@@ -2626,9 +2498,9 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
         },
         {
@@ -2643,9 +2515,25 @@
           "price": 56.32,
           "rating": 4.8,
           "reviews": 3205,
-          "sales_rank": 11901,
-          "score": 19.81907100861323,
+          "sales_rank": 12082,
+          "score": 19.787244196308468,
           "link": "https://www.amazon.com/dp/B08F65MX4L?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
+          "rating": 4.8,
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B08R2BPLSN",
@@ -2658,26 +2546,10 @@
           "image_id": "81OtpAsMXgL.jpg",
           "price": 16.79,
           "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
           "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B013TJ5P80",
@@ -2691,8 +2563,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
@@ -2707,8 +2579,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 5388,
-          "sales_rank": 40112,
-          "score": 18.676291198932745,
+          "sales_rank": 40359,
+          "score": 18.66548070471174,
           "link": "https://www.amazon.com/dp/B01IPUGYK6?tag=carnivalgam06-20"
         },
         {
@@ -2720,11 +2592,11 @@
           "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
           "editorial_rank": 13,
           "image_id": "71BoYDhi4XL.jpg",
-          "price": 32.99,
+          "price": 32.68,
           "rating": 4.8,
-          "reviews": 907,
-          "sales_rank": 7517,
-          "score": 17.58062143262468,
+          "reviews": 908,
+          "sales_rank": 7627,
+          "score": 17.554891285556224,
           "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         }
       ]
@@ -2746,8 +2618,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -2762,8 +2634,8 @@
           "price": 57.32,
           "rating": 4.8,
           "reviews": 2813,
-          "sales_rank": 9747,
-          "score": 19.922647612612277,
+          "sales_rank": 8650,
+          "score": 20.18505092687037,
           "link": "https://www.amazon.com/dp/B01MUHP51S?tag=carnivalgam06-20"
         },
         {
@@ -2777,9 +2649,9 @@
           "image_id": "71Kp7sgYcjL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
           "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
@@ -2794,8 +2666,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 1639,
-          "sales_rank": 6258,
-          "score": 19.508799225733824,
+          "sales_rank": 6288,
+          "score": 19.498132083602364,
           "link": "https://www.amazon.com/dp/B0D9KSDVDZ?tag=carnivalgam06-20"
         },
         {
@@ -2810,8 +2682,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
@@ -2825,9 +2697,9 @@
           "image_id": "71k-+e3xYyL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 6750,
-          "sales_rank": 58568,
-          "score": 18.50533629448948,
+          "reviews": 6745,
+          "sales_rank": 63299,
+          "score": 18.37376642537143,
           "link": "https://www.amazon.com/dp/B01LZXVN4P?tag=carnivalgam06-20"
         },
         {
@@ -2841,9 +2713,9 @@
           "image_id": "818EH6iwNZL.jpg",
           "price": 14.99,
           "rating": 4.5,
-          "reviews": 4139,
-          "sales_rank": 15381,
-          "score": 17.492811621904266,
+          "reviews": 4140,
+          "sales_rank": 12364,
+          "score": 17.898683060039886,
           "link": "https://www.amazon.com/dp/B06WP2G52Z?tag=carnivalgam06-20"
         },
         {
@@ -2857,9 +2729,9 @@
           "image_id": "81lqq9OZwPL.jpg",
           "price": 79.99,
           "rating": 4.8,
-          "reviews": 1733,
-          "sales_rank": 32214,
-          "score": 16.553056725597088,
+          "reviews": 1734,
+          "sales_rank": 32289,
+          "score": 16.550629302377814,
           "link": "https://www.amazon.com/dp/B00TQ5SEAI?tag=carnivalgam06-20"
         },
         {
@@ -2873,9 +2745,9 @@
           "image_id": "81itpAjTbtL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 98,
-          "sales_rank": 2480,
-          "score": 13.515540387008343,
+          "reviews": 99,
+          "sales_rank": 2188,
+          "score": 13.766102845429463,
           "link": "https://www.amazon.com/dp/B0FJMNPGXM?tag=carnivalgam06-20"
         },
         {
@@ -2912,9 +2784,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -2929,8 +2801,8 @@
           "price": 24.95,
           "rating": 4.8,
           "reviews": 12321,
-          "sales_rank": 1715,
-          "score": 29.140626503591957,
+          "sales_rank": 1487,
+          "score": 29.709723856738268,
           "link": "https://www.amazon.com/dp/B00HS7GG5G?tag=carnivalgam06-20"
         },
         {
@@ -2945,8 +2817,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -2961,8 +2833,8 @@
           "price": 49.25,
           "rating": 4.8,
           "reviews": 2717,
-          "sales_rank": 13091,
-          "score": 19.2183501503357,
+          "sales_rank": 10781,
+          "score": 19.620162370742833,
           "link": "https://www.amazon.com/dp/B09H23M384?tag=carnivalgam06-20"
         },
         {
@@ -2977,8 +2849,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 2576,
-          "sales_rank": 28461,
-          "score": 17.643416926337224,
+          "sales_rank": 32021,
+          "score": 17.442975981781917,
           "link": "https://www.amazon.com/dp/B019FPQZNG?tag=carnivalgam06-20"
         },
         {
@@ -2993,8 +2865,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3935,
-          "sales_rank": 95421,
-          "score": 16.633222643815134,
+          "sales_rank": 120030,
+          "score": 16.30691098468223,
           "link": "https://www.amazon.com/dp/B009SAAV0C?tag=carnivalgam06-20"
         },
         {
@@ -3009,8 +2881,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 1121,
-          "sales_rank": 32781,
-          "score": 14.918384451006123,
+          "sales_rank": 30090,
+          "score": 15.042303998636038,
           "link": "https://www.amazon.com/dp/B07D97V536?tag=carnivalgam06-20"
         },
         {
@@ -3025,8 +2897,8 @@
           "price": 29.95,
           "rating": 4.7,
           "reviews": 295,
-          "sales_rank": 49016,
-          "score": 11.632076382609565,
+          "sales_rank": 41027,
+          "score": 11.826911613070584,
           "link": "https://www.amazon.com/dp/B08WHMTZ61?tag=carnivalgam06-20"
         }
       ]
@@ -3036,6 +2908,22 @@
       "title": "Hottest Party Board Games",
       "description": "Games that work for any crowd, any background, and any age. No rulebook required beyond \"this is how you win.\" Every game here can be explained in under two minutes and produces genuine moments worth remembering.\n",
       "games": [
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
+        },
         {
           "asin": "B09S3ZJJRM",
           "title": "The Chameleon",
@@ -3047,9 +2935,9 @@
           "image_id": "71IsuBX4NZL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 8667,
-          "sales_rank": 535,
-          "score": 33.25393417477462,
+          "reviews": 8668,
+          "sales_rank": 663,
+          "score": 32.15637657009625,
           "link": "https://www.amazon.com/dp/B09S3ZJJRM?tag=carnivalgam06-20"
         },
         {
@@ -3063,26 +2951,10 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B00HS7GG5G",
@@ -3096,8 +2968,8 @@
           "price": 24.95,
           "rating": 4.8,
           "reviews": 12321,
-          "sales_rank": 1715,
-          "score": 29.140626503591957,
+          "sales_rank": 1487,
+          "score": 29.709723856738268,
           "link": "https://www.amazon.com/dp/B00HS7GG5G?tag=carnivalgam06-20"
         },
         {
@@ -3112,9 +2984,25 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B007MHIYFM",
+          "title": "Chronology",
+          "players": "2-8",
+          "time": "30 min",
+          "age": "14+",
+          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
+          "editorial_rank": null,
+          "image_id": "81IHbdB1wFL.jpg",
+          "price": 17.34,
+          "rating": 4.8,
+          "reviews": 3634,
+          "sales_rank": 3294,
+          "score": 23.319418485792777,
+          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B00M07OQ1U",
@@ -3128,25 +3016,9 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3170,
-          "sales_rank": 3391,
-          "score": 22.848984628299203,
+          "sales_rank": 2883,
+          "score": 23.31445880928839,
           "link": "https://www.amazon.com/dp/B00M07OQ1U?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B007MHIYFM",
-          "title": "Chronology",
-          "players": "2-8",
-          "time": "30 min",
-          "age": "14+",
-          "blurb": "Build a personal timeline by correctly placing historical events in chronological order. Your timeline grows longer (and easier to place into) as you succeed — a clever self- balancing mechanic that keeps everyone competitive regardless of history knowledge.",
-          "editorial_rank": null,
-          "image_id": "81IHbdB1wFL.jpg",
-          "price": 17.31,
-          "rating": 4.8,
-          "reviews": 3633,
-          "sales_rank": 3926,
-          "score": 22.824053764697844,
-          "link": "https://www.amazon.com/dp/B007MHIYFM?tag=carnivalgam06-20"
         },
         {
           "asin": "B0BPMKCSHW",
@@ -3159,9 +3031,9 @@
           "image_id": "81fKDdaySiL.jpg",
           "price": 10.99,
           "rating": 4.8,
-          "reviews": 1691,
-          "sales_rank": 2371,
-          "score": 22.03790729663273,
+          "reviews": 1694,
+          "sales_rank": 1811,
+          "score": 22.834876320168824,
           "link": "https://www.amazon.com/dp/B0BPMKCSHW?tag=carnivalgam06-20"
         },
         {
@@ -3175,9 +3047,9 @@
           "image_id": "81fVDF-Gb8L.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
           "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
@@ -3191,10 +3063,26 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
+          "rating": 4.8,
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B08R2BPLSN",
@@ -3207,26 +3095,10 @@
           "image_id": "81OtpAsMXgL.jpg",
           "price": 16.79,
           "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
           "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B013TJ5P80",
@@ -3240,8 +3112,8 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
         },
         {
@@ -3255,9 +3127,9 @@
           "image_id": "812RPX-JM-L.jpg",
           "price": 31.99,
           "rating": 4.9,
-          "reviews": 380,
-          "sales_rank": 4286,
-          "score": 17.053886153553893,
+          "reviews": 381,
+          "sales_rank": 3278,
+          "score": 17.62653627317256,
           "link": "https://www.amazon.com/dp/B0F692PJDW?tag=carnivalgam06-20"
         },
         {
@@ -3272,8 +3144,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 3935,
-          "sales_rank": 95421,
-          "score": 16.633222643815134,
+          "sales_rank": 120030,
+          "score": 16.30691098468223,
           "link": "https://www.amazon.com/dp/B009SAAV0C?tag=carnivalgam06-20"
         },
         {
@@ -3288,8 +3160,8 @@
           "price": null,
           "rating": 4.5,
           "reviews": 690,
-          "sales_rank": 517441,
-          "score": 10.06091952918254,
+          "sales_rank": 524241,
+          "score": 10.050945480413551,
           "link": "https://www.amazon.com/dp/B0088ALY0O?tag=carnivalgam06-20"
         }
       ]
@@ -3310,9 +3182,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -3326,10 +3198,26 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B0FJMQB63N",
@@ -3342,9 +3230,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -3359,25 +3247,9 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B07YQ641NQ",
@@ -3390,9 +3262,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -3407,8 +3279,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -3423,8 +3295,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -3438,9 +3310,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -3455,8 +3327,8 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
         },
         {
@@ -3470,26 +3342,10 @@
           "image_id": "81YwMWy3ttS.jpg",
           "price": 29.59,
           "rating": 4.8,
-          "reviews": 9690,
-          "sales_rank": 9254,
-          "score": 23.15614472656282,
+          "reviews": 9691,
+          "sales_rank": 8936,
+          "score": 23.245407385684043,
           "link": "https://www.amazon.com/dp/B014DMSTXK?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01F46RPS4",
-          "title": "King of Tokyo",
-          "players": "2-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
-          "editorial_rank": 22,
-          "image_id": "81fVDF-Gb8L.jpg",
-          "price": 39.99,
-          "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
-          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B093H8RGXX",
@@ -3503,9 +3359,25 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01F46RPS4",
+          "title": "King of Tokyo",
+          "players": "2-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
+          "editorial_rank": 22,
+          "image_id": "81fVDF-Gb8L.jpg",
+          "price": 39.99,
+          "rating": 4.8,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
+          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B07DLGD9K6",
@@ -3519,8 +3391,8 @@
           "price": 29.99,
           "rating": 4.7,
           "reviews": 8835,
-          "sales_rank": 17918,
-          "score": 20.495125505404907,
+          "sales_rank": 17184,
+          "score": 20.583033068232663,
           "link": "https://www.amazon.com/dp/B07DLGD9K6?tag=carnivalgam06-20"
         },
         {
@@ -3534,42 +3406,10 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B08R2BPLSN",
-          "title": "Skull",
-          "players": "3-6",
-          "time": "15-45 min",
-          "age": "10+",
-          "blurb": "Three rules. Infinite mind games. Place flowers and skulls face-down, then bet on how many tiles you can flip without hitting a skull. The brilliance is that you know where your own skulls are, and so does everyone watching you.",
-          "editorial_rank": 25,
-          "image_id": "81OtpAsMXgL.jpg",
-          "price": 16.79,
-          "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
-          "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B0CHD8RCSJ",
@@ -3582,26 +3422,42 @@
           "image_id": "71Kp7sgYcjL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
           "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
         },
         {
-          "asin": "B0BF57RNPC",
-          "title": "Splendor Duel",
-          "players": "2 only",
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
           "time": "30 min",
-          "age": "10+",
-          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
-          "editorial_rank": 13,
-          "image_id": "71BoYDhi4XL.jpg",
-          "price": 32.99,
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
           "rating": 4.8,
-          "reviews": 907,
-          "sales_rank": 7517,
-          "score": 17.58062143262468,
-          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B08R2BPLSN",
+          "title": "Skull",
+          "players": "3-6",
+          "time": "15-45 min",
+          "age": "10+",
+          "blurb": "Three rules. Infinite mind games. Place flowers and skulls face-down, then bet on how many tiles you can flip without hitting a skull. The brilliance is that you know where your own skulls are, and so does everyone watching you.",
+          "editorial_rank": 25,
+          "image_id": "81OtpAsMXgL.jpg",
+          "price": 16.79,
+          "rating": 4.8,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
+          "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
         },
         {
           "asin": "B0F692PJDW",
@@ -3614,10 +3470,26 @@
           "image_id": "812RPX-JM-L.jpg",
           "price": 31.99,
           "rating": 4.9,
-          "reviews": 380,
-          "sales_rank": 4286,
-          "score": 17.053886153553893,
+          "reviews": 381,
+          "sales_rank": 3278,
+          "score": 17.62653627317256,
           "link": "https://www.amazon.com/dp/B0F692PJDW?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B0BF57RNPC",
+          "title": "Splendor Duel",
+          "players": "2 only",
+          "time": "30 min",
+          "age": "10+",
+          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
+          "editorial_rank": 13,
+          "image_id": "71BoYDhi4XL.jpg",
+          "price": 32.68,
+          "rating": 4.8,
+          "reviews": 908,
+          "sales_rank": 7627,
+          "score": 17.554891285556224,
+          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         }
       ]
     },
@@ -3637,9 +3509,9 @@
           "image_id": "71AbDpYEkgL.jpg",
           "price": 39.99,
           "rating": 4.8,
-          "reviews": 39653,
-          "sales_rank": 289,
-          "score": 43.05106792801643,
+          "reviews": 39658,
+          "sales_rank": 277,
+          "score": 43.37622082615394,
           "link": "https://www.amazon.com/dp/B0DYK1ZH2D?tag=carnivalgam06-20"
         },
         {
@@ -3653,10 +3525,26 @@
           "image_id": "81be7iLdHiL.jpg",
           "price": 39.99,
           "rating": 4.9,
-          "reviews": 27595,
-          "sales_rank": 953,
-          "score": 35.79087373971069,
+          "reviews": 27599,
+          "sales_rank": 863,
+          "score": 36.316572610843835,
           "link": "https://www.amazon.com/dp/B0F8PKN4B7?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07T446163",
+          "title": "Wavelength",
+          "players": "2-12",
+          "time": "30-45 min",
+          "age": "14+",
+          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
+          "editorial_rank": 26,
+          "image_id": "91jxT2HWS-L.jpg",
+          "price": 34.99,
+          "rating": 4.8,
+          "reviews": 4940,
+          "sales_rank": 410,
+          "score": 32.5719514395827,
+          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B0FJMQB63N",
@@ -3669,9 +3557,9 @@
           "image_id": "81-ZhxEhSWL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 29127,
-          "sales_rank": 1375,
-          "score": 32.774841723807526,
+          "reviews": 29131,
+          "sales_rank": 1782,
+          "score": 31.640008810167856,
           "link": "https://www.amazon.com/dp/B0FJMQB63N?tag=carnivalgam06-20"
         },
         {
@@ -3686,25 +3574,9 @@
           "price": 31.99,
           "rating": 4.8,
           "reviews": 16605,
-          "sales_rank": 1139,
-          "score": 31.812055973157662,
+          "sales_rank": 1237,
+          "score": 31.443298582750415,
           "link": "https://www.amazon.com/dp/B077MZ2MPW?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07T446163",
-          "title": "Wavelength",
-          "players": "2-12",
-          "time": "30-45 min",
-          "age": "14+",
-          "blurb": "A dial with a hidden target on a spectrum (like \"hot ↔ cold\"). Give a clue placing your clue ON the spectrum; your team argues where on the dial the target landed. The debate is the game and it's reliably funnier than it sounds.",
-          "editorial_rank": 26,
-          "image_id": "91jxT2HWS-L.jpg",
-          "price": null,
-          "rating": 4.8,
-          "reviews": 4939,
-          "sales_rank": 481,
-          "score": 31.728873994324086,
-          "link": "https://www.amazon.com/dp/B07T446163?tag=carnivalgam06-20"
         },
         {
           "asin": "B07YQ641NQ",
@@ -3717,9 +3589,9 @@
           "image_id": "61+m0HYftaL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 17124,
-          "sales_rank": 2394,
-          "score": 28.86613809762845,
+          "reviews": 17142,
+          "sales_rank": 1982,
+          "score": 29.587415834755884,
           "link": "https://www.amazon.com/dp/B07YQ641NQ?tag=carnivalgam06-20"
         },
         {
@@ -3734,8 +3606,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 14263,
-          "sales_rank": 2436,
-          "score": 28.261629526775856,
+          "sales_rank": 1981,
+          "score": 29.031353520633726,
           "link": "https://www.amazon.com/dp/B010HEZHII?tag=carnivalgam06-20"
         },
         {
@@ -3750,8 +3622,8 @@
           "price": null,
           "rating": 4.8,
           "reviews": 10963,
-          "sales_rank": 3557,
-          "score": 26.211708096674766,
+          "sales_rank": 3263,
+          "score": 26.491211690497575,
           "link": "https://www.amazon.com/dp/B08WJHV6H8?tag=carnivalgam06-20"
         },
         {
@@ -3765,9 +3637,9 @@
           "image_id": "71ZPPB0r88L.jpg",
           "price": 44.98,
           "rating": 4.8,
-          "reviews": 14796,
-          "sales_rank": 11833,
-          "score": 23.588973100219206,
+          "reviews": 14797,
+          "sales_rank": 9585,
+          "score": 24.131251674198158,
           "link": "https://www.amazon.com/dp/B0GKBFFRBW?tag=carnivalgam06-20"
         },
         {
@@ -3782,41 +3654,9 @@
           "price": 49.99,
           "rating": 4.8,
           "reviews": 18818,
-          "sales_rank": 16213,
-          "score": 23.39414932555039,
+          "sales_rank": 14627,
+          "score": 23.64525844402039,
           "link": "https://www.amazon.com/dp/B00A2HD40E?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B07H185K6H",
-          "title": "Trekking the National Parks",
-          "players": "2-5",
-          "time": "30-60 min",
-          "age": "10+",
-          "blurb": "Race your hikers across a gorgeous map of the US national parks, collecting trail cards and claiming sites before rivals. Accessible to families while offering real strategic decisions about when to race versus when to stockpile.",
-          "editorial_rank": null,
-          "image_id": "91AthmDSizL.jpg",
-          "price": null,
-          "rating": 4.7,
-          "reviews": 9638,
-          "sales_rank": 11644,
-          "score": 21.64389059777953,
-          "link": "https://www.amazon.com/dp/B07H185K6H?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B01F46RPS4",
-          "title": "King of Tokyo",
-          "players": "2-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
-          "editorial_rank": 22,
-          "image_id": "81fVDF-Gb8L.jpg",
-          "price": 39.99,
-          "rating": 4.8,
-          "reviews": 4689,
-          "sales_rank": 8473,
-          "score": 21.532812475489,
-          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B093H8RGXX",
@@ -3830,9 +3670,41 @@
           "price": 31.99,
           "rating": 4.9,
           "reviews": 2245,
-          "sales_rank": 6737,
-          "score": 21.016953774151755,
+          "sales_rank": 5018,
+          "score": 21.743558400160314,
           "link": "https://www.amazon.com/dp/B093H8RGXX?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B07H185K6H",
+          "title": "Trekking the National Parks",
+          "players": "2-5",
+          "time": "30-60 min",
+          "age": "10+",
+          "blurb": "Race your hikers across a gorgeous map of the US national parks, collecting trail cards and claiming sites before rivals. Accessible to families while offering real strategic decisions about when to race versus when to stockpile.",
+          "editorial_rank": null,
+          "image_id": "91AthmDSizL.jpg",
+          "price": null,
+          "rating": 4.7,
+          "reviews": 9638,
+          "sales_rank": 11456,
+          "score": 21.681585490580748,
+          "link": "https://www.amazon.com/dp/B07H185K6H?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B01F46RPS4",
+          "title": "King of Tokyo",
+          "players": "2-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Roll Yahtzee-style dice, smash Tokyo, absorb damage, buy power cards. The risk calculus of staying in the monster-infested city long enough to score points but not so long you get eliminated is genuinely interesting in a 30-minute game.",
+          "editorial_rank": 22,
+          "image_id": "81fVDF-Gb8L.jpg",
+          "price": 39.99,
+          "rating": 4.8,
+          "reviews": 4693,
+          "sales_rank": 8327,
+          "score": 21.576448795592547,
+          "link": "https://www.amazon.com/dp/B01F46RPS4?tag=carnivalgam06-20"
         },
         {
           "asin": "B09KWZMXLX",
@@ -3845,42 +3717,10 @@
           "image_id": "81BWspir6NL.jpg",
           "price": 40.21,
           "rating": 4.9,
-          "reviews": 1656,
-          "sales_rank": 7465,
-          "score": 19.955859451793703,
+          "reviews": 1657,
+          "sales_rank": 7070,
+          "score": 20.07989390558691,
           "link": "https://www.amazon.com/dp/B09KWZMXLX?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B08R2BPLSN",
-          "title": "Skull",
-          "players": "3-6",
-          "time": "15-45 min",
-          "age": "10+",
-          "blurb": "Three rules. Infinite mind games. Place flowers and skulls face-down, then bet on how many tiles you can flip without hitting a skull. The brilliance is that you know where your own skulls are, and so does everyone watching you.",
-          "editorial_rank": 25,
-          "image_id": "81OtpAsMXgL.jpg",
-          "price": 16.79,
-          "rating": 4.8,
-          "reviews": 1475,
-          "sales_rank": 5050,
-          "score": 19.714616186946817,
-          "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B09BSP7B7V",
-          "title": "Dixit",
-          "players": "3-6",
-          "time": "30 min",
-          "age": "8+",
-          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
-          "editorial_rank": 21,
-          "image_id": "81PnoP5z2PL.jpg",
-          "price": 36.99,
-          "rating": 4.8,
-          "reviews": 1755,
-          "sales_rank": 6593,
-          "score": 19.57227517202372,
-          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
         },
         {
           "asin": "B0CHD8RCSJ",
@@ -3893,10 +3733,42 @@
           "image_id": "71Kp7sgYcjL.jpg",
           "price": null,
           "rating": 4.8,
-          "reviews": 971,
-          "sales_rank": 3297,
-          "score": 19.563162045151824,
+          "reviews": 973,
+          "sales_rank": 2984,
+          "score": 19.812980097519976,
           "link": "https://www.amazon.com/dp/B0CHD8RCSJ?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B09BSP7B7V",
+          "title": "Dixit",
+          "players": "3-6",
+          "time": "30 min",
+          "age": "8+",
+          "blurb": "Describe a dreamlike illustration with a clue that's neither too obvious nor too cryptic. The clue-giver scores only if some players guess right — if everyone gets it, no points. Beautiful, cross-generational, and consistently delightful.",
+          "editorial_rank": 21,
+          "image_id": "81PnoP5z2PL.jpg",
+          "price": 44.98,
+          "rating": 4.8,
+          "reviews": 1755,
+          "sales_rank": 6877,
+          "score": 19.47885648302918,
+          "link": "https://www.amazon.com/dp/B09BSP7B7V?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B08R2BPLSN",
+          "title": "Skull",
+          "players": "3-6",
+          "time": "15-45 min",
+          "age": "10+",
+          "blurb": "Three rules. Infinite mind games. Place flowers and skulls face-down, then bet on how many tiles you can flip without hitting a skull. The brilliance is that you know where your own skulls are, and so does everyone watching you.",
+          "editorial_rank": 25,
+          "image_id": "81OtpAsMXgL.jpg",
+          "price": 16.79,
+          "rating": 4.8,
+          "reviews": 1476,
+          "sales_rank": 5694,
+          "score": 19.44277843929729,
+          "link": "https://www.amazon.com/dp/B08R2BPLSN?tag=carnivalgam06-20"
         },
         {
           "asin": "B013TJ5P80",
@@ -3910,25 +3782,9 @@
           "price": null,
           "rating": 4.7,
           "reviews": 6257,
-          "sales_rank": 20615,
-          "score": 19.438610223788412,
+          "sales_rank": 21304,
+          "score": 19.374490238172015,
           "link": "https://www.amazon.com/dp/B013TJ5P80?tag=carnivalgam06-20"
-        },
-        {
-          "asin": "B0BF57RNPC",
-          "title": "Splendor Duel",
-          "players": "2 only",
-          "time": "30 min",
-          "age": "10+",
-          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
-          "editorial_rank": 13,
-          "image_id": "71BoYDhi4XL.jpg",
-          "price": 32.99,
-          "rating": 4.8,
-          "reviews": 907,
-          "sales_rank": 7517,
-          "score": 17.58062143262468,
-          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         },
         {
           "asin": "B0F692PJDW",
@@ -3941,10 +3797,26 @@
           "image_id": "812RPX-JM-L.jpg",
           "price": 31.99,
           "rating": 4.9,
-          "reviews": 380,
-          "sales_rank": 4286,
-          "score": 17.053886153553893,
+          "reviews": 381,
+          "sales_rank": 3278,
+          "score": 17.62653627317256,
           "link": "https://www.amazon.com/dp/B0F692PJDW?tag=carnivalgam06-20"
+        },
+        {
+          "asin": "B0BF57RNPC",
+          "title": "Splendor Duel",
+          "players": "2 only",
+          "time": "30 min",
+          "age": "10+",
+          "blurb": "The tighter, more tactical two-player take on gem-collecting engine building. Three asymmetric win conditions and a gem board you share and fight over makes every turn a negotiation with your own long-term strategy.",
+          "editorial_rank": 13,
+          "image_id": "71BoYDhi4XL.jpg",
+          "price": 32.68,
+          "rating": 4.8,
+          "reviews": 908,
+          "sales_rank": 7627,
+          "score": 17.554891285556224,
+          "link": "https://www.amazon.com/dp/B0BF57RNPC?tag=carnivalgam06-20"
         }
       ]
     }

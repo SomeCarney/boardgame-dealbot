@@ -692,32 +692,26 @@ lists:
     slug: best-solo
     title: "Hottest Solo Board Games"
     description: >
-      Games with purpose-built solo modes — not afterthoughts, not cooperative games that
-      happen to allow one player. Every game here was designed to be genuinely engaging
-      when you're playing alone.
+      Games that are genuinely great played alone — dedicated solo modes, automa
+      opponents, or co-ops that shine one-player. Nothing here that can't really be
+      played solo.
     count: 20
     ranking: formula
     asins:
-      - B01MUHP51S
-      - B01GSYA4K2
-      - B07YQ641NQ
-      - B093H8RGXX
-      - B00A2HD40E
-      - B01IPUGYK6
-      - B01MSQ8WD6
-      - B018GRSLK4
-      - B07SVNZXY4
-      - B0D9KSDVDZ
-      - B01MTG2QY2
-      - B07F454YF3
-      - B08F65MX4L
-      - B01LZXVN4P
-      - B0FJMNPGXM
-      - B077MZ2MPW
-      - B0F8PKN4B7
-      - B08WJHV6H8
-      - B0CHD8RCSJ
-      - B09H23M384
+      # Removed Azul, Ticket to Ride, 7 Wonders, Carcassonne, Sky Team, Betrayal,
+      # Everdell Duo, Codenames Duet -- none has a real solo mode / are 2-player-only.
+      - B01MUHP51S   # Spirit Island
+      - B01GSYA4K2   # Terraforming Mars
+      - B07YQ641NQ   # Wingspan
+      - B093H8RGXX   # Cascadia
+      - B00A2HD40E   # Pandemic
+      - B01IPUGYK6   # Scythe
+      - B01MSQ8WD6   # Friday
+      - B018GRSLK4   # Viticulture Essential Edition
+      - B07SVNZXY4   # Parks
+      - B01MTG2QY2   # Sagrada
+      - B07F454YF3   # Root
+      - B01LZXVN4P   # Gloomhaven
 
   2p:
     slug: best-2-player
