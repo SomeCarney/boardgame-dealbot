@@ -180,15 +180,20 @@ def _maybe_alert_deal(new_deals: list[dict[str, Any]], config: dict[str, Any]) -
         priority = "default"
     message = (
         f"{lead}\n\n{action['comment']}\n\n"
-        "Tap “Open Reddit” — the title + link are pre-filled — then Post and paste "
-        "the comment above as the top reply."
+        "Two buttons: 'Open Reddit' opens the pre-filled Reddit post (paste the comment "
+        "as the top reply). 'Post to X' opens a ready-to-send tweet -- just hit Post."
     )
+    # "Post to X" uses X's web intent (a pre-filled composer) rather than the API,
+    # so it works despite the API's paid/credits requirement -- one tap, then Post.
+    from urllib.parse import quote
+    x_intent = "https://twitter.com/intent/tweet?text=" + quote(twitter_post._build_tweet(best), safe="")
     notify_ps1 = ROOT / "scripts" / "notify.ps1"
     try:
         subprocess.run(
             ["powershell.exe", "-NoProfile", "-File", str(notify_ps1),
              "-Title", title, "-Message", message, "-Priority", priority,
-             "-ActionUrl", action["submit_url"], "-ActionLabel", "Open Reddit"],
+             "-ActionUrl", action["submit_url"], "-ActionLabel", "Open Reddit",
+             "-Action2Url", x_intent, "-Action2Label", "Post to X"],
             timeout=60, capture_output=True,
         )
         logger.info("Deal alert sent (%s) for %s -> %s (%d%% off avg)", priority, best.get("asin"), sub, best.get("percent_off"))
