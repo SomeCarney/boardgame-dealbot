@@ -99,10 +99,12 @@ def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
         "page": 0,
         "domainId": _DOMAIN_IDS.get(domain.upper(), 1),
         "includeCategories": [category_id],
-        # Search on the marketplace New price (what a shopper actually pays for
-        # third-party-sold games), NOT the Amazon-direct price -- the latter is
-        # often stale/inflated and produced deals that don't exist for buyers.
-        "priceTypes": [IDX_NEW_PRICE],
+        # SEARCH on the Amazon-direct price: a drop there is a reliable signal of
+        # a genuine RETAIL sale. Searching the marketplace "New" price instead
+        # floods in third-party/import listings whose inflated, gouged price
+        # histories produce fake discounts (a junk "63% off $120" import).
+        # (DISPLAY price is still the Buy Box -- see customer_price_from_stats.)
+        "priceTypes": [IDX_AMAZON_PRICE],
         "deltaPercentRange": [int(filters["min_percent_off"]), 100],
         "currentRange": [int(filters["min_price"] * 100), int(filters["max_price"] * 100)],
         "minRating": int(filters["min_rating"] * 10),
@@ -228,6 +230,15 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
 
         if price is None or typical_price is None or typical_price <= 0:
             continue  # missing price data -- skip rather than guess
+
+        # Only surface genuine Amazon-RETAIL deals. If Amazon has NEVER sold the
+        # item (no current AND no 90-day Amazon price), it's a third-party/import
+        # marketplace listing whose gouged, volatile price history fakes deep
+        # discounts ("63% off $120" on junk imports). Belt-and-suspenders with
+        # the Amazon-price deal search, which already won't surface these.
+        if _at(current, IDX_AMAZON_PRICE) is None and _at(stats.get("avg90") or [], IDX_AMAZON_PRICE) is None:
+            continue
+
         if rating is not None and rating < filters["min_rating"]:
             continue
         if review_count is not None and review_count < filters["min_review_count"]:
