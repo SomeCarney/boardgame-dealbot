@@ -28,11 +28,13 @@ BEST_SELLERS_CACHE_PATH = CONFIG_DIR / "best_sellers_cache.json"
 BEST_SELLERS_CACHE_TTL = timedelta(hours=24)  # Keepa's best-seller lists are themselves only updated daily
 
 # keepa.constants.csv_indices -- index into stats["current"] / stats["avg90"]
-IDX_AMAZON_PRICE = 0
+IDX_AMAZON_PRICE = 0   # price only while Amazon itself is the seller (often stale/absent otherwise)
+IDX_NEW_PRICE = 1      # lowest marketplace "New" offer
 IDX_SALES_RANK = 3
-IDX_LIST_PRICE = 4   # MSRP -- the "was" price Amazon's own "-XX%" is measured against
+IDX_LIST_PRICE = 4     # MSRP -- the "was" price Amazon's own "-XX%" is measured against
 IDX_RATING = 16
 IDX_REVIEW_COUNT = 17
+IDX_BUY_BOX = 18       # the price ACTUALLY shown on the Amazon page / the buy button
 
 _DOMAIN_IDS = {
     "US": 1, "GB": 2, "DE": 3, "FR": 4, "JP": 5,
@@ -97,7 +99,10 @@ def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
         "page": 0,
         "domainId": _DOMAIN_IDS.get(domain.upper(), 1),
         "includeCategories": [category_id],
-        "priceTypes": [0],  # 0 = Amazon price
+        # Search on the marketplace New price (what a shopper actually pays for
+        # third-party-sold games), NOT the Amazon-direct price -- the latter is
+        # often stale/inflated and produced deals that don't exist for buyers.
+        "priceTypes": [IDX_NEW_PRICE],
         "deltaPercentRange": [int(filters["min_percent_off"]), 100],
         "currentRange": [int(filters["min_price"] * 100), int(filters["max_price"] * 100)],
         "minRating": int(filters["min_rating"] * 10),
@@ -114,16 +119,19 @@ def _fetch_real_deals(config: dict[str, Any]) -> list[dict[str, Any]]:
     candidates = raw.get("dr", [])
     logger.info("Keepa returned %d raw deal candidates in category %r (%s)", len(candidates), category_name, category_id)
 
-    asins = [d["asin"] for d in candidates if d.get("asin")]
+    # Cap how many candidates we pull full data for -- Keepa returns them
+    # best-first, and buybox=True (below) costs extra tokens per product, so
+    # this bounds token spend. Tunable via deal_filters.max_candidates.
+    max_candidates = int(filters.get("max_candidates", 90))
+    asins = [d["asin"] for d in candidates if d.get("asin")][:max_candidates]
     if not asins:
         return []
 
     best_seller_asins = _fetch_best_seller_asins(api, category_id, domain)
 
-    # history=False: we only ever read the `stats` summary (current/avg90),
-    # never the full price/sales history -- pulling it was burning tokens
-    # for data this code never looks at.
-    products = api.query(asins, stats=90, rating=True, domain=domain, progress_bar=False, history=False)
+    # buybox=True so stats carry the Buy Box price (index 18) -- the price the
+    # shopper actually sees. history=False: we only read the stats summary.
+    products = api.query(asins, stats=90, rating=True, buybox=True, domain=domain, progress_bar=False, history=False)
     deals = _normalize_products(products, filters, best_seller_asins)
     logger.info("%d deals passed normalization/filtering", len(deals))
     return deals
@@ -204,19 +212,16 @@ def _normalize_products(products: list[dict[str, Any]], filters: dict[str, Any],
     for p in products:
         stats = p.get("stats") or {}
         current = stats.get("current") or []
-        avg90 = stats.get("avg90") or []
 
         # stats values come back in Keepa's raw wire units, NOT pre-converted
         # by the wrapper: price/rating are isfloat fields per
         # keepa.constants.csv_indices, meaning cents and rating-times-10
         # respectively. Confirmed against a live API call -- raw prices were
         # showing as e.g. 2999 for a $29.99 game before this conversion.
-        price = _cents_to_dollars(_at(current, IDX_AMAZON_PRICE))
-        typical_price = _cents_to_dollars(_at(avg90, IDX_AMAZON_PRICE))
+        # Price everything from the Buy Box (what the shopper actually sees),
+        # one consistent price type for current + average + low/high.
+        price, typical_price, low_90d, high_90d = customer_price_from_stats(stats)
         list_price = _cents_to_dollars(_at(current, IDX_LIST_PRICE))
-        # min/maxInInterval hold the 90-day low/high per index as [ts, value] pairs
-        low_90d = _cents_to_dollars(_interval_value(stats.get("minInInterval") or [], IDX_AMAZON_PRICE))
-        high_90d = _cents_to_dollars(_interval_value(stats.get("maxInInterval") or [], IDX_AMAZON_PRICE))
         rating = _rating_to_stars(_at(current, IDX_RATING))
         review_count = _at(current, IDX_REVIEW_COUNT)  # plain count, not scaled
         sales_rank = _at(current, IDX_SALES_RANK)  # lower is better-selling; not a price, no cents conversion
@@ -334,6 +339,29 @@ def _interval_value(entries: list, idx: int) -> Any:
         return None
     value = entry[1]
     return None if value is None or value < 0 else value
+
+
+def customer_price_from_stats(stats: dict[str, Any]) -> tuple[float | None, float | None, float | None, float | None]:
+    """Current price, 90-day average, and 90-day low/high -- ALL from the same
+    best-available price type, in the order a shopper actually experiences:
+    Buy Box (the price on the Amazon page / the buy button) -> marketplace New
+    -> Amazon-direct. Using ONE consistent price type is the whole point: mixing
+    (e.g. the Amazon-direct current against the Buy Box average) is exactly what
+    invented phantom "44% off" deals -- the Amazon-direct price is frequently
+    stale or inflated when a third party holds the buy box. Requires the product
+    to have been queried with buybox=True for the Buy Box fields to be present."""
+    cur = stats.get("current") or []
+    a90 = stats.get("avg90") or []
+    mn = stats.get("minInInterval") or []
+    mx = stats.get("maxInInterval") or []
+    for idx in (IDX_BUY_BOX, IDX_NEW_PRICE, IDX_AMAZON_PRICE):
+        price = _cents_to_dollars(_at(cur, idx))
+        typical = _cents_to_dollars(_at(a90, idx))
+        if price is not None and typical is not None and typical > 0:
+            return (price, typical,
+                    _cents_to_dollars(_interval_value(mn, idx)),
+                    _cents_to_dollars(_interval_value(mx, idx)))
+    return None, None, None, None
 
 
 def _cents_to_dollars(value: float | None) -> float | None:

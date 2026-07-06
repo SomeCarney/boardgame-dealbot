@@ -16,6 +16,9 @@ deal_filters:
   min_review_count: 25   # filters out listings with too little signal
   require_in_stock: true
   date_range: 1           # Keepa "how far back to look" enum; 1 = recent
+  max_candidates: 90      # cap on deal candidates pulled per run (buybox data costs
+                          # extra Keepa tokens; Keepa returns them best-first). Lower
+                          # to save tokens, raise to catch more deals.
   # A deal must also sit within this % of its OWN 90-day low, or it's a weak
   # "deal" -- one that only clears the 90-day average because the item is
   # frequently discounted (prior sales drag the average down, so a mediocre
