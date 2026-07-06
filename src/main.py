@@ -30,6 +30,7 @@ import instagram_post  # noqa: E402
 import refresh_deals  # noqa: E402
 import render_site  # noqa: E402
 import telegram_post  # noqa: E402
+import twitter_post  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config" / "niche.yaml"
@@ -296,6 +297,13 @@ def main() -> None:
             else []
         )
         instagram_post.post_deals(ig_deals, ig_user_id=ig_user_id, access_token=ig_access_token)
+        twitter_post.post_deals(
+            new_deals,
+            api_key=os.environ.get("TWITTER_API_KEY"),
+            api_secret=os.environ.get("TWITTER_API_SECRET"),
+            access_token=os.environ.get("TWITTER_ACCESS_TOKEN"),
+            access_secret=os.environ.get("TWITTER_ACCESS_SECRET"),
+        )
     elif new_deals and dry_run:
         logger.info("DRY_RUN=1 -- skipping all social posting for %d deal(s)", len(new_deals))
 
