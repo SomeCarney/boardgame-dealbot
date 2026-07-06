@@ -27,9 +27,16 @@ logger = logging.getLogger(__name__)
 
 TWEET_ENDPOINT = "https://api.twitter.com/2/tweets"
 MAX_TWEET_LEN = 280
+
+
 # X shortens every URL to a t.co link of this fixed length, regardless of the
 # real URL length, when counting toward the 280 limit.
 TCO_LEN = 23
+
+
+class CreditsExhausted(RuntimeError):
+    """X returned 402 / a credits problem -- the API account can't post without a
+    paid plan or credits it doesn't have. Not a bug on our side; auth is fine."""
 
 
 def post_deals(deals: list[dict[str, Any]], api_key: str | None, api_secret: str | None,
@@ -41,6 +48,12 @@ def post_deals(deals: list[dict[str, Any]], api_key: str | None, api_secret: str
     for deal in deals:
         try:
             _post_one(deal, creds)
+        except CreditsExhausted:
+            # X now meters posting; a free account with no credits can't post.
+            # One calm line, then stop trying this run -- no per-deal error spam.
+            logger.warning("X posting skipped -- the API account has no posting credits "
+                           "(X requires a paid/credited plan to post). Auth is fine.")
+            return
         except requests.RequestException:
             logger.exception("Failed to post deal %s to X, continuing with the rest", deal.get("asin"))
 
@@ -54,6 +67,8 @@ def _post_one(deal: dict[str, Any], creds: tuple[str, str, str, str]) -> None:
         headers={"Authorization": auth, "Content-Type": "application/json"},
         timeout=20,
     )
+    if resp.status_code == 402 or "problems/credits" in resp.text:
+        raise CreditsExhausted(resp.text[:200])
     resp.raise_for_status()
     body = resp.json()
     if body.get("errors"):
