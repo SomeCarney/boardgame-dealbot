@@ -722,6 +722,8 @@ lists:
     count: 25
     ranking: formula
     asins:
+      # Curated to games that genuinely play well at two. Removed The Chameleon
+      # (3-8, can't play 2 at all) and crowd games poor at 2: Camel Up, Mysterium, Coup.
       - B014DMSTXK
       - B0CHD8RCSJ
       - B0BF57RNPC
@@ -736,17 +738,13 @@ lists:
       - B093H8RGXX
       - B00A2HD40E
       - B0F8PKN4B7
-      - B09KWZMXLX
-      - B010HEZHII
       - B08WJHV6H8
       - B084Z8L6KZ
       - B01GSYA4K2
       - B00001NTXN
       - B082831SS4
       - B01MTG2QY2
-      - B013TJ5P80
       - B0GKBFFRBW
-      - B09S3ZJJRM
 
   3p:
     slug: best-3-player
@@ -773,10 +771,9 @@ lists:
       - B07F454YF3
       - B09KWZMXLX
       - B0FJMQB63N
-      - B07KLWPHFF
+      # Removed Lost Cities and Sky Team (both 2-player-only, can't play 3).
       - B08WJHV6H8
       - B0GKBFFRBW
-      - B0CHD8RCSJ
 
   4p:
     slug: best-4-player
