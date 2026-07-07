@@ -228,6 +228,7 @@ DEAL_CARD_TEMPLATE = env.from_string("""
       {% for line in deal.summary_lines %}<li{% if "Best Seller" in line %} class="best-seller"{% endif %}>{{ line }}</li>{% endfor %}
     </ul>
     {% endif %}
+    {% if deal.detailed_description %}<p class="deal-description">{{ deal.detailed_description }}</p>{% endif %}
     <p class="deal-subtitle">{{ deal.title }}</p>
     <a class="buy" href="{{ deal.link }}" rel="nofollow sponsored noopener" target="_blank">View on Amazon &rarr;</a>
   </div>
@@ -922,6 +923,17 @@ html.js .reveal.in { opacity: 1; transform: none; }
   border-color: var(--gold);
   color: var(--bg);
   font-weight: 700;
+}
+
+.deal-description {
+  font-size: .85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 .7rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .deal-subtitle {

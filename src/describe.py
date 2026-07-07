@@ -224,6 +224,26 @@ def _generate_detailed(deal: dict[str, Any], facts: dict[str, Any]) -> str:
     return _generate_detailed_template(facts)
 
 
+_REFUSAL_MARKERS = (
+    "i don't have enough", "i do not have enough", "not enough information",
+    "insufficient information", "there isn't enough", "there is not enough",
+    "i cannot", "i can't ", "i'm unable", "i am unable", "as an ai",
+    "known facts", "the listing text", "based on the information provided",
+)
+
+
+def _usable_description(text: str | None) -> str | None:
+    """Reject model refusals / prompt-echoing / stubs so they fall through to
+    the template instead of shipping to the site or a social post."""
+    if not text:
+        return None
+    t = text.strip()
+    low = t.lower()
+    if len(t) < 40 or any(m in low for m in _REFUSAL_MARKERS):
+        return None
+    return t
+
+
 def _description_prompt(deal: dict[str, Any], facts: dict[str, Any]) -> str:
     fact_lines = "\n".join(f"- {k}: {v}" for k, v in facts.items() if v) or "(none confidently extracted)"
     return (
@@ -261,9 +281,9 @@ def _generate_detailed_cli(deal: dict[str, Any], facts: dict[str, Any]) -> str |
         timeout=_DESC_TIMEOUT_SECONDS, cwd=ROOT,
     )
     out = (result.stdout or "").strip()
-    if result.returncode != 0 or "Not logged in" in out or not out:
+    if result.returncode != 0 or "Not logged in" in out:
         return None
-    return out
+    return _usable_description(out)
 
 
 def _generate_detailed_api(deal: dict[str, Any], facts: dict[str, Any]) -> str | None:
@@ -278,4 +298,4 @@ def _generate_detailed_api(deal: dict[str, Any], facts: dict[str, Any]) -> str |
         max_tokens=200,
         messages=[{"role": "user", "content": _description_prompt(deal, facts)}],
     )
-    return response.content[0].text.strip()
+    return _usable_description(response.content[0].text)

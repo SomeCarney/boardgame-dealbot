@@ -555,6 +555,17 @@ html.js .reveal.in { opacity: 1; transform: none; }
   font-weight: 700;
 }
 
+.deal-description {
+  font-size: .85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 .7rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .deal-subtitle {
   font-size: .72rem;
   color: var(--text-faint);
