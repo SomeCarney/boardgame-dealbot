@@ -256,11 +256,14 @@ def autofix(exit_code: int) -> None:
 
     logger.info("invoking Claude Code headless for auto-fix (signature %s)", sig)
     try:
+        # Prompt via STDIN, not as a -p arg: the Windows `claude.cmd` shim
+        # truncates a multi-line argument at the first newline, which would
+        # strip the traceback out of the auto-fix prompt entirely.
         result = subprocess.run(
-            [claude, "-p", AUTOFIX_PROMPT.format(traceback=tb[-4000:]),
-             "--dangerously-skip-permissions"],
-            cwd=ROOT, capture_output=True, text=True, timeout=CLAUDE_TIMEOUT_SECONDS,
-            stdin=subprocess.DEVNULL,
+            [claude, "-p", "--dangerously-skip-permissions"],
+            input=AUTOFIX_PROMPT.format(traceback=tb[-4000:]),
+            cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=CLAUDE_TIMEOUT_SECONDS,
         )
         output = (result.stdout or "") + (result.stderr or "")
         logger.info("claude auto-fix finished (rc=%s), output tail: %s", result.returncode, output[-500:])

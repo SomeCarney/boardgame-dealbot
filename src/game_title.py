@@ -220,10 +220,16 @@ def _llm_extract(listing_titles: list[str]) -> list[str] | None:
         return None
     numbered = "\n".join(f"{i}. {t}" for i, t in enumerate(listing_titles, 1))
     try:
+        # The prompt goes on STDIN, not as a -p argument. The Windows
+        # `claude.cmd` shim truncates a multi-line command-line argument at the
+        # first newline, so passing it as an arg delivers the instructions but
+        # none of the numbered listings -- the model just replies "I don't see
+        # the list." Piping via stdin preserves the whole prompt.
         result = subprocess.run(
-            [claude, "-p", _EXTRACT_PROMPT.format(listings=numbered), "--model", CLAUDE_MODEL],
+            [claude, "-p", "--model", CLAUDE_MODEL],
+            input=_EXTRACT_PROMPT.format(listings=numbered),
             capture_output=True, text=True, encoding="utf-8", errors="replace",
-            timeout=CLAUDE_TIMEOUT_SECONDS, stdin=subprocess.DEVNULL, cwd=ROOT,
+            timeout=CLAUDE_TIMEOUT_SECONDS, cwd=ROOT,
         )
         out = (result.stdout or "").strip()
         if result.returncode != 0 or "Not logged in" in out or not out:
