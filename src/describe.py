@@ -4,9 +4,11 @@ then a separated detailed description of what playing the game looks like.
 Facts (player count, playtime, age) are extracted from the real Amazon
 listing text already on the deal (title/description/features, from Keepa)
 -- never invented. Anything not confidently found is simply omitted rather
-than guessed. The detailed description is template-based by default; set
-ANTHROPIC_API_KEY to use Claude for a better-written version, grounded in
-the same extracted facts so it can't state specifics that weren't found.
+than guessed. The detailed description uses Claude for a better-written
+version, grounded in the same extracted facts so it can't state specifics
+that weren't found: the logged-in Claude CLI is preferred (covered by
+`claude /login`, no per-call billing), an ANTHROPIC_API_KEY is used if the
+CLI isn't available, and a plain template is the final fallback.
 """
 
 from __future__ import annotations
@@ -14,9 +16,15 @@ from __future__ import annotations
 import logging
 import os
 import re
+import subprocess
+from pathlib import Path
 from typing import Any
 
 logger = logging.getLogger(__name__)
+
+ROOT = Path(__file__).resolve().parent.parent
+_DESC_MODEL = "claude-haiku-4-5-20251001"
+_DESC_TIMEOUT_SECONDS = 90
 
 _NUMBER_WORDS = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
@@ -202,12 +210,32 @@ def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
 
 
 def _generate_detailed(deal: dict[str, Any], facts: dict[str, Any]) -> str:
-    if os.environ.get("ANTHROPIC_API_KEY"):
+    # Prefer the logged-in Claude CLI (no per-call API billing); fall back to
+    # the API if a key is set, then to a plain template. Each generator returns
+    # None when its backend isn't available, so the next one is tried.
+    for gen in (_generate_detailed_cli, _generate_detailed_api):
         try:
-            return _generate_detailed_claude(deal, facts)
+            text = gen(deal, facts)
         except Exception:
-            logger.exception("Claude description generation failed, falling back to template")
+            logger.exception("%s failed, trying next description backend", gen.__name__)
+            text = None
+        if text:
+            return text
     return _generate_detailed_template(facts)
+
+
+def _description_prompt(deal: dict[str, Any], facts: dict[str, Any]) -> str:
+    fact_lines = "\n".join(f"- {k}: {v}" for k, v in facts.items() if v) or "(none confidently extracted)"
+    return (
+        "Write a 2-3 sentence description of what playing this board game looks and feels like, "
+        "for a social media post about a price deal. Be engaging but accurate -- do not invent "
+        "specific facts (player counts, playtime, awards, etc.) beyond what's listed below. "
+        "Reply with only the description text, no preamble.\n\n"
+        f"Game title: {deal.get('title')}\n"
+        f"Known facts:\n{fact_lines}\n\n"
+        "Real product listing text, for context only (do not copy it verbatim):\n"
+        f"{(deal.get('description') or '')[:800]}"
+    )
 
 
 def _generate_detailed_template(facts: dict[str, Any]) -> str:
@@ -217,23 +245,37 @@ def _generate_detailed_template(facts: dict[str, Any]) -> str:
     return " ".join(sentences)
 
 
-def _generate_detailed_claude(deal: dict[str, Any], facts: dict[str, Any]) -> str:
+def _generate_detailed_cli(deal: dict[str, Any], facts: dict[str, Any]) -> str | None:
+    """Headless Claude CLI (haiku). Returns None if the CLI isn't installed or
+    isn't logged in, so the caller falls through to the API/template."""
+    from game_title import _find_claude
+    claude = _find_claude()
+    if not claude:
+        return None
+    # Prompt on STDIN, not as a -p arg: the Windows `claude.cmd` shim truncates
+    # a multi-line argument at the first newline (see game_title._llm_extract).
+    result = subprocess.run(
+        [claude, "-p", "--model", _DESC_MODEL],
+        input=_description_prompt(deal, facts),
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=_DESC_TIMEOUT_SECONDS, cwd=ROOT,
+    )
+    out = (result.stdout or "").strip()
+    if result.returncode != 0 or "Not logged in" in out or not out:
+        return None
+    return out
+
+
+def _generate_detailed_api(deal: dict[str, Any], facts: dict[str, Any]) -> str | None:
+    """Anthropic API path -- only if ANTHROPIC_API_KEY is set (bills per call)."""
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        return None
     import anthropic
 
     client = anthropic.Anthropic()
-    fact_lines = "\n".join(f"- {k}: {v}" for k, v in facts.items() if v) or "(none confidently extracted)"
-    prompt = (
-        "Write a 2-3 sentence description of what playing this board game looks and feels like, "
-        "for a social media post about a price deal. Be engaging but accurate -- do not invent "
-        "specific facts (player counts, playtime, awards, etc.) beyond what's listed below.\n\n"
-        f"Game title: {deal.get('title')}\n"
-        f"Known facts:\n{fact_lines}\n\n"
-        "Real product listing text, for context only (do not copy it verbatim):\n"
-        f"{(deal.get('description') or '')[:800]}"
-    )
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+        model=_DESC_MODEL,
         max_tokens=200,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": _description_prompt(deal, facts)}],
     )
     return response.content[0].text.strip()
