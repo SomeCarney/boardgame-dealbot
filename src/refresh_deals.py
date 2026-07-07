@@ -51,6 +51,7 @@ def mark_expired(log: list[dict[str, Any]], config: dict[str, Any]) -> int:
     now = datetime.now(timezone.utc).isoformat()
     expired = 0
     repriced = 0
+    healed = 0
     for d in listed:
         p = by_asin.get(d["asin"])
         if p is None:
@@ -93,8 +94,33 @@ def mark_expired(log: list[dict[str, Any]], config: dict[str, Any]) -> int:
             d["high_90d"] = high_90d
             d["percent_above_low"] = percent_above_low
 
+            # Heal deals that render_site drops for lack of an image: either
+            # captured before the images-field fix (their `image` is None) or
+            # whose thumbnail compose failed. The product payload we just
+            # queried carries the image, so rebuild it here instead of leaving
+            # the deal silently invisible (and earning $0) on the site.
+            if not d.get("site_image_url"):
+                if not d.get("image"):
+                    imgs = p.get("images") or []
+                    fn = imgs[0].get("l") if imgs else None
+                    if fn:
+                        d["image"] = f"https://m.media-amazon.com/images/I/{fn}"
+                if d.get("image"):
+                    try:
+                        from image_compose import compose_images
+                        social_path, thumb_path = compose_images(d)
+                        if thumb_path:
+                            d["site_image_url"] = thumb_path
+                            base = config["site"]["base_url"].rstrip("/")
+                            d["image_url"] = f"{base}/{social_path}" if social_path else d.get("image_url")
+                            healed += 1
+                    except Exception:
+                        logger.exception("Image backfill failed for %s", d.get("asin"))
+
     if expired:
         logger.info("%d listed deal(s) no longer qualify -- removed from the site, kept as history", expired)
     if repriced:
         logger.info("%d listed deal(s) re-priced to current buy-box values", repriced)
-    return expired + repriced
+    if healed:
+        logger.info("%d listed deal(s) had a missing site image rebuilt", healed)
+    return expired + repriced + healed
