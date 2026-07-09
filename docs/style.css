@@ -595,10 +595,20 @@ html.js .reveal.in { opacity: 1; transform: none; }
   background: var(--gold);
   padding: .55rem 1.1rem;
   border-radius: 6px;
-  transition: background .15s, transform .1s;
+  transition: color .15s, background .15s, box-shadow .15s, transform .1s;
   align-self: flex-start;
 }
-.buy:hover { background: var(--gold-bright); text-decoration: none; transform: translateY(-1px); }
+/* Hover inverts to white text on a dark fill (with a gold ring so it still
+   reads as the gold button). Plain white on the gold background is only ~1.5:1
+   contrast -- as unreadable as the gold-on-gold it replaced -- so the fill has
+   to darken for the white to actually be legible. */
+.buy:hover {
+  color: #fff;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 2px var(--gold);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
 
 /* ── GAME GRID (evergreen guides) ─────── */
 .game-grid {
