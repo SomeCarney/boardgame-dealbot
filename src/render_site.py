@@ -272,8 +272,9 @@ INDEX_CONTENT_TEMPLATE = env.from_string("""
 </div>
 <p class="section-links"><a href="biggest-drops.html">This week's biggest drops &rarr;</a><a href="gift-guide.html">Gift guide &rarr;</a></p>
 {% if deals_html %}
-<div class="filter-bar" role="group" aria-label="Filter deals">
-  <button class="chip is-active" data-filter="all">All deals</button>
+<div class="filter-bar" role="group" aria-label="Filter and sort deals">
+  <button class="chip is-active" data-filter="all">Newest deals</button>
+  <button class="chip" data-sort="off-desc">Biggest cuts</button>
   <button class="chip" data-filter="deep">30%+ off</button>
   <button class="chip" data-filter="under25">Under $25</button>
   <button class="chip" data-filter="bestseller">Best sellers</button>
@@ -1592,9 +1593,11 @@ SITE_JS = """
     });
   }
 
-  // Deal filter chips (index page only)
-  var chips = document.querySelectorAll('.chip[data-filter]');
+  // Deal filter/sort chips (index page only)
+  var chips = document.querySelectorAll('.chip');
+  var grid = document.querySelector('.deal-grid');
   var cards = document.querySelectorAll('.deal-grid .deal');
+  var order = Array.prototype.slice.call(cards);  // original DOM order (newest first)
   var empty = document.querySelector('.filter-empty');
   var tests = {
     all: function () { return true; },
@@ -1607,13 +1610,27 @@ SITE_JS = """
     chip.addEventListener('click', function () {
       chips.forEach(function (c) { c.classList.remove('is-active'); });
       chip.classList.add('is-active');
-      var test = tests[chip.dataset.filter] || tests.all;
       var shown = 0;
-      cards.forEach(function (card) {
-        var ok = test(card);
-        card.classList.toggle('filtered-out', !ok);
-        if (ok) { shown++; card.classList.add('in'); }
-      });
+      if (chip.dataset.sort === 'off-desc') {
+        // Sort by deepest discount -- show all, biggest cut first.
+        order.slice().sort(function (a, b) {
+          return parseFloat(b.dataset.off) - parseFloat(a.dataset.off);
+        }).forEach(function (card) {
+          card.classList.remove('filtered-out');
+          card.classList.add('in');
+          if (grid) grid.appendChild(card);
+          shown++;
+        });
+      } else {
+        // Restore the original newest-first order, then apply the filter.
+        var test = tests[chip.dataset.filter] || tests.all;
+        order.forEach(function (card) {
+          if (grid) grid.appendChild(card);
+          var ok = test(card);
+          card.classList.toggle('filtered-out', !ok);
+          if (ok) { shown++; card.classList.add('in'); }
+        });
+      }
       if (empty) empty.hidden = shown !== 0;
     });
   });
