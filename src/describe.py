@@ -71,17 +71,6 @@ _THEME_KEYWORDS = {
     "two_player": ["two-player", "2-player", "duel"],
 }
 
-_BEST_FOR_BY_THEME = {
-    "cooperative": "players who'd rather team up against the game than against each other",
-    "strategy": "players who enjoy planning a few moves ahead",
-    "party": "bigger groups who want something loud and easy to pick up",
-    "family": "mixed-age groups, including first-timers",
-    "deckbuilding": "players who like optimizing a growing deck/engine",
-    "miniatures": "collectors and players who enjoy tactile, detailed components",
-    "worker_placement": "players who enjoy resource and turn-order puzzles",
-    "card_game": "players who want something quick and portable",
-    "two_player": "couples or duos looking for a dedicated two-player game",
-}
 
 _DETAIL_TEMPLATES = {
     "cooperative": "Players work together against the game itself, rather than competing with each other.",
@@ -161,17 +150,6 @@ def _playtime_line(facts: dict[str, Any]) -> str | None:
     return f"Playtime: ~{lo}-{hi} min"
 
 
-def _best_for_line(facts: dict[str, Any]) -> str:
-    for theme in facts.get("themes") or []:
-        if theme in _BEST_FOR_BY_THEME:
-            return f"Best for: {_BEST_FOR_BY_THEME[theme]}"
-    if facts.get("min_players") == 2 and facts.get("max_players") == 2:
-        return "Best for: two players looking for a dedicated head-to-head game"
-    if facts.get("max_players", 0) >= 6:
-        return "Best for: larger groups and game nights"
-    return "Best for: general tabletop game fans"
-
-
 def extract_short_title(full_title: str, brand: str | None = None) -> str:
     """The actual game name, not the Amazon listing title. Delegates to
     game_title.get_game_title, which verifies candidates against the
@@ -200,7 +178,6 @@ def generate_description(deal: dict[str, Any]) -> dict[str, Any]:
         # flourish -- only ever set when the ASIN is actually on it
         summary_lines.append("\U0001f3c6 Category Best Seller")
     summary_lines.extend(line for line in (_players_line(facts), _playtime_line(facts)) if line)
-    summary_lines.append(_best_for_line(facts))
     return {
         "summary_lines": summary_lines,
         "detailed": _generate_detailed(deal, facts),
