@@ -41,6 +41,14 @@ TWITTER_URL = "https://x.com/BG_BlackMarket"
 # Not a secret (it is published in the HTML by design). Empty = tag omitted.
 GOOGLE_SITE_VERIFICATION = "yL_iQ9hYbc0kDN2G9tMBb-88d995a5_5cz60ED4a-4w"
 
+# Amazon OneLink "OneTag" geo-routing snippet, injected verbatim before </body>
+# on every page. OneLink sends international visitors to their local Amazon
+# store and swaps in the matching regional affiliate tag, so non-US clicks can
+# actually earn (they earn $0 today). Get this from Associates Central ->
+# Tools -> OneLink after linking your regional accounts, and paste it here.
+# Not a secret (it's public JS). Empty = nothing injected (current behavior).
+ONELINK_ONETAG = ""
+
 # filename in content/ -> (output filename, nav title, <meta description>)
 EVERGREEN_PAGES: list[tuple[str, str, str, str]] = [
     ("about.html", "about.html", "About", "What Board Game Black Market is and why it exists."),
@@ -182,6 +190,7 @@ BASE_TEMPLATE = env.from_string("""<!doctype html>
 </footer>
 <button class="to-top" aria-label="Back to top">&uarr;</button>
 <script src="site.js" defer></script>
+{% if onelink_onetag %}{{ onelink_onetag|safe }}{% endif %}
 </body>
 </html>
 """)
@@ -2158,6 +2167,7 @@ def _write_page(
         year=datetime.now(timezone.utc).year,
         jsonld=jsonld,
         google_verification=GOOGLE_SITE_VERIFICATION,
+        onelink_onetag=ONELINK_ONETAG,
     )
     (SITE_DIR / filename).write_text(html, encoding="utf-8")
 
