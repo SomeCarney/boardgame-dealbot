@@ -275,10 +275,9 @@ INDEX_CONTENT_TEMPLATE = env.from_string("""
 <div class="filter-bar" role="group" aria-label="Filter and sort deals">
   <button class="chip is-active" data-filter="all">Newest deals</button>
   <button class="chip" data-sort="off-desc">Biggest cuts</button>
-  <button class="chip" data-filter="deep">30%+ off</button>
+  <button class="chip" data-sort="rating-desc">Highest rated</button>
   <button class="chip" data-filter="under25">Under $25</button>
   <button class="chip" data-filter="bestseller">Best sellers</button>
-  <button class="chip" data-filter="toprated">4.7&#9733; &amp; up</button>
 </div>
 <div class="deal-grid">{{ deals_html|safe }}</div>
 <p class="filter-empty" hidden>Nothing matches that filter right now &mdash; try another.</p>
@@ -429,6 +428,12 @@ a { color: var(--gold); text-decoration: none; }
 a:hover, a:focus { color: var(--gold-bright); text-decoration: underline; }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+
+/* The site has no text inputs, so the blinking text caret that appears when you
+   click on page text (and always-on with browser caret-browsing) is just noise.
+   Hide it while keeping text selectable; restore it for any real field later. */
+html { caret-color: transparent; }
+input, textarea, [contenteditable] { caret-color: auto; }
 ::selection { background: var(--gold); color: var(--bg); }
 
 h1, h2, h3, h4 { font-family: var(--heading-font); letter-spacing: .01em; line-height: 1.2; }
@@ -1601,21 +1606,22 @@ SITE_JS = """
   var empty = document.querySelector('.filter-empty');
   var tests = {
     all: function () { return true; },
-    deep: function (c) { return parseFloat(c.dataset.off) >= 30; },
     under25: function (c) { return parseFloat(c.dataset.price) < 25; },
-    bestseller: function (c) { return c.dataset.bs === '1'; },
-    toprated: function (c) { return parseFloat(c.dataset.rating) >= 4.7; }
+    bestseller: function (c) { return c.dataset.bs === '1'; }
+  };
+  var sorts = {
+    'off-desc': function (a, b) { return parseFloat(b.dataset.off) - parseFloat(a.dataset.off); },
+    'rating-desc': function (a, b) { return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating); }
   };
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
       chips.forEach(function (c) { c.classList.remove('is-active'); });
       chip.classList.add('is-active');
       var shown = 0;
-      if (chip.dataset.sort === 'off-desc') {
-        // Sort by deepest discount -- show all, biggest cut first.
-        order.slice().sort(function (a, b) {
-          return parseFloat(b.dataset.off) - parseFloat(a.dataset.off);
-        }).forEach(function (card) {
+      var sortFn = sorts[chip.dataset.sort];
+      if (sortFn) {
+        // Sort mode: show every card, reordered (deepest cut / highest rating first).
+        order.slice().sort(sortFn).forEach(function (card) {
           card.classList.remove('filtered-out');
           card.classList.add('in');
           if (grid) grid.appendChild(card);

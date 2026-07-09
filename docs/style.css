@@ -58,6 +58,12 @@ a { color: var(--gold); text-decoration: none; }
 a:hover, a:focus { color: var(--gold-bright); text-decoration: underline; }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+
+/* The site has no text inputs, so the blinking text caret that appears when you
+   click on page text (and always-on with browser caret-browsing) is just noise.
+   Hide it while keeping text selectable; restore it for any real field later. */
+html { caret-color: transparent; }
+input, textarea, [contenteditable] { caret-color: auto; }
 ::selection { background: var(--gold); color: var(--bg); }
 
 h1, h2, h3, h4 { font-family: var(--heading-font); letter-spacing: .01em; line-height: 1.2; }

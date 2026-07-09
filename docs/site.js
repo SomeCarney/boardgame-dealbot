@@ -46,21 +46,22 @@
   var empty = document.querySelector('.filter-empty');
   var tests = {
     all: function () { return true; },
-    deep: function (c) { return parseFloat(c.dataset.off) >= 30; },
     under25: function (c) { return parseFloat(c.dataset.price) < 25; },
-    bestseller: function (c) { return c.dataset.bs === '1'; },
-    toprated: function (c) { return parseFloat(c.dataset.rating) >= 4.7; }
+    bestseller: function (c) { return c.dataset.bs === '1'; }
+  };
+  var sorts = {
+    'off-desc': function (a, b) { return parseFloat(b.dataset.off) - parseFloat(a.dataset.off); },
+    'rating-desc': function (a, b) { return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating); }
   };
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
       chips.forEach(function (c) { c.classList.remove('is-active'); });
       chip.classList.add('is-active');
       var shown = 0;
-      if (chip.dataset.sort === 'off-desc') {
-        // Sort by deepest discount -- show all, biggest cut first.
-        order.slice().sort(function (a, b) {
-          return parseFloat(b.dataset.off) - parseFloat(a.dataset.off);
-        }).forEach(function (card) {
+      var sortFn = sorts[chip.dataset.sort];
+      if (sortFn) {
+        // Sort mode: show every card, reordered (deepest cut / highest rating first).
+        order.slice().sort(sortFn).forEach(function (card) {
           card.classList.remove('filtered-out');
           card.classList.add('in');
           if (grid) grid.appendChild(card);
