@@ -28,9 +28,12 @@ if ($proc.ExitCode -ne 0) {
     exit $proc.ExitCode
 }
 
-# 2. Re-render the site so the new rankings show up on the Best Board Games pages
+# 2. Re-render the site so the new rankings show up on the Best Board Games pages.
+# Calls render_site.py's __main__ directly -- an inline `python -c "..."` here
+# gets truncated at the first space by Start-Process on Windows (Python only saw
+# "import" -> SyntaxError), which is what silently failed this task every run.
 $proc2 = Start-Process -FilePath ".\.venv\Scripts\python.exe" `
-    -ArgumentList "-c", "import sys; sys.path.insert(0,'src'); import json,yaml,render_site; from pathlib import Path; cfg=yaml.safe_load(Path('config/niche.yaml').read_text(encoding='utf-8')); log=json.loads(Path('posted_log.json').read_text(encoding='utf-8')); render_site.render_site(log, max_listed=cfg['posting']['site_max_listed_deals'])" `
+    -ArgumentList "src\render_site.py" `
     -WorkingDirectory $repoRoot -NoNewWindow -Wait -PassThru `
     -RedirectStandardOutput $stdoutTmp -RedirectStandardError $stderrTmp
 Get-Content $stdoutTmp, $stderrTmp -ErrorAction SilentlyContinue | Add-Content -Path $logFile

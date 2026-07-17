@@ -2181,3 +2181,16 @@ def _title_from_html(html: str) -> str | None:
     if end == -1:
         return None
     return html[start:end].strip()
+
+
+if __name__ == "__main__":
+    # Re-render the whole site from posted_log.json with the pipeline's config.
+    # A real entry point so scripts can call `python src/render_site.py` instead
+    # of an inline `python -c "..."` (Start-Process mangles multi-word -c args
+    # on Windows, which silently broke the monthly rankings render).
+    import yaml
+
+    _cfg = yaml.safe_load((ROOT / "config" / "niche.yaml").read_text(encoding="utf-8"))
+    _log = json.loads((ROOT / "posted_log.json").read_text(encoding="utf-8"))
+    render_site(_log, max_listed=_cfg["posting"]["site_max_listed_deals"])
+    print(f"Rendered {SITE_DIR} from {len(_log)} logged deals")
