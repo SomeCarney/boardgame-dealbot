@@ -112,6 +112,11 @@ def _push_images_if_needed(new_deals: list[dict[str, Any]]) -> None:
 
 
 DEAL_ALERT_STATE = ROOT / "logs" / "deal_alert_state.json"
+# Staged deal alert. main.py runs BEFORE the wrapper commits/pushes and before
+# GitHub Pages finishes deploying, so notifying from here sends you to a deal
+# that isn't on the site yet. health_check.py (which runs last, after the push,
+# and already waits for the live site) delivers this once the deal is visible.
+PENDING_DEAL_ALERT = ROOT / "logs" / "pending_deal_alert.json"
 
 
 def _maybe_alert_deal(new_deals: list[dict[str, Any]], config: dict[str, Any]) -> None:
@@ -187,32 +192,30 @@ def _maybe_alert_deal(new_deals: list[dict[str, Any]], config: dict[str, Any]) -
     # so it works despite the API's paid/credits requirement -- one tap, then Post.
     from urllib.parse import quote
     x_intent = "https://twitter.com/intent/tweet?text=" + quote(twitter_post._build_tweet(best), safe="")
-    notify_ps1 = ROOT / "scripts" / "notify.ps1"
-    try:
-        subprocess.run(
-            ["powershell.exe", "-NoProfile", "-File", str(notify_ps1),
-             "-Title", title, "-Message", message, "-Priority", priority,
-             "-ActionUrl", action["submit_url"], "-ActionLabel", "Open Reddit",
-             "-Action2Url", x_intent, "-Action2Label", "Post to X"],
-            timeout=60, capture_output=True,
-        )
-        logger.info("Deal alert sent (%s) for %s -> %s (%d%% off avg)", priority, best.get("asin"), sub, best.get("percent_off"))
-    except Exception:
-        logger.exception("deal alert notification failed")
-        return
-
-    # dedupe (so the Wed reminder / next runs don't repeat it) + record the time
-    try:
-        import daily_action
-        daily_action.mark_offered(best.get("asin", ""))
-    except Exception:
-        logger.exception("could not mark deal as offered")
+    # Stage it rather than sending now -- the deal isn't on the live site until
+    # the wrapper pushes and Pages deploys (minutes later). health_check.py sends
+    # this once it has confirmed the site actually shows the deal. mark_offered
+    # and the spacing timestamp are written at send time too, so an alert that
+    # never gets delivered doesn't silently burn the deal.
+    payload = {
+        "asin": best.get("asin", ""),
+        "title": title,
+        "message": message,
+        "priority": priority,
+        "action_url": action["submit_url"],
+        "action_label": "Open Reddit",
+        "action2_url": x_intent,
+        "action2_label": "Post to X",
+        "staged_at": now.isoformat(),
+    }
     try:
         from safewrite import atomic_write_text
-        DEAL_ALERT_STATE.parent.mkdir(parents=True, exist_ok=True)
-        atomic_write_text(DEAL_ALERT_STATE, json.dumps({"last_alert": now.isoformat()}, indent=2))
+        PENDING_DEAL_ALERT.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(PENDING_DEAL_ALERT, json.dumps(payload, indent=2))
+        logger.info("Deal alert staged (%s) for %s -> %s (%d%% off avg) -- sends once the site is live",
+                    priority, best.get("asin"), sub, best.get("percent_off"))
     except Exception:
-        logger.exception("could not write deal alert state")
+        logger.exception("could not stage deal alert")
 
 
 def main() -> None:

@@ -54,6 +54,10 @@ FAILURES_PATH = ROOT / "logs" / "social_failures.json"
 AUTOFIX_STATE_PATH = ROOT / "logs" / "autofix_state.json"
 POSTED_LOG = ROOT / "posted_log.json"
 NOTIFY_PS1 = ROOT / "scripts" / "notify.ps1"
+# Deal alert staged by main.py, delivered here once the site is confirmed live.
+PENDING_DEAL_ALERT = ROOT / "logs" / "pending_deal_alert.json"
+DEAL_ALERT_STATE = ROOT / "logs" / "deal_alert_state.json"
+PENDING_ALERT_MAX_AGE_HOURS = 12  # older than this, the deal has moved on -- drop it
 
 MAX_HC_RETRIES = 2          # health-check retries per failed post before alerting
 SITE_POLL_ATTEMPTS = 8      # x 30s = up to 4 min for GitHub Pages to deploy
@@ -127,14 +131,15 @@ def retry_social_failures() -> None:
 
 # ── 2. verify the live site updated ─────────────────────────────────────────
 
-def verify_site_fresh(pushed: bool) -> None:
+def verify_site_fresh(pushed: bool) -> bool:
+    """True once the live site is serving the newest deal (or nothing to check)."""
     if not pushed:
-        return
+        return False
     posted = json.loads(POSTED_LOG.read_text(encoding="utf-8"))
     # expired deals are deliberately absent from the site -- never probe for one
     posted = [d for d in posted if not d.get("expired_at")]
     if not posted:
-        return
+        return False
     newest = max(posted, key=lambda d: d.get("posted_at") or "")
     asin = newest["asin"]
 
@@ -143,7 +148,7 @@ def verify_site_fresh(pushed: bool) -> None:
             body = requests.get(f"{BASE_URL}/?hc={int(time.time())}", timeout=20).text
             if asin in body:
                 logger.info("live site shows newest deal %s", asin)
-                return
+                return True
         except requests.RequestException:
             pass
         time.sleep(30)
@@ -155,13 +160,82 @@ def verify_site_fresh(pushed: bool) -> None:
         body = requests.get(f"{BASE_URL}/?hc2={int(time.time())}", timeout=20).text
         if asin in body:
             logger.info("site recovered after re-push")
-            return
+            return True
     except Exception:
         pass
     notify("Deal bot: site may be stale",
            f"The live site is not showing the newest deal ({asin}) several minutes "
            "after the push. GitHub Pages may be having deploy trouble -- check "
            "https://github.com/SomeCarney/boardgame-dealbot/actions and the site.")
+    return False
+
+
+def send_pending_deal_alert() -> None:
+    """Deliver the deal alert main.py staged, now that the site is confirmed live.
+
+    Sending from main.py notified you minutes before GitHub Pages had deployed,
+    so tapping through showed a deal that wasn't on the site yet. If the deal
+    still isn't visible, the alert stays staged for the next run rather than
+    pointing you at a missing deal."""
+    if not PENDING_DEAL_ALERT.exists():
+        return
+    try:
+        alert = json.loads(PENDING_DEAL_ALERT.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        PENDING_DEAL_ALERT.unlink(missing_ok=True)
+        return
+
+    staged = alert.get("staged_at")
+    if staged:
+        try:
+            staged_dt = datetime.fromisoformat(staged)
+            if staged_dt.tzinfo is None:
+                staged_dt = staged_dt.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) - staged_dt > timedelta(hours=PENDING_ALERT_MAX_AGE_HOURS):
+                logger.warning("staged deal alert for %s is stale -- discarding", alert.get("asin"))
+                PENDING_DEAL_ALERT.unlink(missing_ok=True)
+                return
+        except ValueError:
+            pass
+
+    asin = alert.get("asin", "")
+    try:
+        body = requests.get(f"{BASE_URL}/?alert={int(time.time())}", timeout=20).text
+        if asin and asin not in body:
+            logger.warning("deal %s not on the live site yet -- keeping alert staged", asin)
+            return
+    except requests.RequestException:
+        logger.warning("could not confirm %s is live -- keeping alert staged", asin)
+        return
+
+    try:
+        subprocess.run(
+            ["powershell.exe", "-NoProfile", "-File", str(NOTIFY_PS1),
+             "-Title", alert["title"], "-Message", alert["message"],
+             "-Priority", alert.get("priority", "default"),
+             "-ActionUrl", alert["action_url"], "-ActionLabel", alert.get("action_label", "Open Reddit"),
+             "-Action2Url", alert["action2_url"], "-Action2Label", alert.get("action2_label", "Post to X")],
+            timeout=60, capture_output=True,
+        )
+        logger.info("deal alert delivered for %s (site confirmed live)", asin)
+    except Exception:
+        logger.exception("deal alert notification failed -- leaving it staged")
+        return
+
+    # Only now mark it offered / start the spacing window -- an undelivered
+    # alert must never burn the deal.
+    try:
+        import daily_action
+        daily_action.mark_offered(asin)
+    except Exception:
+        logger.exception("could not mark deal as offered")
+    try:
+        DEAL_ALERT_STATE.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(DEAL_ALERT_STATE,
+                          json.dumps({"last_alert": datetime.now(timezone.utc).isoformat()}, indent=2))
+    except Exception:
+        logger.exception("could not write deal alert state")
+    PENDING_DEAL_ALERT.unlink(missing_ok=True)
 
 
 # ── 3. auto-fix pipeline crashes via headless Claude ────────────────────────
@@ -312,10 +386,19 @@ def main() -> None:
     except Exception:
         logger.exception("social retry step failed")
 
+    fresh = False
     try:
-        verify_site_fresh(bool(args.pushed))
+        fresh = verify_site_fresh(bool(args.pushed))
     except Exception:
         logger.exception("site freshness step failed")
+
+    # Deliver the staged "post this deal" alert only once the deal is actually
+    # on the live site -- otherwise it points at a deal that isn't there yet.
+    if fresh:
+        try:
+            send_pending_deal_alert()
+        except Exception:
+            logger.exception("pending deal alert step failed")
 
     if args.exit_code != 0:
         try:
