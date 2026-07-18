@@ -19,6 +19,8 @@ import html as html_lib
 
 from jinja2 import Environment
 
+from safewrite import atomic_write_text
+
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
 RANKINGS_CACHE = ROOT / "config" / "rankings_cache.json"
@@ -1816,6 +1818,54 @@ def _index_jsonld(deals: list[dict[str, Any]]) -> str:
     return json.dumps(graph, ensure_ascii=False)
 
 
+LASTMOD_STATE = ROOT / "config" / "page_lastmod.json"
+
+# Bits of every page that change on every run without the content really
+# changing: the footer clock and the "found Xh ago" deal freshness labels.
+# They must not count as a modification, or every page would claim it changed
+# on every run -- which is exactly what made our sitemap lastmod meaningless.
+_VOLATILE_RE = re.compile(r"Last updated \d{4}-\d{2}-\d{2} \d{2}:\d{2} UTC|found [^<]*ago")
+
+
+def _page_lastmods(pages: list[str], today: str) -> dict[str, str]:
+    """Real per-page lastmod dates for the sitemap.
+
+    Google only honours lastmod when it's accurate; claiming all 27 pages
+    changed today on every 4-hourly run trains it to distrust the sitemap and
+    deprioritise crawling (pages sit in "Discovered - currently not indexed").
+    So hash each page with the volatile bits stripped and only advance its date
+    when the meaningful content actually changed."""
+    import hashlib
+
+    try:
+        state = json.loads(LASTMOD_STATE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        state = {}
+
+    out: dict[str, str] = {}
+    for name in pages:
+        try:
+            html = (SITE_DIR / name).read_text(encoding="utf-8")
+        except OSError:
+            out[name] = today
+            continue
+        digest = hashlib.sha1(_VOLATILE_RE.sub("", html).encode("utf-8")).hexdigest()
+        prev = state.get(name) or {}
+        if prev.get("hash") == digest and prev.get("lastmod"):
+            out[name] = prev["lastmod"]          # unchanged -- keep the old date
+        else:
+            out[name] = today                    # genuinely changed today
+        state[name] = {"hash": digest, "lastmod": out[name]}
+
+    state = {k: v for k, v in state.items() if k in set(pages)}  # drop deleted pages
+    try:
+        LASTMOD_STATE.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(LASTMOD_STATE, json.dumps(state, indent=2, sort_keys=True))
+    except OSError:
+        pass  # a stale lastmod is never worth failing a render over
+    return out
+
+
 def _write_seo_files(deals: list[dict[str, Any]], updated: str) -> None:
     """sitemap.xml, robots.txt, and an RSS feed of current deals."""
     from email.utils import format_datetime
@@ -1823,8 +1873,10 @@ def _write_seo_files(deals: list[dict[str, Any]], updated: str) -> None:
 
     today = updated[:10]
     pages = sorted(p.name for p in SITE_DIR.glob("*.html"))
+    lastmods = _page_lastmods(pages, today)
     url_entries = "\n".join(
-        f"  <url><loc>{BASE_URL}/{'' if name == 'index.html' else name}</loc><lastmod>{today}</lastmod></url>"
+        f"  <url><loc>{BASE_URL}/{'' if name == 'index.html' else name}</loc>"
+        f"<lastmod>{lastmods.get(name, today)}</lastmod></url>"
         for name in pages
     )
     sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{url_entries}\n</urlset>\n'

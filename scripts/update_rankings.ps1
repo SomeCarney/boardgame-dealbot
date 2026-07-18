@@ -45,7 +45,7 @@ if ($proc2.ExitCode -ne 0) {
 }
 
 # 3. Commit and push
-git add docs/ config/rankings_cache.json
+git add docs/ config/rankings_cache.json config/page_lastmod.json
 git diff --cached --quiet
 if ($LASTEXITCODE -ne 0) {
     $month = Get-Date -Format "yyyy-MM"
