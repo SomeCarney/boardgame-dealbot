@@ -16,11 +16,16 @@ permissions:
   pages: write
   id-token: write
 
-# The bot commits twice per run (images mid-run, everything at the end).
-# Newest content wins; a superseded queued deploy is just cancelled.
+# The bot commits twice per run (images mid-run, then everything at the end).
+# Let both deploys finish in order instead of cancelling: with cancel-in-progress
+# the two runs race and it's nondeterministic which one survives -- sometimes the
+# earlier "images only" deploy won and the final "Update deals" deploy (the one
+# carrying the new deal's HTML) got cancelled, leaving the live site stale.
+# false = the in-progress deploy completes and the latest push deploys after it,
+# so the final commit always wins. (This is GitHub's recommended Pages setting.)
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
