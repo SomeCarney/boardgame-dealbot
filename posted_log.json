@@ -1,5 +1,38 @@
 [
   {
+    "asin": "B0H1SVJJH8",
+    "title": "Auto Reset - 4 in a Row Board Game - Board Games for Family Night - Strategic Game Play - Multi-Player Board Games - Ages 6+",
+    "brand": "PlayMonster",
+    "description": "Get ready for nonstop, head-to-head fun with a game of 4-in-a-Row that resets itself! This next-level twist on 4-in-a-Row features an innovative auto-reset feature\u2014just lift the grid and watch the pieces sort themselves in seconds. Plan your moves and outsmart your opponent in this 2-player race to get four in a row, perfect for ages 6 and up.",
+    "features": [
+      "Innovative Auto-Reset Feature: When the game is over, simply pull up on the game grid and the pieces automatically sort themselves at the bottom in seconds",
+      "Next-Level Classic: All the timeless fun and strategy of 4-In-a-Row, now with a built-in feature that makes replaying effortless",
+      "Two-Player Fun: Take turns strategically dropping pieces into the grid\u2014outsmart your opponent to get four in a row and win",
+      "Back to Back Rounds: No dumping, no sorting\u2014pieces automatically sort themselves, so you can quickly jump into the next round",
+      "Everything You Need Included: Includes Game Grid, Base, 21 Red Game Pieces, 21 Yellow Game Pieces, and Instructions"
+    ],
+    "price": 15.99,
+    "typical_price": 19.98,
+    "percent_off": 20,
+    "list_price": 19.99,
+    "amazon_percent_off": 20,
+    "low_90d": 15.99,
+    "high_90d": 19.99,
+    "percent_above_low": 0,
+    "rating": 4.7,
+    "review_count": 16129,
+    "sales_rank": 2766,
+    "is_best_seller": false,
+    "image": "https://m.media-amazon.com/images/I/71OagVn-UwL.jpg",
+    "link": "https://www.amazon.com/dp/B0H1SVJJH8?tag=carnivalgam06-20",
+    "posted_at": "2026-08-10T08:02:39.525513+00:00",
+    "summary_lines": [],
+    "detailed_description": "Expect meaningful decisions each turn that reward planning ahead. Rules are simple enough to teach in a few minutes to mixed-age groups. It's built specifically around a head-to-head two-player experience.",
+    "short_title": "Auto Reset",
+    "image_url": "https://boardgameblackmarket.com/images/B0H1SVJJH8.jpg",
+    "site_image_url": "images/site_B0H1SVJJH8.jpg"
+  },
+  {
     "asin": "B0CSZCFX3L",
     "title": "Snap 2 It\u00ae Board Game, Game of The Year Finalist, A Race to Light Up The Game, Will You Be First?, for Kids and Adults \u2013 Promotes Creativity and Problem Solving, STEM Toy",
     "brand": "Snap Circuits",
@@ -35,7 +68,10 @@
     "detailed_description": "Rules are simple enough to teach in a few minutes to mixed-age groups.",
     "short_title": "Snap 2 It\u00ae",
     "image_url": "https://boardgameblackmarket.com/images/B0CSZCFX3L.jpg",
-    "site_image_url": "images/site_B0CSZCFX3L.jpg"
+    "site_image_url": "images/site_B0CSZCFX3L.jpg",
+    "expired_at": "2026-08-10T08:02:36.642609+00:00",
+    "expired_reason": "discount_ended",
+    "last_checked_price": 21.99
   },
   {
     "asin": "B0FDQQWH3P",
@@ -85,8 +121,8 @@
       "EASY TO LEARN: CATAN Junior lets younger players experience the world of CATAN by introducing a simpler playing style.",
       "NUMBER OF PLAYERS AND AVERAGE PLAYTIME: This kids and family board game can be played with 2 to 4 players. The average playtime is 30 minutes."
     ],
-    "price": 30.22,
-    "typical_price": 37.61,
+    "price": 30.12,
+    "typical_price": 37.6,
     "percent_off": 20,
     "list_price": 34.99,
     "amazon_percent_off": 14,
@@ -123,7 +159,7 @@
       "IDEAL GIFT FOR LEGO FANS: Monkey Palace makes a fantastic gift for LEGO enthusiasts and board game lovers. Build, play, and enjoy a creative kids game experience at every family game night at home or on family vacations"
     ],
     "price": 23.51,
-    "typical_price": 29.65,
+    "typical_price": 29.64,
     "percent_off": 21,
     "list_price": 41.99,
     "amazon_percent_off": 44,
@@ -240,8 +276,8 @@
       "Perfect for Family Fun: Bring generations together for quality time and friendly competition; this versatile set is an excellent way to create lasting memories during game nights or family gatherings."
     ],
     "price": 13.17,
-    "typical_price": 19.82,
-    "percent_off": 34,
+    "typical_price": 19.8,
+    "percent_off": 33,
     "list_price": 29.99,
     "amazon_percent_off": 56,
     "low_90d": 13.17,
@@ -275,7 +311,7 @@
       "BUILT TO LAST WITH ELBOW ROOM GAMES: Crafted from durable materials, the set is built for lasting fun and will provide years of play and entertainment."
     ],
     "price": 10.99,
-    "typical_price": 13.89,
+    "typical_price": 13.88,
     "percent_off": 21,
     "list_price": 17.99,
     "amazon_percent_off": 39,
@@ -311,7 +347,7 @@
       "Perfect for Strategic Groups: Plays two to seven players ages twelve and up in approximately four hours, ideal for game nights where meaningful social connection and intellectual engagement matter most"
     ],
     "price": 31.5,
-    "typical_price": 49.45,
+    "typical_price": 49.43,
     "percent_off": 36,
     "list_price": 54.99,
     "amazon_percent_off": 43,
@@ -347,7 +383,7 @@
       "Introduces a multi-session Campaign mode with unlockable content."
     ],
     "price": 31.46,
-    "typical_price": 44.39,
+    "typical_price": 44.36,
     "percent_off": 29,
     "list_price": 44.95,
     "amazon_percent_off": 30,
@@ -969,7 +1005,7 @@
       "BUILT TO LAST WITH ELBOW ROOM GAMES: Crafted from durable materials, the set is built for lasting fun and will provide years of play and entertainment."
     ],
     "price": 13.49,
-    "typical_price": 20.51,
+    "typical_price": 20.48,
     "percent_off": 34,
     "list_price": 29.99,
     "amazon_percent_off": 55,
@@ -1045,7 +1081,7 @@
       "REVITALIZE YOUR ZINGO: Zingo! Boost brings fresh fun to your Zingo! games, perfect for keeping kids engaged and entertained"
     ],
     "price": 13.99,
-    "typical_price": 17.92,
+    "typical_price": 17.91,
     "percent_off": 22,
     "list_price": 13.99,
     "amazon_percent_off": 0,
@@ -1117,7 +1153,7 @@
       "Gift-ready choice: A great gift for students, graduates, and fans. Durable components, colorful artwork, and campus references create a memorable keepsake for birthdays, holidays, and celebrations"
     ],
     "price": 17.5,
-    "typical_price": 23.13,
+    "typical_price": 23.12,
     "percent_off": 24,
     "list_price": 24.99,
     "amazon_percent_off": 30,
@@ -1384,7 +1420,7 @@
       "CHRISTMAS GIFTS FOR KIDS: This engaging board game is a fantastic choice for holiday games and gifts under $20, making it perfect for Secret Santa and White Elephant gift exchanges."
     ],
     "price": 13.49,
-    "typical_price": 17.31,
+    "typical_price": 17.3,
     "percent_off": 22,
     "list_price": 17.99,
     "amazon_percent_off": 25,
@@ -1580,7 +1616,7 @@
       "GIFT FOR KIDS: The Scrabble Junior game makes a fun birthday gift for kids 5 and up. It can be a fun game to use in the classroom"
     ],
     "price": 16.49,
-    "typical_price": 23.7,
+    "typical_price": 23.68,
     "percent_off": 30,
     "list_price": 24.99,
     "amazon_percent_off": 34,
@@ -1656,7 +1692,7 @@
       "GREAT TRAVEL GAME: Slip the Catchphrase portable game into a bag and take the party nearly anywhere! This easy to play game for kids and adults is an exciting electronic handheld game for vacations and road trips"
     ],
     "price": 14.99,
-    "typical_price": 20.83,
+    "typical_price": 20.81,
     "percent_off": 28,
     "list_price": 24.99,
     "amazon_percent_off": 40,
@@ -1694,7 +1730,7 @@
       "GREAT GIFT FOR BLUEY FANS: This kids game is a fun gift for boys, girls, and kids who love Bluey toys and games. And preschool board games make wonderful holiday gifts or birthday gifts for kids"
     ],
     "price": 11.99,
-    "typical_price": 16.6,
+    "typical_price": 16.59,
     "percent_off": 28,
     "list_price": 19.99,
     "amazon_percent_off": 40,
@@ -1729,7 +1765,7 @@
       "FUN KIDS' GAME: Hungry Hungry Hippos Dino Edition preschool game is a great choice for your child's playdate and it makes a fun birthday gift for kids ages 4 and up"
     ],
     "price": 17.99,
-    "typical_price": 23.91,
+    "typical_price": 23.9,
     "percent_off": 25,
     "list_price": 24.99,
     "amazon_percent_off": 28,
@@ -1765,7 +1801,7 @@
       "FUN KIDS' BOARD GAME: Monopoly Junior is a good introduction to the Monopoly game. It's designed to be fast, fun, and exciting for younger players. It makes a great gift for kids ages 5 and up"
     ],
     "price": 13.49,
-    "typical_price": 18.76,
+    "typical_price": 18.75,
     "percent_off": 28,
     "list_price": 22.99,
     "amazon_percent_off": 41,
@@ -1877,7 +1913,7 @@
       "Bring back memories: do you remember playing classic candy land when you were a kid? introduce new generations to this unicorn edition of the popular kids' board game"
     ],
     "price": 10.49,
-    "typical_price": 13.83,
+    "typical_price": 13.82,
     "percent_off": 24,
     "list_price": 14.99,
     "amazon_percent_off": 30,
@@ -1912,7 +1948,7 @@
       "Includes deluxe carrying case with Scrabble gameboard and two slide-and-store trays, 100 wooden letter tiles, 4 deluxe curved tile racks, plush drawstring letter pouch and gameplay guide"
     ],
     "price": 34.99,
-    "typical_price": 45.14,
+    "typical_price": 45.12,
     "percent_off": 22,
     "list_price": 49.99,
     "amazon_percent_off": 30,
@@ -1953,7 +1989,7 @@
       "Hasbro gaming imagines and produces games that are perfect for every age, taste, and event"
     ],
     "price": 10.99,
-    "typical_price": 16.72,
+    "typical_price": 16.7,
     "percent_off": 34,
     "list_price": 17.99,
     "amazon_percent_off": 39,
@@ -1989,7 +2025,7 @@
       "SIMPLIFIED MONOPOLY GAMEPLAY: Monopoly Junior is a good introduction to the Monopoly game. It's designed to be fast, fun, and exciting for younger players. It makes a great gift for kids ages 5 and up"
     ],
     "price": 14.49,
-    "typical_price": 19.14,
+    "typical_price": 19.13,
     "percent_off": 24,
     "list_price": 19.99,
     "amazon_percent_off": 28,
@@ -2145,7 +2181,7 @@
       "Game board measures 4 feet square, approximate deflated size; recommended for ages 8+"
     ],
     "price": 15.0,
-    "typical_price": 20.42,
+    "typical_price": 20.41,
     "percent_off": 27,
     "list_price": 29.99,
     "amazon_percent_off": 54,
@@ -2327,7 +2363,7 @@
       "SOLO MODE AVAILABLE: Take on challenging puzzles solo and test your skills in a captivating single-player experience."
     ],
     "price": 24.49,
-    "typical_price": 32.96,
+    "typical_price": 32.94,
     "percent_off": 26,
     "list_price": 37.99,
     "amazon_percent_off": 36,
@@ -2523,7 +2559,7 @@
       "1+ Players | Ages 12+ | 20-minute gameplay"
     ],
     "price": 27.99,
-    "typical_price": 37.62,
+    "typical_price": 37.6,
     "percent_off": 26,
     "list_price": 39.99,
     "amazon_percent_off": 30,
@@ -2748,7 +2784,7 @@
       "Family-friendly Star Wars Multi-player game: Includes 5 Villain movers, 5 Villain sectors, Villain & Fate Cards and more. Excellent choice for family game nights, children's birthday or holiday parties, sleepovers, couples game nights, & gatherings."
     ],
     "price": 27.99,
-    "typical_price": 37.04,
+    "typical_price": 37.02,
     "percent_off": 24,
     "list_price": 44.99,
     "amazon_percent_off": 38,
@@ -3024,7 +3060,7 @@
       "FUN FAMILY GAME: The Game of Life: Super Mario Edition board game is a great choice for game night with the family, and it's a fun indoor game for kids ages 8 and up, for 2-4 players"
     ],
     "price": 20.99,
-    "typical_price": 27.53,
+    "typical_price": 27.51,
     "percent_off": 24,
     "list_price": 29.99,
     "amazon_percent_off": 30,
@@ -3415,7 +3451,7 @@
       "SCREEN-FREE FUN: For over 25 years, Galison has created stationery, gifts and puzzles that bring art to everyday life. All Galison products adhere to CPSIA, ASTM, and CE Safety Regulations."
     ],
     "price": 20.0,
-    "typical_price": 24.87,
+    "typical_price": 24.85,
     "percent_off": 20,
     "list_price": 50.0,
     "amazon_percent_off": 60,
@@ -3447,7 +3483,7 @@
       "Number of players: 3-6"
     ],
     "price": 16.76,
-    "typical_price": 22.04,
+    "typical_price": 22.03,
     "percent_off": 24,
     "list_price": 23.95,
     "amazon_percent_off": 30,
@@ -3675,7 +3711,7 @@
       "Compatibility - Evil Comes Prepared can be played as a standalone game or with the other games in the Villainous line: The original Villainous (The Worst Takes It All), Wicked to the Core, and Perfectly Wretched."
     ],
     "price": 22.39,
-    "typical_price": 31.35,
+    "typical_price": 31.33,
     "percent_off": 29,
     "list_price": 34.99,
     "amazon_percent_off": 36,
@@ -5679,7 +5715,7 @@
       "GREAT GIFT: Ideal gift for Christmas, birthdays, or Easter."
     ],
     "price": 10.99,
-    "typical_price": 14.9,
+    "typical_price": 14.89,
     "percent_off": 26,
     "rating": 4.8,
     "review_count": 1689,
@@ -6495,7 +6531,7 @@
     "asin": "B08KTR47DW",
     "title": "Hygge Games, is That True?! \u2013 Can You Tell The Difference Between Wacky fact and Sneaky Fiction? \u2013 Trivia Party Game",
     "price": 14.59,
-    "typical_price": 19.8,
+    "typical_price": 19.79,
     "percent_off": 26,
     "rating": 4.5,
     "review_count": 156,
@@ -6668,7 +6704,7 @@
     "asin": "B0D33TXFWZ",
     "title": "Only Murders in The Building Game",
     "price": 10.5,
-    "typical_price": 13.35,
+    "typical_price": 13.34,
     "percent_off": 21,
     "rating": 4.5,
     "review_count": 142,
@@ -6730,7 +6766,7 @@
     "asin": "B078KCBP1Q",
     "title": "Wood Backgammon Board Game - Complete Set with Folding Board for Storage, Portable Handle, and Full Game Accessories for Adults 14 Years and Up by Hey Play",
     "price": 17.56,
-    "typical_price": 22.04,
+    "typical_price": 22.02,
     "percent_off": 20,
     "rating": 4.0,
     "review_count": 283,
